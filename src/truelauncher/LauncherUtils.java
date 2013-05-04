@@ -1,12 +1,9 @@
 package truelauncher;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.eclipse.swt.widgets.Display;
 
 public class LauncherUtils {
 
@@ -22,6 +19,24 @@ public class LauncherUtils {
             return Dir;
         }
         return null;
+    }
+    
+    public static InputStream getSWT()
+    {
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.contains("win"))
+        {
+        	return Launcher.class.getResourceAsStream("SWT/swt_windows.jar");
+        }
+        else if (OS.contains("linux"))
+        {
+        	return Launcher.class.getResourceAsStream("SWT/swt_linux.jar");
+        }
+        else if (OS.contains("unix"))
+        {
+        	return Launcher.class.getResourceAsStream("SWT/swt_mac.jar");
+        }
+		return null;
     }
     
     public static void launchMC(String path, String nickin, int memin)
