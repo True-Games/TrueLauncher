@@ -2,9 +2,11 @@ package truelauncher;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -18,7 +20,7 @@ import org.eclipse.swt.widgets.Label;
 public class GUI {
 
  private GUI thisclass = this;
-	
+ private ListContainer settingscontainer = new ListContainer();
  private Shell shell;
  private int w = 865;
  private int h = 430;
@@ -65,6 +67,7 @@ public class GUI {
     	 initTextInputFieldsAndLabels(display);
     	 initServersStatusFields(display);
     	 initStartButton(display);
+
      }
      
 
@@ -132,35 +135,23 @@ public class GUI {
     	 expbarset.setText("Статус серверов");
     	 expbarset.setBounds(levelw,levelh-30,widgw,30);
     	 
-
     	final Combo listservers = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
-    	listservers.add("Arelate");
-    	listservers.add("Dohao");
-    	listservers.add("Valhalla");
+	    List<String> servnameslist = settingscontainer.getServers();
+	    for (String servname : servnameslist)
+	    {
+    	listservers.add(servname);
+	    }
     	listservers.setBounds(levelw,levelh,widgw,25);
     	listservers.addSelectionListener(new SelectionAdapter()
     	{
     		@Override
     		public void widgetSelected(SelectionEvent e) {
        	 		String servname = listservers.getText();
-       	 		if (servname.equals("Arelate"))
-       	 		{
-       	 			iplabel.setText("mc.true-games.org:25565");
-       	 			status.setText("Соединяемся");
-       	 			new Thread(new ServerStatusThread(thisclass,"mc.true-games.org",25565)).start();
-       	 		}
-       	 		else if (servname.equals("Dohao"))
-       	 		{
-       	 			iplabel.setText("mc.true-games.org:25566");
-       	 			status.setText("Соединяемся");
-       	 			new Thread(new ServerStatusThread(thisclass,"mc.true-games.org",25566)).start();
-       	 		}
-       	 		else if (servname.equals("Valhalla"))
-       	 		{
-       	 			iplabel.setText("mc.true-games.org:25567");
-       	 			status.setText("Соединяемся");
-       	 			new Thread(new ServerStatusThread(thisclass,"mc.true-games.org",25567)).start();
-       	 		}
+       	 		String ip = settingscontainer.getServerIpByName(servname);
+       	 		int port = settingscontainer.getServerPortByName(servname);
+       	 		iplabel.setText(ip+":"+port);
+   	 			status.setText("Соединяемся");
+   	 			new Thread(new ServerStatusThread(thisclass,ip,port)).start();
     		}
         });
     	
@@ -213,6 +204,7 @@ public class GUI {
              }
          });
      }
+     
      
      private void loadTextFields()
      {
