@@ -11,20 +11,26 @@ import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.swt.widgets.Display;
+
 public class DownloadThread extends Thread {
 
 
 
-	    private GUI gui = null;
+	    private GUI gui;
+		private Display display;
 	    private String urlfrom;
 	    private String clientto;
 	    private String unpackto;
-	    DownloadThread(GUI gui, String urlfrom, String clientto, String unpackto)
+	    DownloadThread(GUI gui,Display display, String urlfrom, String clientto, String unpackto)
 	    {
+	    	try {
 	    this.gui = gui;
+		this.display = display;
 	    this.urlfrom = urlfrom;
-	    this.clientto = clientto;
+	    this.clientto = clientto +"/"+new File(new URL(this.urlfrom).getFile()).getName();
 	    this.unpackto = unpackto;
+	    	} catch(Exception e) {e.printStackTrace();}
 	    }
 	    
 	 
@@ -45,24 +51,36 @@ public class DownloadThread extends Thread {
 			conn.connect();}
 			InputStream inputstream = conn.getInputStream();
 
-	                FileOutputStream writer = new FileOutputStream(clientto);
-	                byte[] buffer = new byte[65536];
+	        FileOutputStream writer = new FileOutputStream(clientto);
+	        byte[] buffer = new byte[153600];
 	                
-	                int downloadedAmount = 0;
-			int totalAmount = conn.getContentLength();
-			int bufferSize;
-			while ((bufferSize = inputstream.read(buffer, 0, buffer.length)) != -1) {
+	        int downloadedAmount = 0;
+			final int totalAmount = conn.getContentLength();
+			display.asyncExec(new Runnable(){
+				public void run()
+				{
+					gui.pbar.setMaximum(totalAmount);
+					gui.pbar.setMinimum(0);
+				}
+			});
+			int bufferSize = 0;
+			while ((bufferSize = inputstream.read(buffer)) > 0) {
 			writer.write(buffer, 0, bufferSize);
+			buffer = new byte[153600];
 			downloadedAmount += bufferSize;
-	           //     gui.setpb((int) (((double) downloadedAmount / totalAmount) * 100));
+			final int pbam = downloadedAmount;
+			display.asyncExec(new Runnable(){
+				public void run()
+				{
+					gui.pbar.setSelection(pbam);
+				}
+			});
 	                }
-
-	            //    gui.setb1txt("<html><body>Minecraft ������<br>��� ����������</body></html>");
 
 	                writer.close();
 	                inputstream.close();
 	            } catch (Exception e) {
-	                
+	                e.printStackTrace();
 	            }
 	        }
 
@@ -70,11 +88,16 @@ public class DownloadThread extends Thread {
 	        public void run() {
 	            try {
 
-	                this.filedownloader(urlfrom, clientto);
+	                filedownloader(urlfrom, clientto);
 	                Zip zip = new Zip();
 	                zip.unpack(clientto, unpackto);
-	              //  gui.setb1txt("Minecraft ����������");
-	              //  gui.checkclassic();
+	                display.asyncExec(new Runnable()
+	                {
+	                	public void run()
+	                	{
+	                		gui.download.setEnabled(true);
+	                	}
+	                });
 	            } catch (IOException ex) {
 	                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
 	            }

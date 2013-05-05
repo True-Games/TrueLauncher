@@ -10,12 +10,14 @@ import org.eclipse.swt.widgets.Display;
 
 public class ServerStatusThread implements Runnable {
 	private GUI gui;
+	private Display display;
 	private String ip;
 	private int port;
 	
-	public ServerStatusThread(GUI gui, String ip, int port)
+	public ServerStatusThread(GUI gui,Display display, String ip, int port)
 	{
 		this.gui = gui;
+		this.display = display;
 		this.ip = ip;
 		this.port = port;	
 	}
@@ -85,7 +87,7 @@ public class ServerStatusThread implements Runnable {
 	@Override
 	public void run() {
 		final String status = pollServer(ip,port);
-		Display.getDefault().asyncExec(new Runnable()
+		display.asyncExec(new Runnable()
 		{
 			public void run()
 			{
