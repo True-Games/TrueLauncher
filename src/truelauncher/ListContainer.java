@@ -25,6 +25,7 @@ public class ListContainer {
 			{"HiTech 1.5.1",".true-games.org/runclients/hitech"}
 		};
 	
+	//For download combobox
 	//1 - name, 2 - downloadlink, 3 - folderto
 	private String[][] downloadclients = 
 	{
@@ -32,7 +33,9 @@ public class ListContainer {
 		{"Hitech 1.5.1","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	
+	//folder in which clients .zip file will be downloaded
 	private String tempfolder = "/.true-games.org/packedclients";
+	//folder in which configuration will be stored
 	private String configfolder = "/.true-games.org/configdata";
 	
 		
