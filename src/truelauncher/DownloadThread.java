@@ -22,24 +22,24 @@ public class DownloadThread extends Thread {
 	    private String urlfrom;
 	    private String clientto;
 	    private String unpackto;
+	    private String tempfolder;
 	    DownloadThread(GUI gui,Display display, String urlfrom, String clientto, String unpackto)
 	    {
 	    	try {
 	    this.gui = gui;
 		this.display = display;
 	    this.urlfrom = urlfrom;
+	    this.tempfolder = clientto;
 	    this.clientto = clientto +"/"+new File(new URL(this.urlfrom).getFile()).getName();
-	    this.unpackto = unpackto;
-	    	} catch(Exception e) {e.printStackTrace();}
+	    this.unpackto = LauncherUtils.getDir()+File.separator+unpackto;
+	    	} catch (Exception e) {e.printStackTrace();}
 	    }
 	    
 	 
-	       public void filedownloader(String urlfrom, String clientto) {
-	            try {
-	                
-	                String ps = LauncherUtils.getDir();
-	                if (!((new File(ps + "/.true-games.org/packedclients")).exists())) {
-	                    (new File(ps + "/.true-games.org/packedclients")).mkdirs();
+	       public void filedownloader(String urlfrom, String clientto) throws Exception 
+	       {
+	                if (!((new File(tempfolder)).exists())) {
+	                    (new File(tempfolder)).mkdirs();
 	                }
 	                URL url = new URL(urlfrom);
 	                
@@ -79,9 +79,6 @@ public class DownloadThread extends Thread {
 
 	                writer.close();
 	                inputstream.close();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
 	        }
 
 	        @Override
@@ -98,8 +95,15 @@ public class DownloadThread extends Thread {
 	                		gui.download.setEnabled(true);
 	                	}
 	                });
-	            } catch (IOException ex) {
+	            } catch (Exception ex) {
 	                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+	                display.asyncExec(new Runnable()
+	                {
+	                	public void run()
+	                	{
+	                		gui.download.setEnabled(true);
+	                	}
+	                });
 	            }
 	        }
 	    }

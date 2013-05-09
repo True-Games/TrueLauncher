@@ -17,31 +17,14 @@ public class Launcher {
 public static GUI gui;
 	
 	public static void main(String[] args) {
-		setupSWT();
+		LauncherUtils.setupSWT();
 		loadSWT();
-		
 	      Display display = new Display();
 	      gui = new GUI(display);
 	      display.dispose();
 	}
 	
-	private static void setupSWT()
-	{
-		if (!new File(LauncherUtils.getDir() + "/.true-games.org/SWT/swt.jar").exists())
-		{
-			try {
-			new File(LauncherUtils.getDir() + "/.true-games.org/SWT/").mkdirs();
-			InputStream is = LauncherUtils.getSWT();
-			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + "/.true-games.org/SWT/swt.jar"));
-			byte[] buf = new byte[4096];
-	        int len;
-	        while ((len = is.read(buf)) > 0){out.write(buf, 0, len);}
-	        is.close();
-	        out.close();
-			} catch (Exception e) {e.printStackTrace();}
-		}
-	}
-	
+
 	private static void loadSWT()
 	{
 		try {

@@ -32,9 +32,9 @@ public class ListContainer {
 		{"Hitech 1.5.1","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	
+	private String tempfolder = "/.true-games.org/packedclients";
 	
-	
-	
+		
 	public List<String> getServers()
 			{
 		
@@ -131,5 +131,10 @@ public class ListContainer {
 			}
 		}
 		return fldto;
+	}
+	
+	public String getTempFolderPath()
+	{
+		return tempfolder;
 	}
 }

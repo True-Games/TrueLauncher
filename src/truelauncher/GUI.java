@@ -22,8 +22,8 @@ public class GUI {
  private GUI thisclass = this;
  private ListContainer settingscontainer = new ListContainer();
  private Shell shell;
- private int w = 865;
- private int h = 430;
+ private int w = 935;
+ private int h = 500;
  int levelh = h-110;
  private String icon = "images/icon.png";
  private String bgimage = "images/bgimage.png";
@@ -31,24 +31,29 @@ public class GUI {
  private String textiamge = "images/textfield.png";
  private String explainimage = "images/expbar.png";
  
- private String tempfolder = LauncherUtils.getDir()+"/.true-games.org/packedclients";
- 
  public Text nickfield;
  public Text ramfield;
  public Text servstatus;
  public Text iplabel;
  public Label status;
+ public Label lstatus;
  public ProgressBar pbar;
+ public ProgressBar lpbar;
  public Button download;
+ public Button ldownload;
  public GUI(Display display)
  {
 	 try {
-     shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
+     shell = new Shell(display, SWT.CLOSE | SWT.TITLE | SWT.MIN);
      initUI(display);
      shell.setText("True-games.org|MinecraftLauncher");
      shell.setSize(w, h);
      shell.setImage(new Image(display, GUI.class.getResourceAsStream(icon)));
-     shell.setBackgroundImage(new Image(display,GUI.class.getResourceAsStream(bgimage)));
+     shell.setBackgroundImage(
+    		 new Image(display,
+    				 new Image(display,GUI.class.getResourceAsStream(bgimage)).getImageData().scaledTo(w, h)
+    				  )
+    		 );
      java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
      shell.setLocation((screenSize.width-w)/2, (screenSize.height-h)/2);
 
@@ -72,7 +77,7 @@ public class GUI {
     	 initServersStatusFields(display);
     	 initStartButton(display);
     	 initDownloadCenter(display);
-
+    	 initLauncherUpdater(display);
      }
      
 
@@ -190,7 +195,7 @@ public class GUI {
     					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
     					  )
     			 );
-    	 expbarset.setText("Кнопка запуска :)");
+    	 expbarset.setText("Выбор клиента");
     	 expbarset.setBounds(levelw,levelh-30,widgw,30);
       	 
     	final Combo listclients = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
@@ -250,7 +255,47 @@ public class GUI {
             	 String name = listdownloads.getText();
             	 String URL = settingscontainer.getDownloadLinkByName(name);
             	 String clientto = settingscontainer.getFolderToByName(name);
-            	 new DownloadThread(thisclass,display,URL,tempfolder,clientto).start();
+            	 new DownloadThread(thisclass,display,URL,LauncherUtils.getDir()+settingscontainer.getTempFolderPath(),clientto).start();
+            	 download.setEnabled(false);
+             }
+         });
+     }
+     
+     private void initLauncherUpdater(Display display)
+     {
+       	 int levelw = 740;
+      	 int widgw = 170;
+    	 Label expbarset = new Label(shell,SWT.CENTER);
+    	 expbarset.setBackgroundImage(
+    			 new Image(display,
+    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
+    					  )
+    			 );
+    	 expbarset.setText("Обновление лаунчера");
+    	 expbarset.setBounds(levelw,levelh-30,widgw,30);  	
+    	 
+     	lstatus = new Label(shell, SWT.CENTER);
+     	lstatus.setBackgroundImage(
+     			new Image(display,
+     					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 29)
+     					)
+     			);
+     	lstatus.setText("Это ещё не готово");
+     	lstatus.setBounds(levelw,levelh,widgw,29);
+     	
+  	  	lpbar = new ProgressBar(shell, SWT.SMOOTH);
+  	  	lpbar.setBounds(levelw,levelh+28,widgw, 15);
+  	  	lpbar.setEnabled(false);
+     	
+    	ldownload = new Button(shell, SWT.PUSH);
+    	ldownload.setText("Обновить");
+    	ldownload.setBounds(levelw, levelh+43, widgw, 27);
+    	ldownload.setEnabled(false);
+         
+    	ldownload.addSelectionListener(new SelectionAdapter() {
+             @Override
+             public void widgetSelected(SelectionEvent e) {
+
             	 download.setEnabled(false);
              }
          });
@@ -285,6 +330,7 @@ public class GUI {
          wrt.close();
      } catch (Exception e) {}
      }
+     
      
 
  

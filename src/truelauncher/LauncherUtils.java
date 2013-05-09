@@ -1,11 +1,16 @@
 package truelauncher;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LauncherUtils {
+	
+	
+	private static String swtpath = "/.true-games.org/SWT/";
 
     public static String getDir() {
         String OS = System.getProperty("os.name").toLowerCase();
@@ -24,20 +29,39 @@ public class LauncherUtils {
     public static InputStream getSWT()
     {
         String OS = System.getProperty("os.name").toLowerCase();
+    	int bit = 64;
+    	bit = Integer.valueOf(System.getProperty("sun.arch.data.model"));
         if (OS.contains("win"))
         {
-        	return Launcher.class.getResourceAsStream("SWT/swt_windows.jar");
+        	return Launcher.class.getResourceAsStream("SWT/swt_windows_"+bit+".jar");
         }
         else if (OS.contains("linux"))
         {
-        	return Launcher.class.getResourceAsStream("SWT/swt_linux.jar");
+        	return Launcher.class.getResourceAsStream("SWT/swt_linux_"+bit+".jar");
         }
         else if (OS.contains("unix"))
         {
-        	return Launcher.class.getResourceAsStream("SWT/swt_mac.jar");
+        	return Launcher.class.getResourceAsStream("SWT/swt_mac_"+bit+".jar");
         }
 		return null;
     }
+    
+	public static void setupSWT()
+	{
+		if (!new File(LauncherUtils.getDir() + swtpath+"swt.jar").exists())
+		{
+			try {
+			new File(LauncherUtils.getDir() + swtpath).mkdirs();
+			InputStream is = LauncherUtils.getSWT();
+			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + swtpath+"swt.jar"));
+			byte[] buf = new byte[4096];
+	        int len;
+	        while ((len = is.read(buf)) > 0){out.write(buf, 0, len);}
+	        is.close();
+	        out.close();
+			} catch (Exception e) {e.printStackTrace();}
+		}
+	}
     
     public static void launchMC(String path, String nickin, int memin)
     {
