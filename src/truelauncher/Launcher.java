@@ -28,7 +28,7 @@ public static GUI gui;
 	private static void loadSWT()
 	{
 		try {
-		  addFile(LauncherUtils.getDir() + "/.true-games.org/SWT/swt.jar");
+		  addFile(LauncherUtils.getDir() + LauncherUtils.getSwtPath()+"swt_"+LauncherUtils.getArch()+".jar");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

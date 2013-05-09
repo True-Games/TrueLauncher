@@ -33,6 +33,7 @@ public class ListContainer {
 	};
 	
 	private String tempfolder = "/.true-games.org/packedclients";
+	private String configfolder = "/.true-games.org/configdata";
 	
 		
 	public List<String> getServers()
@@ -136,5 +137,10 @@ public class ListContainer {
 	public String getTempFolderPath()
 	{
 		return tempfolder;
+	}
+	
+	public String getConfigFolderPath()
+	{
+		return configfolder;
 	}
 }

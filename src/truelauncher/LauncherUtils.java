@@ -29,8 +29,7 @@ public class LauncherUtils {
     public static InputStream getSWT()
     {
         String OS = System.getProperty("os.name").toLowerCase();
-    	int bit = 64;
-    	bit = Integer.valueOf(System.getProperty("sun.arch.data.model"));
+    	int bit = getArch();
         if (OS.contains("win"))
         {
         	return Launcher.class.getResourceAsStream("SWT/swt_windows_"+bit+".jar");
@@ -46,14 +45,21 @@ public class LauncherUtils {
 		return null;
     }
     
+    public static int getArch()
+    {
+    	int bit = 64;
+    	bit = Integer.valueOf(System.getProperty("sun.arch.data.model"));
+    	return bit;
+    }
+    
 	public static void setupSWT()
 	{
-		if (!new File(LauncherUtils.getDir() + swtpath+"swt.jar").exists())
+		if (!new File(LauncherUtils.getDir() + swtpath+"swt_"+getArch()+".jar").exists())
 		{
 			try {
 			new File(LauncherUtils.getDir() + swtpath).mkdirs();
 			InputStream is = LauncherUtils.getSWT();
-			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + swtpath+"swt.jar"));
+			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + swtpath+"swt_"+getArch()+".jar"));
 			byte[] buf = new byte[4096];
 	        int len;
 	        while ((len = is.read(buf)) > 0){out.write(buf, 0, len);}
@@ -62,6 +68,11 @@ public class LauncherUtils {
 			} catch (Exception e) {e.printStackTrace();}
 		}
 	}
+	
+    public static String getSwtPath()
+    {
+    	return swtpath;
+    }
     
     public static void launchMC(String path, String nickin, int memin)
     {
@@ -85,6 +96,8 @@ public class LauncherUtils {
         }
 
     }
+    
+
     
 
 

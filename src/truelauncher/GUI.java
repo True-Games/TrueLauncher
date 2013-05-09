@@ -306,8 +306,8 @@ public class GUI {
      {
          try {
              String ps = LauncherUtils.getDir();
-             if ((new File(ps + "/.true-games.org/configdata/config")).exists()) {
-                 Scanner inFile = new Scanner(new File(ps + "/.true-games.org/configdata/config"));
+             if ((new File(ps + settingscontainer.getConfigFolderPath()+"/config")).exists()) {
+                 Scanner inFile = new Scanner(new File(ps + settingscontainer.getConfigFolderPath()+"/config"));
                  nickfield.setText(inFile.nextLine());
                  ramfield.setText(inFile.nextLine());
                  inFile.close();
@@ -319,11 +319,11 @@ public class GUI {
      private void saveTextFields()
      {
      String ps = LauncherUtils.getDir();
-     if (!((new File(ps + "/.true-games.org/configdata/config")).exists())) {
-         (new File(ps + "/.true-games.org/configdata")).mkdirs();
+     if (!((new File(ps + settingscontainer.getConfigFolderPath()+"/config")).exists())) {
+         (new File(ps + settingscontainer.getConfigFolderPath())).mkdirs();
      }
      try {
-         PrintWriter wrt = new PrintWriter(new File(ps + "/.true-games.org/configdata/config"));
+         PrintWriter wrt = new PrintWriter(new File(ps + settingscontainer.getConfigFolderPath()+"/config"));
          wrt.println(nickfield.getText());
          wrt.println(ramfield.getText());
          wrt.flush();
