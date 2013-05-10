@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -134,9 +135,27 @@ public class LauncherUtils {
         } catch (Exception ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-       //Launch minecraft end
-
     }
+    //Launch minecraft end
+    
+    
+    //get Last Launcher version begin
+	public static String readURLStreamToString(InputStream in) throws Exception
+	{
+		StringBuffer buf = new StringBuffer();
+		InputStreamReader read = new InputStreamReader(in, "UTF-8");
+
+		while (true) {
+			int c = read.read();
+			if (c != -1 && c != 10) {
+				buf.append((char) c);
+			} else {
+				break;
+			}
+		}
+		return buf.toString();
+	}
+    //get Last Launcher version begin
     
 
     

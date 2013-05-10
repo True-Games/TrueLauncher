@@ -10,10 +10,10 @@ public class ListContainer {
 	//1 - name, 2-ip, 3 - port
 	private String[][] servers = 
 		{
-			{"Arelate [Classic 1.5.1]","mc.true-games.org","25565"},
-			{"Dohao [Classic 1.5.1]","mc.true-games.org","25566"},
-			{"Valhalla [Classic 1.5.1]","mc.true-games.org","25567"},
-			{"TestServer [HiTech 1.5.1]","mc.true-games.org", "65000"}
+			{"Arelate [Classic 1.5.2]","mc.true-games.org","25565"},
+			{"Dohao [Classic 1.5.2]","mc.true-games.org","25566"},
+			{"Valhalla [Classic 1.5.2]","mc.true-games.org","25567"},
+		//	{"TestServer [HiTech 1.5.2]","mc.true-games.org", "65000"}
 		};
 	
 	//For launch combobox
@@ -21,23 +21,26 @@ public class ListContainer {
 	private String[][] clientfolders = 
 		{
 			{".minecraft client",".minecraft"},
-			{"Classic 1.5.1",".true-games.org/runcients/classic"},
-			{"HiTech 1.5.1",".true-games.org/runclients/hitech"}
+			{"Classic 1.5.2",".true-games.org/runcients/classic"},
+		//	{"HiTech 1.5.2",".true-games.org/runclients/hitech"}
 		};
 	
 	//For download combobox
 	//1 - name, 2 - downloadlink, 3 - folderto
 	private String[][] downloadclients = 
 	{
-		{"Classic 1.5.1","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runcients/classic"},
-		{"Hitech 1.5.1","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
+		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runcients/classic"},
+	//	{"Hitech 1.5.1","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	
 	//folder in which clients .zip file will be downloaded
 	private String tempfolder = "/.true-games.org/packedclients";
 	//folder in which configuration will be stored
 	private String configfolder = "/.true-games.org/configdata";
-	
+	//launcher version
+	private int lversion = 1;
+	//laucnher update URL;
+	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 		
 	public List<String> getServers()
 			{
@@ -145,5 +148,14 @@ public class ListContainer {
 	public String getConfigFolderPath()
 	{
 		return configfolder;
+	}
+	
+	public String getLUpdateURLFolder()
+	{
+		return lupdateurlfolder;
+	}
+	public int getLVerison()
+	{
+		return lversion;
 	}
 }

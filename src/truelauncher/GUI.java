@@ -261,7 +261,7 @@ public class GUI {
          });
      }
      
-     private void initLauncherUpdater(Display display)
+     private void initLauncherUpdater(final Display display)
      {
        	 int levelw = 740;
       	 int widgw = 170;
@@ -280,12 +280,11 @@ public class GUI {
      					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 29)
      					)
      			);
-     	lstatus.setText("Это ещё не готово");
+     	lstatus.setText("Проверка обновления");
      	lstatus.setBounds(levelw,levelh,widgw,29);
      	
   	  	lpbar = new ProgressBar(shell, SWT.SMOOTH);
   	  	lpbar.setBounds(levelw,levelh+28,widgw, 15);
-  	  	lpbar.setEnabled(false);
      	
     	ldownload = new Button(shell, SWT.PUSH);
     	ldownload.setText("Обновить");
@@ -295,10 +294,14 @@ public class GUI {
     	ldownload.addSelectionListener(new SelectionAdapter() {
              @Override
              public void widgetSelected(SelectionEvent e) {
-
-            	 download.setEnabled(false);
+            	 ldownload.setEnabled(false);
+            	 (new LUpdateThread(thisclass, display, settingscontainer.getLUpdateURLFolder()+"Launcher.jar")).start();
              }
          });
+    	
+    	(new LVersionChecker(thisclass, display, settingscontainer.getLUpdateURLFolder()+"version", settingscontainer.getLVerison())).start();
+    	
+
      }
      
      
