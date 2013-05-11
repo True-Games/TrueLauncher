@@ -38,7 +38,7 @@ public class ListContainer {
 	private String[][] clientfolders = 
 		{
 			{".minecraft client",".minecraft"},
-			{"Classic 1.5.2",".true-games.org/runcients/classic"},
+			{"Classic 1.5.2",".true-games.org/runclients/classic"},
 		//	{"HiTech 1.5.2",".true-games.org/runclients/hitech"}
 		};
 	
@@ -46,7 +46,7 @@ public class ListContainer {
 	//1 - name, 2 - downloadlink, 3 - folderto
 	private String[][] downloadclients = 
 	{
-		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runcients/classic"},
+		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runclients/classic"},
 	//	{"Hitech 1.5.1","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	

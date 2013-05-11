@@ -58,6 +58,7 @@ public class GUI {
  public ProgressBar lpbar;
  public Button download;
  public Button ldownload;
+ public Combo listdownloads;
  public GUI(Display display)
  {
 	 try {
@@ -183,11 +184,11 @@ public class GUI {
     	iplabel = new Text(shell, SWT.CENTER | SWT.READ_ONLY);
     	iplabel.setBackgroundImage(
     			new Image(display,
-    					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 21)
+    					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 22)
     					)
     			);
     	iplabel.setText("Сервер не выбран");
-    	iplabel.setBounds(levelw,levelh+27,widgw,21);
+    	iplabel.setBounds(levelw,levelh+27,widgw,22);
     	
     	
     	status = new Label(shell, SWT.CENTER);
@@ -251,7 +252,7 @@ public class GUI {
     	 expbarset.setText("Скачивание клиентов");
     	 expbarset.setBounds(levelw,levelh-30,widgw,30);
     	 
-     	final Combo listdownloads = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
+     	listdownloads = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
  	    List<String> servdownloadlist = settingscontainer.getDownloads();
   	    for (String servname : servdownloadlist)
  	    {
@@ -259,6 +260,14 @@ public class GUI {
  	    }
   	    listdownloads.setBounds(levelw,levelh,widgw,25);
     	listdownloads.select(0);
+    	listdownloads.addSelectionListener(new SelectionAdapter() {
+    		 @Override
+             public void widgetSelected(SelectionEvent e) {
+    			 download.setText("Скачать клиент");
+    			 pbar.setSelection(0);
+    			 download.setEnabled(true);
+    		 }
+    	});
   	  	pbar = new ProgressBar(shell, SWT.SMOOTH);
   	  	pbar.setBounds(levelw,levelh+28,widgw, 15);
   	  
@@ -269,6 +278,7 @@ public class GUI {
     	download.addSelectionListener(new SelectionAdapter() {
              @Override
              public void widgetSelected(SelectionEvent e) {
+            	 listdownloads.setEnabled(false);
             	 String name = listdownloads.getText();
             	 String URL = settingscontainer.getDownloadLinkByName(name);
             	 String clientto = settingscontainer.getFolderToByName(name);
@@ -297,7 +307,7 @@ public class GUI {
      					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 29)
      					)
      			);
-     	lstatus.setText("Проверка обновления");
+     	lstatus.setText("Проверка обновлений");
      	lstatus.setBounds(levelw,levelh,widgw,29);
      	
   	  	lpbar = new ProgressBar(shell, SWT.SMOOTH);

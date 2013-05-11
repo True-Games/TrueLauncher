@@ -117,6 +117,7 @@ public class LUpdateThread extends Thread {
 			String temppath = System.getProperty("java.io.tmpdir")+"MCLauncherTemp.jar";
 			ldownloader(urlfrom, temppath);
 			lcopy(temppath);
+			new File(lpath).setExecutable(true);
 			lrestart();
 			Runtime.getRuntime().exit(0);
 		} catch (Exception e)

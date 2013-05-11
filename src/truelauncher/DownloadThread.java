@@ -101,14 +101,29 @@ public class DownloadThread extends Thread {
 	        public void run() {
 	            try {
 
+	                display.asyncExec(new Runnable()
+	                {
+	                	public void run()
+	                	{
+	                		gui.download.setText("Скачиваем клиент");
+	                	}
+	                });
 	                filedownloader(urlfrom, clientto);
-	                Zip zip = new Zip();
+	                Zip zip = new Zip(gui,display);
+	                display.asyncExec(new Runnable()
+	                {
+	                	public void run()
+	                	{
+	                		gui.download.setText("Распаковываем клиент");
+	                	}
+	                });
 	                zip.unpack(clientto, unpackto);
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
 	                	{
-	                		gui.download.setEnabled(true);
+	                		gui.download.setText("Клиент установлен");
+	                		gui.listdownloads.setEnabled(true);
 	                	}
 	                });
 	            } catch (Exception ex) {
@@ -117,7 +132,8 @@ public class DownloadThread extends Thread {
 	                {
 	                	public void run()
 	                	{
-	                		gui.download.setEnabled(true);
+	                		gui.download.setText("Ошибка");
+	                   	 	gui.listdownloads.setEnabled(true);
 	                	}
 	                });
 	            }

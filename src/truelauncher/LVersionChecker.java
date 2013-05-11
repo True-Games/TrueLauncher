@@ -38,7 +38,8 @@ public class LVersionChecker extends Thread {
 		public void run()
 		{
 			try {
-				int newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(url).openStream()));
+				int newversion = Integer.MAX_VALUE;
+				newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(url).openStream()));
 				if (curversion >= newversion)
 				{
 					display.asyncExec(new Runnable()
@@ -54,7 +55,7 @@ public class LVersionChecker extends Thread {
 					{
 						public void run()
 						{
-							gui.lstatus.setText("Есть обновление");
+							gui.lstatus.setText("Есть обновления");
 							gui.ldownload.setEnabled(true);
 						}
 					});
