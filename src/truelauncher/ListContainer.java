@@ -23,23 +23,13 @@ import java.util.List;
 public class ListContainer {
 
 	
-	//For server status combobox
-	//1 - name, 2-ip, 3 - port
-	private String[][] servers = 
-		{
-			{"Arelate [Classic 1.5.2]","mc.true-games.org","25565"},
-			{"Dohao [Classic 1.5.2]","mc.true-games.org","25566"},
-			{"Valhalla [Classic 1.5.2]","mc.true-games.org","25567"},
-		//	{"TestServer [HiTech 1.5.2]","mc.true-games.org", "65000"}
-		};
-	
 	//For launch combobox
-	//1 - name, 2- launchfolder
+	//1 - name, 2- launchfolder, 3 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 4 - file to check for existance
 	private String[][] clientfolders = 
 		{
-			{".minecraft client",".minecraft"},
-			{"Classic 1.5.2",".true-games.org/runclients/classic"},
-		//	{"HiTech 1.5.2",".true-games.org/runclients/hitech"}
+			{".minecraft client",".minecraft", "1", ".minecraft/bin/minecraft.jar"},
+			{"Classic 1.5.2",".true-games.org/runclients/classic", "1", ".true-games.org/runclients/classic/bin/minecraft.jar"},
+			{"HiTech 1.5.2",".true-games.org/runclients/hitech", "1", ".true-games.org/runclients/hitech/bin/minecraft.jar"}
 		};
 	
 	//For download combobox
@@ -47,7 +37,7 @@ public class ListContainer {
 	private String[][] downloadclients = 
 	{
 		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runclients/classic"},
-	//	{"Hitech 1.5.1","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
+		{"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	
 	//folder in which clients .zip file will be downloaded
@@ -55,47 +45,11 @@ public class ListContainer {
 	//folder in which configuration will be stored
 	private String configfolder = "/.true-games.org/configdata";
 	//launcher version
-	private int lversion = 1;
+	private int lversion = 3;
 	//laucnher update URL;
 	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
-		
-	public List<String> getServers()
-			{
-		
-				List<String> servnames =new ArrayList<String>();
-				for (int i=0; i<servers.length;i++)
-				{
-					servnames.add(servers[i][0]);
-				}
-				return servnames;
-			}
 	
-	public String getServerIpByName(String name)
-	{
-		String ip = "unknown";
-		for (int i=0; i<servers.length;i++)
-		{
-			if (servers[i][0].equals(name))
-			{
-				ip = servers[i][1];
-			}
-		}
-		return ip;
-	}
-	
-	public int getServerPortByName(String name)
-	{
-		int port = 25565;
-		for (int i=0; i<servers.length;i++)
-		{
-			if (servers[i][0].equals(name))
-			{
-				port = Integer.valueOf(servers[i][2]);
-			}
-		}
-		return port;
-	}
-	
+
 	public List<String> getClients()
 	{
 
@@ -119,6 +73,33 @@ public class ListContainer {
 		}
 		return folder;
 	}
+	
+	public int getLaunchVersionByName(String name)
+	{
+		int version = 1;
+		for (int i=0; i<clientfolders.length;i++)
+		{
+			if (clientfolders[i][0].equals(name))
+			{
+				version = Integer.valueOf(clientfolders[i][2]);
+			}
+		}
+		return version;
+	}
+	
+	public String getCheckFileByName(String name)
+	{
+		String folder = "fail";
+		for (int i=0; i<clientfolders.length;i++)
+		{
+			if (clientfolders[i][0].equals(name))
+			{
+				folder = clientfolders[i][3];
+			}
+		}
+		return folder;
+	}
+	
 	
 	public List<String> getDownloads()
 	{

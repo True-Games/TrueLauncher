@@ -50,9 +50,7 @@ public class GUI {
  
  public Text nickfield;
  public Text ramfield;
- public Text servstatus;
- public Text iplabel;
- public Label status;
+ public Button launch;
  public Label lstatus;
  public ProgressBar pbar;
  public ProgressBar lpbar;
@@ -92,7 +90,7 @@ public class GUI {
  }   
      private void initUI(Display display) {
     	 initTextInputFieldsAndLabels(display);
-    	 initServersStatusFields(display);
+    //	 initServersStatusFields(display);
     	 initStartButton(display);
     	 initDownloadCenter(display);
     	 initLauncherUpdater(display);
@@ -103,7 +101,7 @@ public class GUI {
      private void initTextInputFieldsAndLabels(Display display)
      {
     	 int levelw = 25;
-      	 int widgw = 192;
+      	 int widgw = 375;
       	 
       	 
     	 Label expbarset = new Label(shell,SWT.CENTER);
@@ -115,31 +113,47 @@ public class GUI {
     	 expbarset.setText("Основные настройки");
     	 expbarset.setBounds(levelw,levelh-30,widgw,30);
     	 
-    	 int lwidgw = widgw - 117;
+    	 int lwidgw = widgw/2;
     	 Label labelnick = new Label(shell, SWT.CENTER);
-    	 labelnick.setBackgroundImage(new Image(display,GUI.class.getResourceAsStream(labelimage)));
-    	 labelnick.setText("Ник:");
+    	 labelnick.setBackgroundImage(
+       			 new Image(display,
+       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lwidgw, 20)
+       					 )
+    			 );
+    	 labelnick.setText("Ник");
     	 labelnick.setBounds(levelw,levelh,lwidgw,20);
     	 Label labelram = new Label(shell, SWT.CENTER);
-    	 labelram.setBackgroundImage(new Image(display,GUI.class.getResourceAsStream(labelimage)));
-    	 labelram.setText("Память:");
-    	 labelram.setBounds(levelw,levelh+20,lwidgw,20);
+    	 labelram.setBackgroundImage(
+       			 new Image(display,
+       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lwidgw, 20)
+       					 )
+    			 );
+    	 labelram.setText("Память (в мегабайтах)");
+    	 labelram.setBounds(levelw+lwidgw,levelh,lwidgw,20);
     	 
-    	 int twidgw = widgw - lwidgw;
+    	 int twidgw = widgw/2;
     	 nickfield = new Text(shell, SWT.SINGLE | SWT.CENTER);
-    	 nickfield.setBackgroundImage(new Image(display, GUI.class.getResourceAsStream(textiamge)));
+    	 nickfield.setBackgroundImage(
+       			 new Image(display,
+       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(twidgw, 20)
+       					 )
+       			 );
     	 nickfield.setText("NoNickName");
     	 nickfield.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-    	 nickfield.setBounds(levelw+lwidgw,levelh,twidgw,20);
+    	 nickfield.setBounds(levelw,levelh+20,twidgw,20);
     	 ramfield = new Text(shell, SWT.SINGLE | SWT.CENTER);
-    	 ramfield.setBackgroundImage(new Image(display, GUI.class.getResourceAsStream(textiamge)));
+    	 ramfield.setBackgroundImage(
+       			 new Image(display,
+       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(twidgw, 20)
+       					 )
+       			 );
     	 ramfield.setText("512");
     	 ramfield.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
     	 ramfield.setBounds(levelw+lwidgw,levelh+20,twidgw,20);
     	 
     	 Button save = new Button(shell, SWT.PUSH);
     	 save.setText("Сохранить настройки");
-    	 save.setBounds(levelw,levelh+40,192,30);
+    	 save.setBounds(levelw,levelh+40,widgw,30);
     	 save.addSelectionListener(new SelectionAdapter() {
              @Override
              public void widgetSelected(SelectionEvent e) {
@@ -147,61 +161,7 @@ public class GUI {
              }
          });
      }
-     private void initServersStatusFields(final Display display)
-     {
-     	int levelw = 217;
-     	int widgw = 183;
-    	 
-    	 Label expbarset = new Label(shell,SWT.CENTER);
-    	 expbarset.setBackgroundImage(
-    			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
-    					  )
-    			 );
-    	 expbarset.setText("Статус серверов");
-    	 expbarset.setBounds(levelw,levelh-30,widgw,30);
-    	 
-    	final Combo listservers = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
-	    List<String> servnameslist = settingscontainer.getServers();
-	    for (String servname : servnameslist)
-	    {
-    	listservers.add(servname);
-	    }
-    	listservers.setBounds(levelw,levelh,widgw,25);
-    	listservers.addSelectionListener(new SelectionAdapter()
-    	{
-    		@Override
-    		public void widgetSelected(SelectionEvent e) {
-       	 		String servname = listservers.getText();
-       	 		String ip = settingscontainer.getServerIpByName(servname);
-       	 		int port = settingscontainer.getServerPortByName(servname);
-       	 		iplabel.setText(ip+":"+port);
-   	 			status.setText("Соединяемся");
-   	 			new Thread(new ServerStatusThread(thisclass,display,ip,port)).start();
-    		}
-        });
-    	
-    	iplabel = new Text(shell, SWT.CENTER | SWT.READ_ONLY);
-    	iplabel.setBackgroundImage(
-    			new Image(display,
-    					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 22)
-    					)
-    			);
-    	iplabel.setText("Сервер не выбран");
-    	iplabel.setBounds(levelw,levelh+27,widgw,22);
-    	
-    	
-    	status = new Label(shell, SWT.CENTER);
-    	status.setBackgroundImage(
-    			new Image(display,
-    					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 22)
-    					)
-    			);
-    	status.setText("Сервер не выбран");
-    	status.setBounds(levelw,levelh+48,widgw,22);
-     }
-     
-     
+
      private void initStartButton(Display display)
      {
     	 int levelw = 400;
@@ -222,21 +182,51 @@ public class GUI {
  	    {
  	    	listclients.add(servname);
  	    }
-  	    listclients.select(0);
- 	    listclients.setBounds(levelw,levelh,widgw,25);
+  	    
+
+  	  	
+ 	    listclients.setBounds(levelw,levelh,widgw,30);
+ 	    listclients.addSelectionListener(
+ 	    		new SelectionAdapter() {
+ 	               @Override
+ 	               public void widgetSelected(SelectionEvent e) {
+ 	             	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getCheckFileByName(listclients.getText()));
+ 	              	  	if (cfile.exists()) {
+ 	              	  		launch.setEnabled(true);
+ 	              	  		launch.setText("Запустить Minecraft");
+ 	              	  		} else {
+ 	              	  		launch.setEnabled(false);
+ 	                  	    launch.setText("Клиент не найден\nЗапуск Minecraft невозможен");
+ 	              	  		}
+ 	              }
+ 	           });
     	 
-    	 Button launch = new Button(shell, SWT.PUSH);
+         launch = new Button(shell, SWT.PUSH);
     	 launch.setText("Запустить Minecraft");
     	 launch.setBounds(levelw, levelh+27, widgw, 43);
          
     	 launch.addSelectionListener(new SelectionAdapter() {
              @Override
              public void widgetSelected(SelectionEvent e) {
+            	 	String lfolder = settingscontainer.getClientFolderByName(listclients.getText());
             	 	String nick = nickfield.getText();
             	 	int ram = Integer.valueOf(ramfield.getText());
-            	 	LauncherUtils.launchMC(settingscontainer.getClientFolderByName(listclients.getText()), nick, ram);
+            	 	int mclvers = settingscontainer.getLaunchVersionByName(listclients.getText());
+            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers);
              }
          });
+
+    	 
+   	    //select and check client for existance
+   	    listclients.select(0);
+   	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getCheckFileByName(listclients.getText()));
+   	  	if (cfile.exists()) {
+   	  		launch.setEnabled(true);
+   	  		launch.setText("Запустить Minecraft");
+   	  		} else {
+   	  		launch.setEnabled(false);
+       	    launch.setText("Клиент не найден");
+   	  		}
      }
      
      private void initDownloadCenter(final Display display)
@@ -258,7 +248,7 @@ public class GUI {
  	    {
   	    	listdownloads.add(servname);
  	    }
-  	    listdownloads.setBounds(levelw,levelh,widgw,25);
+  	    listdownloads.setBounds(levelw,levelh,widgw,30);
     	listdownloads.select(0);
     	listdownloads.addSelectionListener(new SelectionAdapter() {
     		 @Override
@@ -282,7 +272,7 @@ public class GUI {
             	 String name = listdownloads.getText();
             	 String URL = settingscontainer.getDownloadLinkByName(name);
             	 String clientto = settingscontainer.getFolderToByName(name);
-            	 new DownloadThread(thisclass,display,URL,LauncherUtils.getDir()+settingscontainer.getTempFolderPath(),clientto).start();
+            	 new ClientUpdateThread(thisclass,display,URL,LauncherUtils.getDir()+settingscontainer.getTempFolderPath(),clientto).start();
             	 download.setEnabled(false);
              }
          });

@@ -29,24 +29,24 @@ import java.util.logging.Logger;
 
 import org.eclipse.swt.widgets.Display;
 
-public class DownloadThread extends Thread {
+public class ClientUpdateThread extends Thread {
 //Thread for downloading clients
 
 
 	    private GUI gui;
 		private Display display;
 	    private String urlfrom;
-	    private String clientto;
+	    private String packedclientto;
 	    private String unpackto;
 	    private String tempfolder;
-	    DownloadThread(GUI gui,Display display, String urlfrom, String clientto, String unpackto)
+	    ClientUpdateThread(GUI gui,Display display, String urlfrom, String clientto, String unpackto)
 	    {
 	    	try {
 	    this.gui = gui;
 		this.display = display;
 	    this.urlfrom = urlfrom;
 	    this.tempfolder = clientto;
-	    this.clientto = clientto +"/"+new File(new URL(this.urlfrom).getFile()).getName();
+	    this.packedclientto = clientto +"/"+new File(new URL(this.urlfrom).getFile()).getName();
 	    this.unpackto = LauncherUtils.getDir()+File.separator+unpackto;
 	    	} catch (Exception e) {e.printStackTrace();}
 	    }
@@ -108,8 +108,18 @@ public class DownloadThread extends Thread {
 	                		gui.download.setText("Скачиваем клиент");
 	                	}
 	                });
-	                filedownloader(urlfrom, clientto);
-	                Zip zip = new Zip(gui,display);
+	                filedownloader(urlfrom, packedclientto);
+	                
+	                
+	                display.asyncExec(new Runnable()
+	                {
+	                	public void run()
+	                	{
+	                		gui.download.setText("Удаляем старый клиент");
+	                	}
+	                });
+	                deleteDirectory(new File(unpackto));
+	                
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -117,7 +127,9 @@ public class DownloadThread extends Thread {
 	                		gui.download.setText("Распаковываем клиент");
 	                	}
 	                });
-	                zip.unpack(clientto, unpackto);
+	                Zip zip = new Zip(gui,display);
+	                zip.unpack(packedclientto, unpackto);
+	                
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -138,5 +150,28 @@ public class DownloadThread extends Thread {
 	                });
 	            }
 	        }
+	        
+	        
+	    	public void deleteDirectory(File file)
+	  	  {
+	  	    if(!file.exists())
+	  	      return;
+	  	    if(file.isDirectory())
+	  	    {
+	  	      for(File f : file.listFiles())
+	  	        deleteDirectory(f);
+	  	      file.delete();
+	  	    }
+	  	    else
+	  	    {
+	  	      file.delete();
+	  	    }
+	  	  }    
+	        
+	        
 	    }
+
+
+
+
 
