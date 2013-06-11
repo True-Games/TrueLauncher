@@ -28,6 +28,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
@@ -39,8 +40,8 @@ public class GUI {
  private GUI thisclass = this;
  private ListContainer settingscontainer = new ListContainer();
  private Shell shell;
- private int w = 935;
- private int h = 500;
+ private int w = 640;
+ private int h = 320;
  int levelh = h-110;
  private String icon = "images/icon.png";
  private String bgimage = "images/bgimage.png";
@@ -51,16 +52,15 @@ public class GUI {
  public Text nickfield;
  public Text ramfield;
  public Button launch;
- public Label lstatus;
  public ProgressBar pbar;
- public ProgressBar lpbar;
  public Button download;
- public Button ldownload;
  public Combo listdownloads;
+ public LauncherUpdateDialog lu;
+ 
  public GUI(Display display)
  {
 	 try {
-     shell = new Shell(display, SWT.CLOSE | SWT.TITLE | SWT.MIN);
+     shell = new Shell(display,  SWT.CLOSE | SWT.TITLE | SWT.MIN);
      initUI(display);
      shell.setText("True-games.org|MinecraftLauncher");
      shell.setSize(w, h);
@@ -90,70 +90,86 @@ public class GUI {
  }   
      private void initUI(Display display) {
     	 initTextInputFieldsAndLabels(display);
-    //	 initServersStatusFields(display);
     	 initStartButton(display);
     	 initDownloadCenter(display);
-    	 initLauncherUpdater(display);
+    	 showLauncherUpdateWindow(display);
      }
      
 
-     
+     //1й блок
      private void initTextInputFieldsAndLabels(Display display)
      {
-    	 int levelw = 25;
-      	 int widgw = 375;
+    	 int levelw = 50;
+      	 int widgw = 200;
       	 
+      	 Composite tifields = new Composite(shell, SWT.TRANSPARENT);
+      	 tifields.setBounds(levelw, levelh-25, widgw, 95);
       	 
-    	 Label expbarset = new Label(shell,SWT.CENTER);
+      	 //Плашка объясениния
+    	 Label expbarset = new Label(tifields,SWT.CENTER);
     	 expbarset.setBackgroundImage(
     			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
+    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 25)
     					  )
     			 );
     	 expbarset.setText("Основные настройки");
-    	 expbarset.setBounds(levelw,levelh-30,widgw,30);
+    	 expbarset.setBounds(0,0,widgw,25);
     	 
-    	 int lwidgw = widgw/2;
-    	 Label labelnick = new Label(shell, SWT.CENTER);
+    	 
+    	 //Плашка ника
+    	 int lnw = 70;
+    	 int lnh = 20;
+    	 Label labelnick = new Label(tifields, SWT.CENTER);
     	 labelnick.setBackgroundImage(
        			 new Image(display,
-       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lwidgw, 20)
+       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lnw, lnh)
        					 )
     			 );
     	 labelnick.setText("Ник");
-    	 labelnick.setBounds(levelw,levelh,lwidgw,20);
-    	 Label labelram = new Label(shell, SWT.CENTER);
-    	 labelram.setBackgroundImage(
-       			 new Image(display,
-       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lwidgw, 20)
-       					 )
-    			 );
-    	 labelram.setText("Память (в мегабайтах)");
-    	 labelram.setBounds(levelw+lwidgw,levelh,lwidgw,20);
-    	 
-    	 int twidgw = widgw/2;
-    	 nickfield = new Text(shell, SWT.SINGLE | SWT.CENTER);
+    	 labelnick.setBounds(0,25,lnw,lnh);
+
+    	 //Поле ника
+    	 int inw = 130;
+    	 int inh = 20;
+    	 nickfield = new Text(tifields, SWT.SINGLE | SWT.CENTER | SWT.IMAGE_PNG);
     	 nickfield.setBackgroundImage(
        			 new Image(display,
-       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(twidgw, 20)
+       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(inw, inh)
        					 )
        			 );
     	 nickfield.setText("NoNickName");
     	 nickfield.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-    	 nickfield.setBounds(levelw,levelh+20,twidgw,20);
-    	 ramfield = new Text(shell, SWT.SINGLE | SWT.CENTER);
-    	 ramfield.setBackgroundImage(
+    	 nickfield.setBounds(70,25,inw,inh);
+
+    	 //Плашка памяти
+    	 int lrw = 70;
+    	 int lrh = 20;
+    	 Label labelram = new Label(tifields, SWT.CENTER);
+    	 labelram.setText("Память");
+    	 labelram.setBounds(0,45,lrw,lrh);
+    	 labelram.setBackgroundImage(
        			 new Image(display,
-       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(twidgw, 20)
+       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lrw, lrh)
        					 )
-       			 );
+    			 );
+
+       	 //Поле памяти
+    	 int irw = 130;
+    	 int irh = 20;
+    	 ramfield = new Text(tifields, SWT.SINGLE | SWT.CENTER);
     	 ramfield.setText("512");
     	 ramfield.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-    	 ramfield.setBounds(levelw+lwidgw,levelh+20,twidgw,20);
+    	 ramfield.setBounds(70,45,irw,irh);
+    	 ramfield.setBackgroundImage(
+       			 new Image(display,
+       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(irw, irh)
+       					 )
+       			 );
     	 
-    	 Button save = new Button(shell, SWT.PUSH);
+    	 //Кнопка сохранить
+    	 Button save = new Button(tifields, SWT.PUSH);
     	 save.setText("Сохранить настройки");
-    	 save.setBounds(levelw,levelh+40,widgw,30);
+    	 save.setBounds(0,65,widgw,30);
     	 save.addSelectionListener(new SelectionAdapter() {
              @Override
              public void widgetSelected(SelectionEvent e) {
@@ -162,48 +178,54 @@ public class GUI {
          });
      }
 
+     
+     //блок 2
      private void initStartButton(Display display)
      {
-    	 int levelw = 400;
+    	 int levelw = 250;
       	 int widgw = 170;
     	 
-      	 Label expbarset = new Label(shell,SWT.CENTER);
+      	Composite sb = new Composite(shell, SWT.TRANSPARENT);
+      	sb.setBounds(levelw, levelh-25, widgw, 95);
+      	 
+      	 //плашка объяснений
+      	 Label expbarset = new Label(sb,SWT.CENTER);
     	 expbarset.setBackgroundImage(
     			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
+    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 25)
     					  )
     			 );
     	 expbarset.setText("Выбор клиента");
-    	 expbarset.setBounds(levelw,levelh-30,widgw,30);
+    	 expbarset.setBounds(0,0,widgw,25);
       	 
-    	final Combo listclients = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
+    	//список клиентов на запуск
+    	final Combo listclients = new Combo(sb, SWT.NONE | SWT.READ_ONLY);
  	    List<String> servclientslist = settingscontainer.getClients();
   	    for (String servname : servclientslist)
  	    {
  	    	listclients.add(servname);
  	    }
-  	    
-
-  	  	
- 	    listclients.setBounds(levelw,levelh,widgw,30);
+  	    listclients.setBounds(0,25,widgw,27);
  	    listclients.addSelectionListener(
  	    		new SelectionAdapter() {
  	               @Override
  	               public void widgetSelected(SelectionEvent e) {
- 	             	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getCheckFileByName(listclients.getText()));
+ 	             	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getJarByName(listclients.getText()));
  	              	  	if (cfile.exists()) {
  	              	  		launch.setEnabled(true);
  	              	  		launch.setText("Запустить Minecraft");
  	              	  		} else {
+ 	                  	    launch.setText("Клиент не найден");
  	              	  		launch.setEnabled(false);
- 	                  	    launch.setText("Клиент не найден\nЗапуск Minecraft невозможен");
  	              	  		}
  	              }
  	           });
     	 
-         launch = new Button(shell, SWT.PUSH);
+ 	     //кнопка запуска майна
+         launch = new Button(sb, SWT.PUSH);
+
+    	 launch.setBounds(0, 52, widgw, 43);
     	 launch.setText("Запустить Minecraft");
-    	 launch.setBounds(levelw, levelh+27, widgw, 43);
          
     	 launch.addSelectionListener(new SelectionAdapter() {
              @Override
@@ -212,43 +234,49 @@ public class GUI {
             	 	String nick = nickfield.getText();
             	 	int ram = Integer.valueOf(ramfield.getText());
             	 	int mclvers = settingscontainer.getLaunchVersionByName(listclients.getText());
-            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers);
+            	 	String jar = new File(settingscontainer.getJarByName(listclients.getText())).getName();
+            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers, jar);
              }
          });
 
     	 
    	    //select and check client for existance
    	    listclients.select(0);
-   	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getCheckFileByName(listclients.getText()));
+   	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getJarByName(listclients.getText()));
    	  	if (cfile.exists()) {
    	  		launch.setEnabled(true);
    	  		launch.setText("Запустить Minecraft");
    	  		} else {
-   	  		launch.setEnabled(false);
-       	    launch.setText("Клиент не найден");
+      	    launch.setText("Клиент не найден");
+         	launch.setEnabled(false);
    	  		}
      }
      
+     //блок 3
      private void initDownloadCenter(final Display display)
      {
-    	 int levelw = 570;
+    	 int levelw = 420;
       	 int widgw = 170;
-    	 Label expbarset = new Label(shell,SWT.CENTER);
+      	 
+      	 Composite dc = new Composite(shell, SWT.TRANSPARENT);
+      	 dc.setBounds(levelw, levelh-25, widgw, 95);
+      	 
+    	 Label expbarset = new Label(dc,SWT.CENTER);
     	 expbarset.setBackgroundImage(
     			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
+    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 25)
     					  )
     			 );
     	 expbarset.setText("Скачивание клиентов");
-    	 expbarset.setBounds(levelw,levelh-30,widgw,30);
+    	 expbarset.setBounds(0,0,widgw,25);
     	 
-     	listdownloads = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
+     	listdownloads = new Combo(dc, SWT.NONE | SWT.READ_ONLY);
  	    List<String> servdownloadlist = settingscontainer.getDownloads();
   	    for (String servname : servdownloadlist)
  	    {
   	    	listdownloads.add(servname);
  	    }
-  	    listdownloads.setBounds(levelw,levelh,widgw,30);
+  	    listdownloads.setBounds(0,25,widgw,27);
     	listdownloads.select(0);
     	listdownloads.addSelectionListener(new SelectionAdapter() {
     		 @Override
@@ -258,12 +286,12 @@ public class GUI {
     			 download.setEnabled(true);
     		 }
     	});
-  	  	pbar = new ProgressBar(shell, SWT.SMOOTH);
-  	  	pbar.setBounds(levelw,levelh+28,widgw, 15);
+  	  	pbar = new ProgressBar(dc, SWT.SMOOTH);
+  	  	pbar.setBounds(0,53,widgw, 15);
   	  
-    	download = new Button(shell, SWT.PUSH);
+    	download = new Button(dc, SWT.PUSH);
     	download.setText("Скачать клиент");
-    	download.setBounds(levelw, levelh+43, widgw, 27);
+    	download.setBounds(0, 68, widgw, 27);
          
     	download.addSelectionListener(new SelectionAdapter() {
              @Override
@@ -278,49 +306,17 @@ public class GUI {
          });
      }
      
-     private void initLauncherUpdater(final Display display)
-     {
-       	 int levelw = 740;
-      	 int widgw = 170;
-    	 Label expbarset = new Label(shell,SWT.CENTER);
-    	 expbarset.setBackgroundImage(
-    			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 30)
-    					  )
-    			 );
-    	 expbarset.setText("Обновление лаунчера");
-    	 expbarset.setBounds(levelw,levelh-30,widgw,30);  	
-    	 
-     	lstatus = new Label(shell, SWT.CENTER);
-     	lstatus.setBackgroundImage(
-     			new Image(display,
-     					new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(widgw, 29)
-     					)
-     			);
-     	lstatus.setText("Проверка обновлений");
-     	lstatus.setBounds(levelw,levelh,widgw,29);
-     	
-  	  	lpbar = new ProgressBar(shell, SWT.SMOOTH);
-  	  	lpbar.setBounds(levelw,levelh+28,widgw, 15);
-     	
-    	ldownload = new Button(shell, SWT.PUSH);
-    	ldownload.setText("Обновить");
-    	ldownload.setBounds(levelw, levelh+43, widgw, 27);
-    	ldownload.setEnabled(false);
-         
-    	ldownload.addSelectionListener(new SelectionAdapter() {
-             @Override
-             public void widgetSelected(SelectionEvent e) {
-            	 ldownload.setEnabled(false);
-            	 (new LUpdateThread(thisclass, display, settingscontainer.getLUpdateURLFolder()+"Launcher.jar")).start();
-             }
-         });
-    	
-    	(new LVersionChecker(thisclass, display, settingscontainer.getLUpdateURLFolder()+"version", settingscontainer.getLVerison())).start();
-    	
-
-     }
      
+     //инициализация проверки версии лаунчера
+     private void showLauncherUpdateWindow(Display display)
+     {
+      	 int ww = 250;
+      	 int wh = 85;
+    	 lu = new LauncherUpdateDialog(shell,ww,wh, settingscontainer.getLUpdateURLFolder()+"Launcher.jar");
+    	 (new LVersionChecker(thisclass, display, settingscontainer.getLUpdateURLFolder()+"version", settingscontainer.getLVerison())).start();
+    	// lu.open();
+    	 
+     }
      
      private void loadTextFields()
      {

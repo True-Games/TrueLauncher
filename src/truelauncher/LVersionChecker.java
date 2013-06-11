@@ -40,36 +40,19 @@ public class LVersionChecker extends Thread {
 			try {
 				int newversion = Integer.MAX_VALUE;
 				newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(url).openStream()));
-				if (curversion >= newversion)
+				if (curversion < newversion)
 				{
 					display.asyncExec(new Runnable()
 					{
 						public void run()
 						{
-							gui.lstatus.setText("Обновлений нет");
-						}
-					});
-				} else
-				{
-					display.asyncExec(new Runnable()
-					{
-						public void run()
-						{
-							gui.lstatus.setText("Есть обновления");
-							gui.ldownload.setEnabled(true);
+							gui.lu.open();
 						}
 					});
 				}
 			} catch (Exception e)
 			{
 				e.printStackTrace();
-				display.asyncExec(new Runnable()
-				{
-					public void run()
-					{
-						gui.lstatus.setText("Ошибка проверки");
-					}
-				});
 			}
 		}
 

@@ -26,6 +26,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LauncherUtils {
 	
@@ -130,34 +132,44 @@ public class LauncherUtils {
     
     
     //Launch minecraft begin
-    public static void launchMC(String path, String nickin, int memin, int lvers)
+    public static void launchMC(String path, String nickin, int memin, int lvers, String jar)
     {
-       String nick = nickin;
-       String mem = memin + "M";
-       String ps = LauncherUtils.getDir();
-       String OS = System.getProperty("os.name").toLowerCase();
-       String mcpath = ps+File.separator+path;
-       //1.5.2 and earlier
-       if (lvers == 1) 
-       {
-          try {
-        	  if (OS.contains("win")) 
-        	  {
-        		  Runtime.getRuntime().exec("cmd /c cd "+mcpath+" && start javaw -Xmx" + mem + " -Djava.library.path=bin/natives -cp bin/minecraft.jar;bin/jinput.jar;bin/lwjgl.jar;bin/lwjgl_util.jar net.minecraft.client.Minecraft " + nick);
-        	  } else {
-        		  Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","cd "+mcpath+" ; java -Xmx" + mem + " -Djava.library.path=bin/natives -cp bin/minecraft.jar:bin/jinput.jar:bin/lwjgl.jar:bin/lwjgl_util.jar net.minecraft.client.Minecraft " + nick});  
-        	  }
-           } catch (Exception ex) {}
-       } else if (lvers == 2) {
-           try {
-         	  if (OS.contains("win")) 
-         	  {
-         		 // Runtime.getRuntime().exec("cmd /c cd "+mcpath+" && start javaw -Xmx" + mem + " -Djava.library.path=bin/natives -cp bin/minecraft.jar;bin/jinput.jar;bin/lwjgl.jar;bin/lwjgl_util.jar net.minecraft.client.Minecraft " + nick);
-         	  } else {
-         		 // Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","cd "+mcpath+" ; java -Xmx" + mem + " -Djava.library.path=bin/natives -cp bin/minecraft.jar:bin/jinput.jar:bin/lwjgl.jar:bin/lwjgl_util.jar net.minecraft.client.Minecraft " + nick});  
-         	  }
-            } catch (Exception ex) {}
-       }
+    	try {
+        String nick = nickin;
+        String mem = memin + "M";
+        String ps = LauncherUtils.getDir();
+        String OS = System.getProperty("os.name").toLowerCase();
+        String mcpath = ps+File.separator+path;
+        String cps;
+        if (OS.contains("win")) {cps = ";";} else {cps=":";}
+        ProcessBuilder pb = new ProcessBuilder();
+		  pb.directory(new File(mcpath));
+		  if (lvers == 1) {
+		  List<String> cc = new ArrayList<String>(); 
+		  cc.add("java");
+		  cc.add("-Xmx"+mem);
+		  cc.add("-Djava.library.path=libraries/natives");
+		  cc.add("-cp");
+		  cc.add("libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar"+cps
+				  +"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"+cps
+				  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar"+cps
+				  +"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar"+cps
+				  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar"+cps
+				  +"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"+cps
+				  +jar
+				  );
+		  cc.add("net.minecraft.client.Minecraft");
+		  cc.add(nick);
+		  cc.add("session");
+		  cc.add("--workdir");
+		  cc.add(mcpath);
+		  pb.command(cc);
+		  pb.start();
+		  
+		  }
+		  
+		  killLauncher();
+    	} catch (Exception e) {e.printStackTrace();}
     }
     
     //Launch minecraft end
@@ -181,6 +193,12 @@ public class LauncherUtils {
 	}
     //get Last Launcher version begin
     
+	
+	//kill Launcher start
+	private static void killLauncher()
+	{
+		System.exit(0);
+	}
 
     
 

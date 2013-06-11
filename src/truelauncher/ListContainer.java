@@ -27,9 +27,8 @@ public class ListContainer {
 	//1 - name, 2- launchfolder, 3 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 4 - file to check for existance
 	private String[][] clientfolders = 
 		{
-			{".minecraft client",".minecraft", "1", ".minecraft/bin/minecraft.jar"},
-			{"Classic 1.5.2",".true-games.org/runclients/classic", "1", ".true-games.org/runclients/classic/bin/minecraft.jar"},
-			{"HiTech 1.5.2",".true-games.org/runclients/hitech", "1", ".true-games.org/runclients/hitech/bin/minecraft.jar"}
+			{"Classic 1.5.2",".true-games.org/runclients/classic", "1", ".true-games.org/runclients/classic/minecraft.jar"},
+			{"HiTech 1.5.2",".true-games.org/runclients/hitech", "1", ".true-games.org/runclients/hitech/minecraft.jar"}
 		};
 	
 	//For download combobox
@@ -45,7 +44,7 @@ public class ListContainer {
 	//folder in which configuration will be stored
 	private String configfolder = "/.true-games.org/configdata";
 	//launcher version
-	private int lversion = 3;
+	private int lversion = 4;
 	//laucnher update URL;
 	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 	
@@ -87,7 +86,7 @@ public class ListContainer {
 		return version;
 	}
 	
-	public String getCheckFileByName(String name)
+	public String getJarByName(String name)
 	{
 		String folder = "fail";
 		for (int i=0; i<clientfolders.length;i++)

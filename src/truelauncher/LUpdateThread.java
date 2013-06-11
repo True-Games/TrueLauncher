@@ -26,6 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.eclipse.swt.widgets.Display;
 
@@ -33,12 +34,12 @@ public class LUpdateThread extends Thread {
 
 	private String lpath = Launcher.class.getProtectionDomain().getCodeSource().getLocation().getFile();
 	
-    private GUI gui;
+    private LauncherUpdateDialog lu;
 	private Display display;
     private String urlfrom;
-	LUpdateThread(GUI gui,Display display, String urlfrom)
+	LUpdateThread(LauncherUpdateDialog lu,Display display, String urlfrom)
     {
-    this.gui = gui;
+    this.lu = lu;
 	this.display = display;
     this.urlfrom = urlfrom;
     }
@@ -62,8 +63,8 @@ public class LUpdateThread extends Thread {
 		display.asyncExec(new Runnable(){
 			public void run()
 			{
-				gui.lpbar.setMaximum(totalAmount);
-				gui.lpbar.setMinimum(0);
+				lu.lpbar.setMaximum(totalAmount);
+				lu.lpbar.setMinimum(0);
 			}
 		});
 		int bufferSize = 0;
@@ -75,7 +76,7 @@ public class LUpdateThread extends Thread {
 		display.asyncExec(new Runnable(){
 			public void run()
 			{
-				gui.lpbar.setSelection(pbam);
+				lu.lpbar.setSelection(pbam);
 			}
 		});
              }
@@ -114,7 +115,7 @@ public class LUpdateThread extends Thread {
 	public void run()
 	{
 		try {
-			String temppath = System.getProperty("java.io.tmpdir")+"MCLauncherTemp.jar";
+			String temppath = System.getProperty("java.io.tmpdir")+"MCLauncherTemp"+new Random().nextInt()+".jar";
 			ldownloader(urlfrom, temppath);
 			lcopy(temppath);
 			new File(lpath).setExecutable(true);
@@ -123,12 +124,11 @@ public class LUpdateThread extends Thread {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			display.asyncExec(new Runnable()
-			{
+			display.asyncExec(new Runnable() {
 				public void run()
 				{
-					gui.ldownload.setEnabled(true);
-					gui.lstatus.setText("Ошибка обновления");
+					lu.lstatus.setText("Ошибка обновления");
+					lu.later.setEnabled(true);
 				}
 			});
 		}
