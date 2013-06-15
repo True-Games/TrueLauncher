@@ -40,11 +40,11 @@ public class ListContainer {
 	};
 	
 	//folder in which clients .zip file will be downloaded
-	private String tempfolder = "/.true-games.org/packedclients";
+	private String tempfolder = ".true-games.org/packedclients";
 	//folder in which configuration will be stored
 	private String configfolder = "/.true-games.org/configdata";
 	//launcher version
-	private int lversion = 4;
+	private int lversion = 6;
 	//laucnher update URL;
 	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 	

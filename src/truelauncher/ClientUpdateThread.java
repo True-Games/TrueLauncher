@@ -45,8 +45,8 @@ public class ClientUpdateThread extends Thread {
 	    this.gui = gui;
 		this.display = display;
 	    this.urlfrom = urlfrom;
-	    this.tempfolder = clientto;
-	    this.packedclientto = clientto +"/"+new File(new URL(this.urlfrom).getFile()).getName();
+	    this.tempfolder = LauncherUtils.getDir() + File.separator + clientto;
+	    this.packedclientto =LauncherUtils.getDir() + File.separator + clientto +File.separator+new File(new URL(this.urlfrom).getFile()).getName();
 	    this.unpackto = LauncherUtils.getDir()+File.separator+unpackto;
 	    	} catch (Exception e) {e.printStackTrace();}
 	    }
@@ -105,6 +105,15 @@ public class ClientUpdateThread extends Thread {
 	                {
 	                	public void run()
 	                	{
+	                		gui.download.setText("Прибираемся");
+	                	}
+	                });
+	            	new File(packedclientto).delete();
+	            	
+	                display.asyncExec(new Runnable()
+	                {
+	                	public void run()
+	                	{
 	                		gui.download.setText("Скачиваем клиент");
 	                	}
 	                });
@@ -119,6 +128,7 @@ public class ClientUpdateThread extends Thread {
 	                	}
 	                });
 	                deleteDirectory(new File(unpackto));
+	                new File (unpackto).mkdirs();
 	                
 	                display.asyncExec(new Runnable()
 	                {

@@ -141,12 +141,19 @@ public class LauncherUtils {
         String OS = System.getProperty("os.name").toLowerCase();
         String mcpath = ps+File.separator+path;
         String cps;
-        if (OS.contains("win")) {cps = ";";} else {cps=":";}
-        ProcessBuilder pb = new ProcessBuilder();
-		  pb.directory(new File(mcpath));
+        String java = System.getProperty("java.home");
+        if (OS.contains("win")) {
+        		cps = ";";
+        		java+="/bin/javaw.exe";
+        	} else {
+        		cps=":";
+        		java+="/bin/java";
+        	}
+	      ProcessBuilder pb = new ProcessBuilder();
+	      pb.directory(new File(mcpath));
 		  if (lvers == 1) {
 		  List<String> cc = new ArrayList<String>(); 
-		  cc.add("java");
+		  cc.add(java);
 		  cc.add("-Xmx"+mem);
 		  cc.add("-Djava.library.path=libraries/natives");
 		  cc.add("-cp");
@@ -164,14 +171,12 @@ public class LauncherUtils {
 		  cc.add("--workdir");
 		  cc.add(mcpath);
 		  pb.command(cc);
+	      pb.inheritIO(); //Do not remove this
 		  pb.start();
-		  
 		  }
 		  
-		  killLauncher();
     	} catch (Exception e) {e.printStackTrace();}
     }
-    
     //Launch minecraft end
     
     
@@ -191,16 +196,6 @@ public class LauncherUtils {
 		}
 		return buf.toString();
 	}
-    //get Last Launcher version begin
-    
-	
-	//kill Launcher start
-	private static void killLauncher()
-	{
-		System.exit(0);
-	}
-
-    
-
-
+    //get Last Launcher version end
+        
 }

@@ -300,7 +300,8 @@ public class GUI {
             	 String name = listdownloads.getText();
             	 String URL = settingscontainer.getDownloadLinkByName(name);
             	 String clientto = settingscontainer.getFolderToByName(name);
-            	 new ClientUpdateThread(thisclass,display,URL,LauncherUtils.getDir()+settingscontainer.getTempFolderPath(),clientto).start();
+            	 String tempfolder = settingscontainer.getTempFolderPath();
+            	 new ClientUpdateThread(thisclass,display,URL,tempfolder,clientto).start();
             	 download.setEnabled(false);
              }
          });
