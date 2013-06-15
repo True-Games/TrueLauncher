@@ -70,12 +70,12 @@ public class ClientUpdateThread extends Thread {
 	        FileOutputStream writer = new FileOutputStream(clientto);
 	        byte[] buffer = new byte[153600];
 	                
-	        int downloadedAmount = 0;
-			final int totalAmount = conn.getContentLength();
+	        long downloadedAmount = 0;
+			final long totalAmount = conn.getContentLength();
 			display.asyncExec(new Runnable(){
 				public void run()
 				{
-					gui.pbar.setMaximum(totalAmount);
+					gui.pbar.setMaximum((int) totalAmount);
 					gui.pbar.setMinimum(0);
 				}
 			});
@@ -84,11 +84,11 @@ public class ClientUpdateThread extends Thread {
 			writer.write(buffer, 0, bufferSize);
 			buffer = new byte[153600];
 			downloadedAmount += bufferSize;
-			final int pbam = downloadedAmount;
+			final long pbda = downloadedAmount;
 			display.asyncExec(new Runnable(){
 				public void run()
 				{
-					gui.pbar.setSelection(pbam);
+					gui.pbar.setSelection((int) pbda);
 				}
 			});
 	                }
@@ -101,6 +101,7 @@ public class ClientUpdateThread extends Thread {
 	        public void run() {
 	            try {
 
+	            	//remove old zip file
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -110,6 +111,8 @@ public class ClientUpdateThread extends Thread {
 	                });
 	            	new File(packedclientto).delete();
 	            	
+	            	
+	            	//download packed zip
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -120,6 +123,7 @@ public class ClientUpdateThread extends Thread {
 	                filedownloader(urlfrom, packedclientto);
 	                
 	                
+	                //delete old client
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -130,6 +134,7 @@ public class ClientUpdateThread extends Thread {
 	                deleteDirectory(new File(unpackto));
 	                new File (unpackto).mkdirs();
 	                
+	                //unpack new cient
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -140,6 +145,7 @@ public class ClientUpdateThread extends Thread {
 	                Zip zip = new Zip(gui,display);
 	                zip.unpack(packedclientto, unpackto);
 	                
+	                //show finish message 
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
@@ -148,13 +154,17 @@ public class ClientUpdateThread extends Thread {
 	                		gui.listdownloads.setEnabled(true);
 	                	}
 	                });
-	            } catch (Exception ex) {
+	                
+	                
+	            } catch (final Exception ex) {
 	                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
 	                display.asyncExec(new Runnable()
 	                {
 	                	public void run()
 	                	{
 	                		gui.download.setText("Ошибка");
+	        				ex.printStackTrace();
+	                		LauncherUtils.logError(ex);
 	                   	 	gui.listdownloads.setEnabled(true);
 	                	}
 	                });

@@ -121,13 +121,15 @@ public class LUpdateThread extends Thread {
 			new File(lpath).setExecutable(true);
 			lrestart();
 			Runtime.getRuntime().exit(0);
-		} catch (Exception e)
+		} catch (final Exception e)
 		{
 			e.printStackTrace();
 			display.asyncExec(new Runnable() {
 				public void run()
 				{
 					lu.lstatus.setText("Ошибка обновления");
+					e.printStackTrace();
+            		LauncherUtils.logError(e);
 					lu.later.setEnabled(true);
 				}
 			});

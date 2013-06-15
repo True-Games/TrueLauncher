@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListContainer {
-
+	
 	
 	//For launch combobox
 	//1 - name, 2- launchfolder, 3 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 4 - file to check for existance
@@ -32,6 +32,8 @@ public class ListContainer {
 		};
 	
 	//For download combobox
+	//folder in which clients .zip file will be downloaded
+	private String tempfolder = ".true-games.org/packedclients";
 	//1 - name, 2 - downloadlink, 3 - folderto
 	private String[][] downloadclients = 
 	{
@@ -39,14 +41,13 @@ public class ListContainer {
 		{"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	
-	//folder in which clients .zip file will be downloaded
-	private String tempfolder = ".true-games.org/packedclients";
+
 	//folder in which configuration will be stored
-	private String configfolder = "/.true-games.org/configdata";
+	private String configfolder = ".true-games.org/configdata";
 	//launcher version
-	private int lversion = 6;
+	private int lversion = 7;
 	//laucnher update URL;
-	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
+	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
 
 	public List<String> getClients()

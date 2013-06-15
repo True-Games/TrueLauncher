@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -32,7 +33,9 @@ import java.util.List;
 public class LauncherUtils {
 	
 	//folder in which swt dependency jar will be stored
-	private static String swtpath = "/.true-games.org/SWT/";
+	private static String swtpath = ".true-games.org/SWT";
+	//folder for error logging
+	private static String errFolder = ".true-games.org/errLog";
 
 	
 	//get Directory (Addpata for win and home for linux) begin
@@ -84,28 +87,32 @@ public class LauncherUtils {
     
 	public static void setupSWT()
 	{
-		if (!new File(LauncherUtils.getDir() + swtpath+"swt_"+getArch()+".jar").exists())
+		if (!new File(LauncherUtils.getDir()+ File.separator + swtpath+ File.separator + "swt_"+getArch()+".jar").exists())
 		{
 			try {
-			new File(LauncherUtils.getDir() + swtpath).mkdirs();
+			new File(LauncherUtils.getDir() + File.separator + swtpath + File.separator).mkdirs();
 			InputStream is = LauncherUtils.getSWT();
-			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + swtpath+"swt_"+getArch()+".jar"));
+			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + File.separator + swtpath + File.separator + "swt_"+getArch()+".jar"));
 			byte[] buf = new byte[4096];
 	        int len;
 	        while ((len = is.read(buf)) > 0){out.write(buf, 0, len);}
 	        is.close();
 	        out.close();
-			} catch (Exception e) {e.printStackTrace();}
+			} catch (Exception e) {
+				e.printStackTrace();
+				LauncherUtils.logError(e);
+			}
 		}
 	}
 	
 	public static void loadSWT()
 	{
 		try {
-		  addFile(LauncherUtils.getDir() + LauncherUtils.swtpath+"swt_"+LauncherUtils.getArch()+".jar");
+		  addFile(LauncherUtils.getDir() + File.separator + swtpath + File.separator + "swt_"+LauncherUtils.getArch()+".jar");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			LauncherUtils.logError(e);
 		}
 	}
 	    
@@ -175,7 +182,10 @@ public class LauncherUtils {
 		  pb.start();
 		  }
 		  
-    	} catch (Exception e) {e.printStackTrace();}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		LauncherUtils.logError(e);
+    	}
     }
     //Launch minecraft end
     
@@ -197,5 +207,22 @@ public class LauncherUtils {
 		return buf.toString();
 	}
     //get Last Launcher version end
-        
+     
+	
+	//Log error to file start
+	public static void logError(Exception err)
+	{
+		File errLogFile = new File(LauncherUtils.getDir() + File.separator + errFolder + File.separator + "LError.log");
+		if (!(errLogFile.exists())) {new File(LauncherUtils.getDir() + File.separator + errFolder + File.separator).mkdirs(); }
+	     try {
+	         FileOutputStream fos = new FileOutputStream(errLogFile);  
+	         PrintStream ps = new PrintStream(fos);  
+	         err.printStackTrace(ps);
+	         ps.flush();
+	         ps.close();
+	         fos.close();
+	     } catch (Exception e) {}
+		
+	}
+	//Log error to file end
 }

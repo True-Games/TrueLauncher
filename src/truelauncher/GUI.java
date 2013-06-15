@@ -43,6 +43,7 @@ public class GUI {
  private int w = 640;
  private int h = 320;
  int levelh = h-110;
+ private String lname = "True-games.org|MinecraftLauncher";
  private String icon = "images/icon.png";
  private String bgimage = "images/bgimage.png";
  private String labelimage = "images/labelbar.png";
@@ -62,7 +63,7 @@ public class GUI {
 	 try {
      shell = new Shell(display,  SWT.CLOSE | SWT.TITLE | SWT.MIN);
      initUI(display);
-     shell.setText("True-games.org|MinecraftLauncher");
+     shell.setText(lname);
      shell.setSize(w, h);
      shell.setImage(new Image(display, GUI.class.getResourceAsStream(icon)));
      shell.setBackgroundImage(
@@ -313,9 +314,8 @@ public class GUI {
      {
       	 int ww = 250;
       	 int wh = 85;
-    	 lu = new LauncherUpdateDialog(shell,ww,wh, settingscontainer.getLUpdateURLFolder()+"Launcher.jar");
-    	 (new LVersionChecker(thisclass, display, settingscontainer.getLUpdateURLFolder()+"version", settingscontainer.getLVerison())).start();
-    	// lu.open();
+    	 lu = new LauncherUpdateDialog(shell,ww,wh, settingscontainer.getLUpdateURLFolder()+"/"+"Launcher.jar");
+    	 (new LVersionChecker(thisclass, display, settingscontainer.getLUpdateURLFolder()+"/"+"version", settingscontainer.getLVerison())).start();
     	 
      }
      
@@ -323,8 +323,8 @@ public class GUI {
      {
          try {
              String ps = LauncherUtils.getDir();
-             if ((new File(ps + settingscontainer.getConfigFolderPath()+"/config")).exists()) {
-                 Scanner inFile = new Scanner(new File(ps + settingscontainer.getConfigFolderPath()+"/config"));
+             if ((new File(ps + File.separator + settingscontainer.getConfigFolderPath()+ File.separator + "config")).exists()) {
+                 Scanner inFile = new Scanner(new File(ps + File.separator + settingscontainer.getConfigFolderPath()+ File.separator + "config"));
                  nickfield.setText(inFile.nextLine());
                  ramfield.setText(inFile.nextLine());
                  inFile.close();
@@ -336,11 +336,11 @@ public class GUI {
      private void saveTextFields()
      {
      String ps = LauncherUtils.getDir();
-     if (!((new File(ps + settingscontainer.getConfigFolderPath()+"/config")).exists())) {
-         (new File(ps + settingscontainer.getConfigFolderPath())).mkdirs();
+     if (!((new File(ps + File.separator + settingscontainer.getConfigFolderPath()+ File.separator + "config")).exists())) {
+         (new File(ps + File.separator + settingscontainer.getConfigFolderPath())).mkdirs();
      }
      try {
-         PrintWriter wrt = new PrintWriter(new File(ps + settingscontainer.getConfigFolderPath()+"/config"));
+         PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + settingscontainer.getConfigFolderPath()+File.separator+"config"));
          wrt.println(nickfield.getText());
          wrt.println(ramfield.getText());
          wrt.flush();
