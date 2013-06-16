@@ -19,23 +19,14 @@ package truelauncher;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LauncherUtils {
 	
-	//folder in which swt dependency jar will be stored
-	private static String swtpath = ".true-games.org/SWT";
-	//folder for error logging
-	private static String errFolder = ".true-games.org/errLog";
 
 	
 	//get Directory (Addpata for win and home for linux) begin
@@ -54,88 +45,6 @@ public class LauncherUtils {
     }
 	//get Directory end
     
-    //get java arch begin
-    public static int getArch()
-    {
-    	int bit = 64;
-    	bit = Integer.valueOf(System.getProperty("sun.arch.data.model"));
-    	return bit;
-    }
-    //get java arch end
-    
-    
-    
-    //get and load swt  begin
-    public static InputStream getSWT()
-    {
-        String OS = System.getProperty("os.name").toLowerCase();
-    	int bit = getArch();
-        if (OS.contains("win"))
-        {
-        	return Launcher.class.getResourceAsStream("SWT/swt_windows_"+bit+".jar");
-        }
-        else if (OS.contains("linux"))
-        {
-        	return Launcher.class.getResourceAsStream("SWT/swt_linux_"+bit+".jar");
-        }
-        else if (OS.contains("unix"))
-        {
-        	return Launcher.class.getResourceAsStream("SWT/swt_mac_"+bit+".jar");
-        }
-		return null;
-    }
-    
-	public static void setupSWT()
-	{
-		if (!new File(LauncherUtils.getDir()+ File.separator + swtpath+ File.separator + "swt_"+getArch()+".jar").exists())
-		{
-			try {
-			new File(LauncherUtils.getDir() + File.separator + swtpath + File.separator).mkdirs();
-			InputStream is = LauncherUtils.getSWT();
-			OutputStream out = new FileOutputStream(new File(LauncherUtils.getDir() + File.separator + swtpath + File.separator + "swt_"+getArch()+".jar"));
-			byte[] buf = new byte[4096];
-	        int len;
-	        while ((len = is.read(buf)) > 0){out.write(buf, 0, len);}
-	        is.close();
-	        out.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				LauncherUtils.logError(e);
-			}
-		}
-	}
-	
-	public static void loadSWT()
-	{
-		try {
-		  addFile(LauncherUtils.getDir() + File.separator + swtpath + File.separator + "swt_"+LauncherUtils.getArch()+".jar");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			LauncherUtils.logError(e);
-		}
-	}
-	    
-    
-    private static final Class<?>[] parameters = new Class[]{URL.class};
-    public static void addFile(String s) throws IOException {
-        File f = new File(s);
-        addURL(f.toURI().toURL());
-    }
-
-    public static void addURL(URL u) throws IOException {
-        URLClassLoader sysloader = (URLClassLoader)ClassLoader.getSystemClassLoader();
-        Class<?> sysclass = URLClassLoader.class;
-        try {
-            Method method = sysclass.getDeclaredMethod("addURL",parameters);
-            method.setAccessible(true);
-            method.invoke(sysloader,new Object[]{ u }); 
-        } catch (Throwable t) {
-            t.printStackTrace();
-            throw new IOException("Error, could not add URL to system classloader");
-        }     
-    }
-    //get and load swt  end
     
     
     //Launch minecraft begin
@@ -212,8 +121,8 @@ public class LauncherUtils {
 	//Log error to file start
 	public static void logError(Exception err)
 	{
-		File errLogFile = new File(LauncherUtils.getDir() + File.separator + errFolder + File.separator + "LError.log");
-		if (!(errLogFile.exists())) {new File(LauncherUtils.getDir() + File.separator + errFolder + File.separator).mkdirs(); }
+		File errLogFile = new File(LauncherUtils.getDir() + File.separator + AllSettings.errFolder + File.separator + "LError.log");
+		if (!(errLogFile.exists())) {new File(LauncherUtils.getDir() + File.separator + AllSettings.errFolder + File.separator).mkdirs(); }
 	     try {
 	         FileOutputStream fos = new FileOutputStream(errLogFile);  
 	         PrintStream ps = new PrintStream(fos);  

@@ -17,21 +17,44 @@
 
 package truelauncher;
 
-import org.eclipse.swt.widgets.Display;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 
 
 public class Launcher {
 
 	
 	public static void main(String[] args) {
-		LauncherUtils.setupSWT();
-		LauncherUtils.loadSWT();
-	      Display display = new Display();
-	      new GUI(display);
-	      display.dispose();
-	}
+		
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            	JFrame frame = new JFrame();
+     	       frame.setResizable(false);
+    	       frame.setTitle(AllSettings.lname);
+    	       frame.setSize(AllSettings.w, AllSettings.h);
+    	       frame.setLocationRelativeTo(null);
+    	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+    	       try {
+				frame.setIconImage(ImageIO.read(GUI.class.getResourceAsStream(AllSettings.icon)));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+                GUI gui = new GUI(frame);
+                gui.setVisible(true);
+                frame.add(gui);
+                frame.setVisible(true);
+            }
+        });
+    }
+
+}
 	
 
 
 
-}

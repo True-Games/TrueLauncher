@@ -20,22 +20,24 @@ package truelauncher;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListContainer {
+public class AllSettings {
 	
+	//launcher version
+	private static int lversion = 8;
 	
 	//For launch combobox
 	//1 - name, 2- launchfolder, 3 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 4 - file to check for existance
-	private String[][] clientfolders = 
-		{
-			{"Classic 1.5.2",".true-games.org/runclients/classic", "1", ".true-games.org/runclients/classic/minecraft.jar"},
-			{"HiTech 1.5.2",".true-games.org/runclients/hitech", "1", ".true-games.org/runclients/hitech/minecraft.jar"}
-		};
+	private static String[][] clientfolders = 
+	{
+		{"Classic 1.5.2",".true-games.org/runclients/classic", "1", ".true-games.org/runclients/classic/minecraft.jar"},
+		{"HiTech 1.5.2",".true-games.org/runclients/hitech", "1", ".true-games.org/runclients/hitech/minecraft.jar"}
+	};
 	
 	//For download combobox
 	//folder in which clients .zip file will be downloaded
-	private String tempfolder = ".true-games.org/packedclients";
+	private static String tempfolder = ".true-games.org/packedclients";
 	//1 - name, 2 - downloadlink, 3 - folderto
-	private String[][] downloadclients = 
+	private static String[][] downloadclients = 
 	{
 		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runclients/classic"},
 		{"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
@@ -43,14 +45,30 @@ public class ListContainer {
 	
 
 	//folder in which configuration will be stored
-	private String configfolder = ".true-games.org/configdata";
-	//launcher version
-	private int lversion = 7;
+	private static String configfolder = ".true-games.org/configdata";
 	//laucnher update URL;
-	private String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
+	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
+	
+		
+
+	//main frame size
+	public static int w = 740;
+	public static int h = 340;
+	//images
+	public static String lname = "True-games.org|MinecraftLauncher";
+	public static String icon = "images/icon.png";
+	public static String bgimage = "images/bgimage.png";
+	public static String labelimage = "images/labelbar.png";
+	public static String textimage = "images/textfield.png";
+	public static String explainimage = "images/expbar.png";
+	public static String mclaunchimage = "images/mclaunch.png";
+	
+	
+	//folder for error logging
+	public static String errFolder = ".true-games.org/errLog";
 	
 
-	public List<String> getClients()
+	public static List<String> getClientsList()
 	{
 
 		List<String> servnames =new ArrayList<String>();
@@ -61,7 +79,7 @@ public class ListContainer {
 		return servnames;
 	}
 	
-	public String getClientFolderByName(String name)
+	public static String getClientFolderByName(String name)
 	{
 		String folder = "minecraft";
 		for (int i=0; i<clientfolders.length;i++)
@@ -74,7 +92,7 @@ public class ListContainer {
 		return folder;
 	}
 	
-	public int getLaunchVersionByName(String name)
+	public static int getClientLaunchVersionByName(String name)
 	{
 		int version = 1;
 		for (int i=0; i<clientfolders.length;i++)
@@ -87,7 +105,7 @@ public class ListContainer {
 		return version;
 	}
 	
-	public String getJarByName(String name)
+	public static String getClientJarByName(String name)
 	{
 		String folder = "fail";
 		for (int i=0; i<clientfolders.length;i++)
@@ -101,7 +119,7 @@ public class ListContainer {
 	}
 	
 	
-	public List<String> getDownloads()
+	public static List<String> getClientListDownloads()
 	{
 
 		List<String> servlinks =new ArrayList<String>();
@@ -112,7 +130,7 @@ public class ListContainer {
 		return servlinks;
 	}
 	
-	public String getDownloadLinkByName(String name)
+	public static String getClientDownloadLinkByName(String name)
 	{
 		String link = "";
 		for (int i=0; i<downloadclients.length;i++)
@@ -125,7 +143,7 @@ public class ListContainer {
 		return link;
 	}
 	
-	public String getFolderToByName(String name)
+	public static String getClientUnpackToFolderByName(String name)
 	{
 		String fldto = "";
 		for (int i=0; i<downloadclients.length;i++)
@@ -138,22 +156,23 @@ public class ListContainer {
 		return fldto;
 	}
 	
-	public String getTempFolderPath()
+	public static String getCientTempFolderPath()
 	{
 		return tempfolder;
 	}
 	
-	public String getConfigFolderPath()
+	public static String getLauncherConfigFolderPath()
 	{
 		return configfolder;
 	}
 	
-	public String getLUpdateURLFolder()
+	public static String getLauncherWebUpdateURLFolder()
 	{
 		return lupdateurlfolder;
 	}
-	public int getLVerison()
+	public static int getLauncherVerison()
 	{
 		return lversion;
 	}
+
 }

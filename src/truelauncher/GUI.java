@@ -17,314 +17,219 @@
 
 package truelauncher;
 
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Label;
+import javax.imageio.ImageIO;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
-public class GUI {
+import truelauncher.gcomponents.TButton;
+import truelauncher.gcomponents.TComboBox;
+import truelauncher.gcomponents.TLabel;
+import truelauncher.gcomponents.TTextField;
 
- private GUI thisclass = this;
- private ListContainer settingscontainer = new ListContainer();
- private Shell shell;
- private int w = 640;
- private int h = 320;
- int levelh = h-110;
- private String lname = "True-games.org|MinecraftLauncher";
- private String icon = "images/icon.png";
- private String bgimage = "images/bgimage.png";
- private String labelimage = "images/labelbar.png";
- private String textiamge = "images/textfield.png";
- private String explainimage = "images/expbar.png";
+@SuppressWarnings("serial")
+public class GUI extends JPanel {
+
+	private GUI thisclass = this;
+	
+	public TTextField nickfield;
+	public TTextField ramfield;
+	public TButton launch;
+	public JProgressBar pbar;
+	public TButton download;
+	public TComboBox listdownloads;
+	public LauncherUpdateDialog lu;
+	public Frame f;
  
- public Text nickfield;
- public Text ramfield;
- public Button launch;
- public ProgressBar pbar;
- public Button download;
- public Combo listdownloads;
- public LauncherUpdateDialog lu;
+	public GUI(Frame f)
+	{
+		try {
+			this.f = f;
+			this.setLayout(null);	
+			initUI();
+			loadTextFields();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}  
  
- public GUI(Display display)
- {
-	 try {
-     shell = new Shell(display,  SWT.CLOSE | SWT.TITLE | SWT.MIN);
-     initUI(display);
-     shell.setText(lname);
-     shell.setSize(w, h);
-     shell.setImage(new Image(display, GUI.class.getResourceAsStream(icon)));
-     shell.setBackgroundImage(
-    		 new Image(display,
-    				 new Image(display,GUI.class.getResourceAsStream(bgimage)).getImageData().scaledTo(w, h)
-    				  )
-    		 );
-     java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-     shell.setLocation((screenSize.width-w)/2, (screenSize.height-h)/2);
-
-     shell.open();
-     loadTextFields();
-
-     while (!shell.isDisposed()) {
-       if (!display.readAndDispatch()) {
-         display.sleep();
-       }
-     }
-	 }
-	 catch (Exception e)
-	 {
-		 e.printStackTrace();
-	 }
  
- }   
-     private void initUI(Display display) {
-    	 initTextInputFieldsAndLabels(display);
-    	 initStartButton(display);
-    	 initDownloadCenter(display);
-    	 showLauncherUpdateWindow(display);
+ 
+ 
+     private void initUI() {
+    	 initTextInputFieldsAndLabels();
+    	 initStartButton();
+    	 initDownloadCenter();
+    	 showLauncherUpdateWindow();
      }
      
 
      //1й блок
-     private void initTextInputFieldsAndLabels(Display display)
+     private void initTextInputFieldsAndLabels()
      {
-    	 int levelw = 50;
-      	 int widgw = 200;
+    	 int y = AllSettings.h - 130;
+    	 int levelw = 30;
+      	 int widgw = 220;
       	 
-      	 Composite tifields = new Composite(shell, SWT.TRANSPARENT);
-      	 tifields.setBounds(levelw, levelh-25, widgw, 95);
+      	 
+      	 JPanel tifields = new JPanel();
+      	 tifields.setLayout(null);
+      	 tifields.setBounds(levelw, y, widgw, 95);
       	 
       	 //Плашка объясениния
-    	 Label expbarset = new Label(tifields,SWT.CENTER);
-    	 expbarset.setBackgroundImage(
-    			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 25)
-    					  )
-    			 );
+    	 TLabel expbarset = new TLabel();
+    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage),widgw, 25);
     	 expbarset.setText("Основные настройки");
+      	 expbarset.setHorizontalAlignment(TButton.CENTER);
     	 expbarset.setBounds(0,0,widgw,25);
+    	 tifields.add(expbarset);
     	 
     	 
     	 //Плашка ника
-    	 int lnw = 70;
+    	 int lnw = 80;
     	 int lnh = 20;
-    	 Label labelnick = new Label(tifields, SWT.CENTER);
-    	 labelnick.setBackgroundImage(
-       			 new Image(display,
-       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lnw, lnh)
-       					 )
-    			 );
+    	 TLabel labelnick = new TLabel();
+    	 labelnick.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, 25);
     	 labelnick.setText("Ник");
+      	 labelnick.setHorizontalAlignment(TButton.CENTER);
     	 labelnick.setBounds(0,25,lnw,lnh);
+    	 tifields.add(labelnick);
 
     	 //Поле ника
-    	 int inw = 130;
+    	 int inw = 140;
     	 int inh = 20;
-    	 nickfield = new Text(tifields, SWT.SINGLE | SWT.CENTER | SWT.IMAGE_PNG);
-    	 nickfield.setBackgroundImage(
-       			 new Image(display,
-       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(inw, inh)
-       					 )
-       			 );
+    	 nickfield = new TTextField();
+    //	 nickfield.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.textimage),widgw, 25);
     	 nickfield.setText("NoNickName");
-    	 nickfield.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-    	 nickfield.setBounds(70,25,inw,inh);
+    	 nickfield.setHorizontalAlignment(TButton.CENTER);
+    	 nickfield.setBounds(lnw,25,inw,inh);
+    	 tifields.add(nickfield);
 
     	 //Плашка памяти
-    	 int lrw = 70;
+    	 int lrw = 80;
     	 int lrh = 20;
-    	 Label labelram = new Label(tifields, SWT.CENTER);
+    	 TLabel labelram = new TLabel();
     	 labelram.setText("Память");
+      	 labelram.setHorizontalAlignment(TButton.CENTER);
     	 labelram.setBounds(0,45,lrw,lrh);
-    	 labelram.setBackgroundImage(
-       			 new Image(display,
-       					 new Image(display,GUI.class.getResourceAsStream(labelimage)).getImageData().scaledTo(lrw, lrh)
-       					 )
-    			 );
+    	 labelram.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, 25);
+    	 tifields.add(labelram);
 
        	 //Поле памяти
-    	 int irw = 130;
+    	 int irw = 140;
     	 int irh = 20;
-    	 ramfield = new Text(tifields, SWT.SINGLE | SWT.CENTER);
+    	 ramfield = new TTextField();
     	 ramfield.setText("512");
-    	 ramfield.setForeground(display.getSystemColor(SWT.COLOR_CYAN));
-    	 ramfield.setBounds(70,45,irw,irh);
-    	 ramfield.setBackgroundImage(
-       			 new Image(display,
-       					 new Image(display, GUI.class.getResourceAsStream(textiamge)).getImageData().scaledTo(irw, irh)
-       					 )
-       			 );
+      	 ramfield.setHorizontalAlignment(TButton.CENTER);
+    	 ramfield.setBounds(lrw,45,irw,irh);
+    //	 ramfield.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.textimage),widgw, 25);
+    	 tifields.add(ramfield);
     	 
     	 //Кнопка сохранить
-    	 Button save = new Button(tifields, SWT.PUSH);
+    	 TButton save = new TButton();
     	 save.setText("Сохранить настройки");
     	 save.setBounds(0,65,widgw,30);
-    	 save.addSelectionListener(new SelectionAdapter() {
-             @Override
-             public void widgetSelected(SelectionEvent e) {
-            	 saveTextFields();
-             }
+    	 save.addActionListener(
+    			 new ActionListener() {
+    				 @Override
+    				 public void actionPerformed(ActionEvent e) {
+    					 saveTextFields();
+    				 }
          });
+    	 tifields.add(save);
+    	 
+    	 this.add(tifields);
      }
 
      
      //блок 2
-     private void initStartButton(Display display)
+     private void initStartButton()
      {
+    	 int y = AllSettings.h - 130;
     	 int levelw = 250;
-      	 int widgw = 170;
+      	 int widgw = 240;
     	 
-      	Composite sb = new Composite(shell, SWT.TRANSPARENT);
-      	sb.setBounds(levelw, levelh-25, widgw, 95);
+      	JPanel sb = new JPanel();
+      	sb.setLayout(null);
+      	sb.setBounds(levelw, y , widgw, 95);
       	 
       	 //плашка объяснений
-      	 Label expbarset = new Label(sb,SWT.CENTER);
-    	 expbarset.setBackgroundImage(
-    			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 25)
-    					  )
-    			 );
-    	 expbarset.setText("Выбор клиента");
+      	 TLabel expbarset = new TLabel();
+      	 expbarset.setText("Выбор клиента");
+      	 expbarset.setHorizontalAlignment(TButton.CENTER);
+    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage), widgw, 25);
     	 expbarset.setBounds(0,0,widgw,25);
       	 
-    	//список клиентов на запуск
-    	final Combo listclients = new Combo(sb, SWT.NONE | SWT.READ_ONLY);
- 	    List<String> servclientslist = settingscontainer.getClients();
+    	 sb.add(expbarset);
+    	 
+    	final TComboBox listclients = new TComboBox();
+ 	    List<String> servclientslist = AllSettings.getClientsList();
   	    for (String servname : servclientslist)
  	    {
- 	    	listclients.add(servname);
+ 	    	listclients.addItem(servname);
  	    }
-  	    listclients.setBounds(0,25,widgw,27);
- 	    listclients.addSelectionListener(
- 	    		new SelectionAdapter() {
+  	    listclients.setBounds(0,25,widgw,30);
+  	    listclients.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
+ 	    listclients.addActionListener(
+ 	    		new ActionListener() {
  	               @Override
- 	               public void widgetSelected(SelectionEvent e) {
- 	             	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getJarByName(listclients.getText()));
+ 	               public void actionPerformed(ActionEvent e) {
+ 	             	  	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(listclients.getSelectedItem().toString()));
  	              	  	if (cfile.exists()) {
- 	              	  		launch.setEnabled(true);
- 	              	  		launch.setText("Запустить Minecraft");
+ 	              	  			launch.setEnabled(true);
+ 	              	  			launch.setText("Запустить Minecraft");
  	              	  		} else {
- 	                  	    launch.setText("Клиент не найден");
- 	              	  		launch.setEnabled(false);
+ 	              	  			launch.setText("Клиент не найден");
+ 	              	  			launch.setEnabled(false);
  	              	  		}
  	              }
  	           });
-    	 
+ 	    
+ 	    sb.add(listclients);
+ 	    
  	     //кнопка запуска майна
-         launch = new Button(sb, SWT.PUSH);
+         launch = new TButton();
 
-    	 launch.setBounds(0, 52, widgw, 43);
+    	 launch.setBounds(0, 55, widgw, 40);
     	 launch.setText("Запустить Minecraft");
          
-    	 launch.addSelectionListener(new SelectionAdapter() {
+    	 launch.addActionListener(new ActionListener() {
              @Override
-             public void widgetSelected(SelectionEvent e) {
-            	 	String lfolder = settingscontainer.getClientFolderByName(listclients.getText());
+             public void actionPerformed(ActionEvent e) {
+            	 	String lfolder = AllSettings.getClientFolderByName(listclients.getSelectedItem().toString());
             	 	String nick = nickfield.getText();
             	 	int ram = Integer.valueOf(ramfield.getText());
-            	 	int mclvers = settingscontainer.getLaunchVersionByName(listclients.getText());
-            	 	String jar = new File(settingscontainer.getJarByName(listclients.getText())).getName();
+            	 	int mclvers = AllSettings.getClientLaunchVersionByName(listclients.getSelectedItem().toString());
+            	 	String jar = new File(AllSettings.getClientJarByName(listclients.getSelectedItem().toString())).getName();
             	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers, jar);
              }
          });
+    	 sb.add(launch);
 
-    	 
-   	    //select and check client for existance
-   	    listclients.select(0);
-   	  	File cfile = new File(LauncherUtils.getDir()+"/"+settingscontainer.getJarByName(listclients.getText()));
-   	  	if (cfile.exists()) {
-   	  		launch.setEnabled(true);
-   	  		launch.setText("Запустить Minecraft");
-   	  		} else {
-      	    launch.setText("Клиент не найден");
-         	launch.setEnabled(false);
-   	  		}
+   
+    	this.add(sb);
      }
      
-     //блок 3
-     private void initDownloadCenter(final Display display)
-     {
-    	 int levelw = 420;
-      	 int widgw = 170;
-      	 
-      	 Composite dc = new Composite(shell, SWT.TRANSPARENT);
-      	 dc.setBounds(levelw, levelh-25, widgw, 95);
-      	 
-    	 Label expbarset = new Label(dc,SWT.CENTER);
-    	 expbarset.setBackgroundImage(
-    			 new Image(display,
-    					 new Image(display,GUI.class.getResourceAsStream(explainimage)).getImageData().scaledTo(widgw, 25)
-    					  )
-    			 );
-    	 expbarset.setText("Скачивание клиентов");
-    	 expbarset.setBounds(0,0,widgw,25);
-    	 
-     	listdownloads = new Combo(dc, SWT.NONE | SWT.READ_ONLY);
- 	    List<String> servdownloadlist = settingscontainer.getDownloads();
-  	    for (String servname : servdownloadlist)
- 	    {
-  	    	listdownloads.add(servname);
- 	    }
-  	    listdownloads.setBounds(0,25,widgw,27);
-    	listdownloads.select(0);
-    	listdownloads.addSelectionListener(new SelectionAdapter() {
-    		 @Override
-             public void widgetSelected(SelectionEvent e) {
-    			 download.setText("Скачать клиент");
-    			 pbar.setSelection(0);
-    			 download.setEnabled(true);
-    		 }
-    	});
-  	  	pbar = new ProgressBar(dc, SWT.SMOOTH);
-  	  	pbar.setBounds(0,53,widgw, 15);
-  	  
-    	download = new Button(dc, SWT.PUSH);
-    	download.setText("Скачать клиент");
-    	download.setBounds(0, 68, widgw, 27);
-         
-    	download.addSelectionListener(new SelectionAdapter() {
-             @Override
-             public void widgetSelected(SelectionEvent e) {
-            	 listdownloads.setEnabled(false);
-            	 String name = listdownloads.getText();
-            	 String URL = settingscontainer.getDownloadLinkByName(name);
-            	 String clientto = settingscontainer.getFolderToByName(name);
-            	 String tempfolder = settingscontainer.getTempFolderPath();
-            	 new ClientUpdateThread(thisclass,display,URL,tempfolder,clientto).start();
-            	 download.setEnabled(false);
-             }
-         });
-     }
-     
-     
-     //инициализация проверки версии лаунчера
-     private void showLauncherUpdateWindow(Display display)
-     {
-      	 int ww = 250;
-      	 int wh = 85;
-    	 lu = new LauncherUpdateDialog(shell,ww,wh, settingscontainer.getLUpdateURLFolder()+"/"+"Launcher.jar");
-    	 (new LVersionChecker(thisclass, display, settingscontainer.getLUpdateURLFolder()+"/"+"version", settingscontainer.getLVerison())).start();
-    	 
-     }
      
      private void loadTextFields()
      {
          try {
              String ps = LauncherUtils.getDir();
-             if ((new File(ps + File.separator + settingscontainer.getConfigFolderPath()+ File.separator + "config")).exists()) {
-                 Scanner inFile = new Scanner(new File(ps + File.separator + settingscontainer.getConfigFolderPath()+ File.separator + "config"));
+             if ((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists()) {
+                 Scanner inFile = new Scanner(new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config"));
                  nickfield.setText(inFile.nextLine());
                  ramfield.setText(inFile.nextLine());
                  inFile.close();
@@ -336,11 +241,11 @@ public class GUI {
      private void saveTextFields()
      {
      String ps = LauncherUtils.getDir();
-     if (!((new File(ps + File.separator + settingscontainer.getConfigFolderPath()+ File.separator + "config")).exists())) {
-         (new File(ps + File.separator + settingscontainer.getConfigFolderPath())).mkdirs();
+     if (!((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists())) {
+         (new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath())).mkdirs();
      }
      try {
-         PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + settingscontainer.getConfigFolderPath()+File.separator+"config"));
+         PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
          wrt.println(nickfield.getText());
          wrt.println(ramfield.getText());
          wrt.flush();
@@ -349,6 +254,95 @@ public class GUI {
      }
      
      
+     @Override
+	 public void paintComponent(Graphics g) {
+    	 try {
+    		 Image bg = ImageIO.read(GUI.class.getResourceAsStream(AllSettings.bgimage));
+    		 bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
+			g.drawImage(bg, 0, 0, null);
+    	 } catch (IOException e) {
+			e.printStackTrace();
+    	 }
 
- 
-}
+     }
+     
+
+     //блок 3
+     private void initDownloadCenter()
+     {
+    	 int y = AllSettings.h - 130;
+    	 int levelw = 490;
+      	 int widgw = 220;
+      	 
+      	 JPanel dc = new JPanel();
+      	 dc.setLayout(null);
+      	 dc.setBounds(levelw, y, widgw, 95);
+      	 
+    	 TLabel expbarset = new TLabel();
+    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage),widgw, 25);
+    	 expbarset.setText("Скачивание клиентов");
+    	 expbarset.setHorizontalAlignment(TLabel.CENTER);
+    	 expbarset.setBounds(0,0,widgw,25);
+    	 dc.add(expbarset);
+    	 
+     	listdownloads = new TComboBox();
+ 	    List<String> servdownloadlist = AllSettings.getClientListDownloads();
+  	    for (String servname : servdownloadlist)
+ 	    {
+  	    	listdownloads.addItem(servname);
+ 	    }
+  	    listdownloads.setBounds(0,25,widgw,30);
+  	    listdownloads.addActionListener(new ActionListener() {
+    		 @Override
+             public void actionPerformed(ActionEvent e) {
+    			 download.setText("Скачать клиент");
+    			 pbar.setValue(0);
+    			 download.setEnabled(true);
+    		 }
+    	});
+  	    dc.add(listdownloads);
+  	    
+  	  	pbar = new JProgressBar();
+  	  	pbar.setBounds(0,55,widgw, 15);
+  	    dc.add(pbar);
+  	  
+    	download = new TButton();
+    	download.setText("Скачать клиент");
+    	download.setHorizontalAlignment(TButton.CENTER);
+    	download.setBounds(0, 70, widgw, 25);
+         
+    	download.addActionListener(new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+            	 listdownloads.setEnabled(false);
+            	 String name = listdownloads.getSelectedItem().toString();
+            	 String URL = AllSettings.getClientDownloadLinkByName(name);
+            	 String clientto = AllSettings.getClientUnpackToFolderByName(name);
+            	 String tempfolder = AllSettings.getCientTempFolderPath();
+            	 new ClientUpdateThread(thisclass,URL,tempfolder,clientto).start();
+            	 download.setEnabled(false);
+             }
+         });
+  	    dc.add(download);
+    	
+    	this.add(dc);
+     }
+     
+
+     private void showLauncherUpdateWindow()
+     {
+      	 int ww = 250;
+      	 int wh = 125;
+    	 lu = new LauncherUpdateDialog(f, thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"Launcher.jar", ww, wh);
+    	 (new LVersionChecker(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"version", AllSettings.getLauncherVerison())).start();
+    	 
+     }
+     
+     
+}     
+
+     
+
+     
+
+
