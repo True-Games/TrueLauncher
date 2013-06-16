@@ -123,6 +123,9 @@ public class ClientUpdateThread extends Thread {
 
 			gui.download.setText("Клиент установлен");
 			gui.listdownloads.setEnabled(true);
+			
+			//recheck client
+			LauncherUtils.checkClientJarExist(gui);
 
 		} catch (final Exception ex) {
 			Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);

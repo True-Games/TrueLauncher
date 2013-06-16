@@ -29,6 +29,7 @@ public class LauncherUpdateDialog  extends JDialog {
 	public LauncherUpdateDialog(Frame aFrame, GUI parent, String url , int w, int h) {
         super(aFrame, true);
         this.parent = parent;
+        this.url = url;
         this.w = w;
         this.h = h;
  	}

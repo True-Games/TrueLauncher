@@ -23,14 +23,14 @@ import java.util.List;
 public class AllSettings {
 	
 	//launcher version
-	private static int lversion = 8;
+	private static int lversion = 9;
 	
 	//For launch combobox
-	//1 - name, 2- launchfolder, 3 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 4 - file to check for existance
+	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 
 	private static String[][] clientfolders = 
 	{
-		{"Classic 1.5.2",".true-games.org/runclients/classic", "1", ".true-games.org/runclients/classic/minecraft.jar"},
-		{"HiTech 1.5.2",".true-games.org/runclients/hitech", "1", ".true-games.org/runclients/hitech/minecraft.jar"}
+		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1"},
+		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"}
 	};
 	
 	//For download combobox
@@ -68,6 +68,7 @@ public class AllSettings {
 	public static String errFolder = ".true-games.org/errLog";
 	
 
+	//gui block 2 vars begin
 	public static List<String> getClientsList()
 	{
 
@@ -92,6 +93,19 @@ public class AllSettings {
 		return folder;
 	}
 	
+		public static String getClientJarByName(String name)
+	{
+		String folder = "fail";
+		for (int i=0; i<clientfolders.length;i++)
+		{
+			if (clientfolders[i][0].equals(name))
+			{
+				folder = clientfolders[i][2];
+			}
+		}
+		return folder;
+	}
+		
 	public static int getClientLaunchVersionByName(String name)
 	{
 		int version = 1;
@@ -99,26 +113,15 @@ public class AllSettings {
 		{
 			if (clientfolders[i][0].equals(name))
 			{
-				version = Integer.valueOf(clientfolders[i][2]);
+				version = Integer.valueOf(clientfolders[i][3]);
 			}
 		}
 		return version;
-	}
-	
-	public static String getClientJarByName(String name)
-	{
-		String folder = "fail";
-		for (int i=0; i<clientfolders.length;i++)
-		{
-			if (clientfolders[i][0].equals(name))
-			{
-				folder = clientfolders[i][3];
-			}
-		}
-		return folder;
-	}
+	}	
+	//gui block 2 vars end
 	
 	
+	//gui block 3 vars begin
 	public static List<String> getClientListDownloads()
 	{
 
@@ -155,12 +158,17 @@ public class AllSettings {
 		}
 		return fldto;
 	}
+	//gui block 3 vars end
 	
+	//folder for packed clients begin
 	public static String getCientTempFolderPath()
 	{
 		return tempfolder;
 	}
+	//folder for packed clients end
 	
+	
+	//Lacunher vars begin
 	public static String getLauncherConfigFolderPath()
 	{
 		return configfolder;
@@ -174,5 +182,6 @@ public class AllSettings {
 	{
 		return lversion;
 	}
+	//Lacunher vars end
 
 }

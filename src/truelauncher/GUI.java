@@ -45,6 +45,7 @@ public class GUI extends JPanel {
 	
 	public TTextField nickfield;
 	public TTextField ramfield;
+	public TComboBox listclients; 
 	public TButton launch;
 	public JProgressBar pbar;
 	public TButton download;
@@ -167,15 +168,15 @@ public class GUI extends JPanel {
       	sb.setBounds(levelw, y , widgw, 95);
       	 
       	 //плашка объяснений
-      	 TLabel expbarset = new TLabel();
-      	 expbarset.setText("Выбор клиента");
-      	 expbarset.setHorizontalAlignment(TButton.CENTER);
-    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage), widgw, 25);
-    	 expbarset.setBounds(0,0,widgw,25);
+      	TLabel expbarset = new TLabel();
+      	expbarset.setText("Выбор клиента");
+      	expbarset.setHorizontalAlignment(TButton.CENTER);
+    	expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage), widgw, 25);
+    	expbarset.setBounds(0,0,widgw,25);
       	 
-    	 sb.add(expbarset);
+    	sb.add(expbarset);
     	 
-    	final TComboBox listclients = new TComboBox();
+    	listclients = new TComboBox();
  	    List<String> servclientslist = AllSettings.getClientsList();
   	    for (String servname : servclientslist)
  	    {
@@ -187,41 +188,34 @@ public class GUI extends JPanel {
  	    		new ActionListener() {
  	               @Override
  	               public void actionPerformed(ActionEvent e) {
- 	             	  	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(listclients.getSelectedItem().toString()));
- 	              	  	if (cfile.exists()) {
- 	              	  			launch.setEnabled(true);
- 	              	  			launch.setText("Запустить Minecraft");
- 	              	  		} else {
- 	              	  			launch.setText("Клиент не найден");
- 	              	  			launch.setEnabled(false);
- 	              	  		}
+ 	      			LauncherUtils.checkClientJarExist(thisclass);
  	              }
  	           });
- 	    
- 	    sb.add(listclients);
+ 	   sb.add(listclients);
  	    
  	     //кнопка запуска майна
-         launch = new TButton();
-
-    	 launch.setBounds(0, 55, widgw, 40);
-    	 launch.setText("Запустить Minecraft");
+       launch = new TButton();
+       launch.setBounds(0, 55, widgw, 40);
+       launch.setText("Запустить Minecraft");
          
-    	 launch.addActionListener(new ActionListener() {
+       launch.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
             	 	String lfolder = AllSettings.getClientFolderByName(listclients.getSelectedItem().toString());
             	 	String nick = nickfield.getText();
             	 	int ram = Integer.valueOf(ramfield.getText());
             	 	int mclvers = AllSettings.getClientLaunchVersionByName(listclients.getSelectedItem().toString());
-            	 	String jar = new File(AllSettings.getClientJarByName(listclients.getSelectedItem().toString())).getName();
+            	 	String jar = AllSettings.getClientJarByName(listclients.getSelectedItem().toString());
             	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers, jar);
              }
-         });
-    	 sb.add(launch);
+       });
+	   LauncherUtils.checkClientJarExist(thisclass);
+       sb.add(launch);
 
    
-    	this.add(sb);
+       this.add(sb);
      }
+     
      
      
      private void loadTextFields()
@@ -254,17 +248,7 @@ public class GUI extends JPanel {
      }
      
      
-     @Override
-	 public void paintComponent(Graphics g) {
-    	 try {
-    		 Image bg = ImageIO.read(GUI.class.getResourceAsStream(AllSettings.bgimage));
-    		 bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
-			g.drawImage(bg, 0, 0, null);
-    	 } catch (IOException e) {
-			e.printStackTrace();
-    	 }
 
-     }
      
 
      //блок 3
@@ -336,6 +320,18 @@ public class GUI extends JPanel {
     	 lu = new LauncherUpdateDialog(f, thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"Launcher.jar", ww, wh);
     	 (new LVersionChecker(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"version", AllSettings.getLauncherVerison())).start();
     	 
+     }
+     
+     @Override
+	 public void paintComponent(Graphics g) {
+    	 try {
+    		 Image bg = ImageIO.read(GUI.class.getResourceAsStream(AllSettings.bgimage));
+    		 bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
+			g.drawImage(bg, 0, 0, null);
+    	 } catch (IOException e) {
+			e.printStackTrace();
+    	 }
+
      }
      
      

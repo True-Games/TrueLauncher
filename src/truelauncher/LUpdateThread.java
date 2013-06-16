@@ -30,8 +30,7 @@ import java.util.Random;
 
 public class LUpdateThread extends Thread {
 
-	private String lpath = Launcher.class.getProtectionDomain().getCodeSource()
-			.getLocation().getFile();
+	private String lpath;
 
 	private LauncherUpdateDialog lu;
 	private String urlfrom;
@@ -94,16 +93,19 @@ public class LUpdateThread extends Thread {
 		lls.add("-jar");
 		lls.add(new File(lpath).getName());
 		ProcessBuilder lpb = new ProcessBuilder();
-		lpb.directory(new File(".").getAbsoluteFile());
+		lpb.directory(new File(".").getCanonicalFile());
 		lpb.command(lls);
 		lpb.start();
 	}
 
 	public void run() {
 		try {
+			lpath = System.getProperty("sun.java.command");
+			lpath = new File(lpath).getName();
 			String temppath = System.getProperty("java.io.tmpdir")
 					+ "MCLauncherTemp" + new Random().nextInt() + ".jar";
 			ldownloader(urlfrom, temppath);
+			new File(lpath).delete();
 			lcopy(temppath);
 			new File(lpath).setExecutable(true);
 			lrestart();

@@ -57,19 +57,16 @@ public class LauncherUtils {
         String OS = System.getProperty("os.name").toLowerCase();
         String mcpath = ps+File.separator+path;
         String cps;
-        String java = System.getProperty("java.home");
         if (OS.contains("win")) {
         		cps = ";";
-        		java+="/bin/javaw.exe";
         	} else {
         		cps=":";
-        		java+="/bin/java";
         	}
 	      ProcessBuilder pb = new ProcessBuilder();
-	      pb.directory(new File(mcpath));
+	      pb.directory(new File(mcpath).getCanonicalFile());
 		  if (lvers == 1) {
 		  List<String> cc = new ArrayList<String>(); 
-		  cc.add(java);
+		  cc.add("java");
 		  cc.add("-Xmx"+mem);
 		  cc.add("-Djava.library.path=libraries/natives");
 		  cc.add("-cp");
@@ -79,7 +76,7 @@ public class LauncherUtils {
 				  +"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar"+cps
 				  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar"+cps
 				  +"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"+cps
-				  +jar
+				  +LauncherUtils.getDir()+File.separator+jar
 				  );
 		  cc.add("net.minecraft.client.Minecraft");
 		  cc.add(nick);
@@ -116,7 +113,21 @@ public class LauncherUtils {
 		return buf.toString();
 	}
     //get Last Launcher version end
-     
+	
+	
+	//check client exist begin
+	public static void checkClientJarExist(GUI gui)
+	{
+  	  	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(gui.listclients.getSelectedItem().toString()));
+   	  	if (cfile.exists()) {
+   	  			gui.launch.setEnabled(true);
+   	  			gui.launch.setText("Запустить Minecraft");
+   	  		} else {
+   	  			gui.launch.setText("Клиент не найден");
+   	  			gui.launch.setEnabled(false);
+   	  		}
+	}
+	//checkclientexist end
 	
 	//Log error to file start
 	public static void logError(Exception err)
