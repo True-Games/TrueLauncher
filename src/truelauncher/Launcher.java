@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 
 
@@ -29,6 +30,14 @@ public class Launcher {
 
 	
 	public static void main(String[] args) {
+		
+	    try {
+        UIManager.setLookAndFeel(
+        		UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (Exception e) {
+	    	LauncherUtils.logError(e);
+	    }
 		
         SwingUtilities.invokeLater(new Runnable() {
             @Override

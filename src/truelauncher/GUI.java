@@ -103,7 +103,7 @@ public class GUI extends JPanel {
     	 int lnw = 80;
     	 int lnh = 20;
     	 TLabel labelnick = new TLabel();
-    	 labelnick.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, 25);
+    	 labelnick.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, lnh);
     	 labelnick.setText("Ник");
       	 labelnick.setHorizontalAlignment(TButton.CENTER);
     	 labelnick.setBounds(0,25,lnw,lnh);
@@ -113,7 +113,6 @@ public class GUI extends JPanel {
     	 int inw = 140;
     	 int inh = 20;
     	 nickfield = new TTextField();
-    //	 nickfield.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.textimage),widgw, 25);
     	 nickfield.setText("NoNickName");
     	 nickfield.setHorizontalAlignment(TButton.CENTER);
     	 nickfield.setBounds(lnw,25,inw,inh);
@@ -126,7 +125,7 @@ public class GUI extends JPanel {
     	 labelram.setText("Память");
       	 labelram.setHorizontalAlignment(TButton.CENTER);
     	 labelram.setBounds(0,45,lrw,lrh);
-    	 labelram.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, 25);
+    	 labelram.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, lrh);
     	 tifields.add(labelram);
 
        	 //Поле памяти
@@ -136,7 +135,6 @@ public class GUI extends JPanel {
     	 ramfield.setText("512");
       	 ramfield.setHorizontalAlignment(TButton.CENTER);
     	 ramfield.setBounds(lrw,45,irw,irh);
-    //	 ramfield.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.textimage),widgw, 25);
     	 tifields.add(ramfield);
     	 
     	 //Кнопка сохранить

@@ -23,14 +23,14 @@ import java.util.List;
 public class AllSettings {
 	
 	//launcher version
-	private static int lversion = 9;
+	private static int lversion = 10;
 	
 	//For launch combobox
 	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 
 	private static String[][] clientfolders = 
 	{
 		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1"},
-		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"}
+		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"},
 	};
 	
 	//For download combobox
