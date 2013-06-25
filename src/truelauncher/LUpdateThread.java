@@ -104,18 +104,22 @@ public class LUpdateThread extends Thread {
 			lpath = new File(lpath).getName();
 			String temppath = System.getProperty("java.io.tmpdir")
 					+ "MCLauncherTemp" + new Random().nextInt() + ".jar";
+			//download launcher
 			ldownloader(urlfrom, temppath);
+			//delete old launcher
 			new File(lpath).delete();
+			//copy new launcher
 			lcopy(temppath);
+			//set executable (to run on linux)
 			new File(lpath).setExecutable(true);
+			//start new launcher
 			lrestart();
+			//close this launcher
 			Runtime.getRuntime().exit(0);
 		} catch (final Exception e) {
-			e.printStackTrace();
 			lu.lstatus.setText("Ошибка обновления");
-			e.printStackTrace();
-			LauncherUtils.logError(e);
 			lu.later.setEnabled(true);
+			LauncherUtils.logError(e);
 		}
 	}
 }

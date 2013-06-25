@@ -26,8 +26,10 @@ public class AllSettings {
 	
 	//launcher version
 	private static int lversion = 10;
+	//laucnher update URL;
+	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
-	//For launch combobox
+	//For client launch
 	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 
 	private static String[][] clientfolders = 
 	{
@@ -89,10 +91,10 @@ public class AllSettings {
 		);*/
 		
 	}};
+
 	
 	
-	
-	//For download combobox
+	//For client download
 	//folder in which clients .zip file will be downloaded
 	private static String tempfolder = ".true-games.org/packedclients";
 	//1 - name, 2 - downloadlink, 3 - folderto
@@ -105,10 +107,7 @@ public class AllSettings {
 
 	//folder in which configuration will be stored
 	private static String configfolder = ".true-games.org/configdata";
-	//laucnher update URL;
-	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
-	
-		
+			
 
 	//main frame size
 	public static int w = 740;

@@ -95,32 +95,24 @@ public class ClientUpdateThread extends Thread {
 		try {
 
 			// remove old zip file
-
 			gui.download.setText("Прибираемся");
-
 			new File(packedclientto).delete();
 
 			// download packed zip
-
 			gui.download.setText("Скачиваем клиент");
-
 			filedownloader(urlfrom, packedclientto);
 
 			// delete old client
-
 			gui.download.setText("Удаляем старый клиент");
 			deleteDirectory(new File(unpackto));
 			new File(unpackto).mkdirs();
 
 			// unpack new cient
-
 			gui.download.setText("Распаковываем клиент");
-
 			Zip zip = new Zip(gui);
 			zip.unpack(packedclientto, unpackto);
 
 			// show finish message
-
 			gui.download.setText("Клиент установлен");
 			gui.listdownloads.setEnabled(true);
 			
@@ -131,9 +123,8 @@ public class ClientUpdateThread extends Thread {
 			Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
 
 			gui.download.setText("Ошибка");
-			ex.printStackTrace();
-			LauncherUtils.logError(ex);
 			gui.listdownloads.setEnabled(true);
+			LauncherUtils.logError(ex);
 
 		}
 	}
