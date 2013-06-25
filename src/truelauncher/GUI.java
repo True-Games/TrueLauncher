@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -204,7 +205,8 @@ public class GUI extends JPanel {
             	 	int ram = Integer.valueOf(ramfield.getText());
             	 	int mclvers = AllSettings.getClientLaunchVersionByName(listclients.getSelectedItem().toString());
             	 	String jar = AllSettings.getClientJarByName(listclients.getSelectedItem().toString());
-            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers, jar);
+            	 	ArrayList<String> libs = AllSettings.getClientLibsByName(listclients.getSelectedItem().toString());
+            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers,libs, jar);
              }
        });
 	   LauncherUtils.checkClientJarExist(thisclass);

@@ -18,6 +18,8 @@
 package truelauncher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class AllSettings {
@@ -30,8 +32,65 @@ public class AllSettings {
 	private static String[][] clientfolders = 
 	{
 		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1"},
-		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"},
+		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"}/*,
+		{"MCSnapshot 1.6",".minecraft", ".minecraft/minecraft.jar", "2"} */
 	};
+	//key - client name, calues - array of paths to libs (-cp)
+	@SuppressWarnings("serial")
+	private static HashMap<String, ArrayList<String>> clientlibs = new HashMap<String, ArrayList<String>>()
+	{{
+		put("Classic 1.5.2",
+				new ArrayList<String>(
+						Arrays.asList(
+								"libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar",
+								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
+								"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"
+						)
+				)
+		);
+		put("HiTech 1.5.2",
+				new ArrayList<String>(
+						Arrays.asList(
+								"libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar",
+								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
+								"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"
+						)
+				)
+		);
+		
+		/*put("MCSnapshot 1.6",
+				new ArrayList<String>(
+						Arrays.asList(
+								"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
+								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
+								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
+								"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar",
+								"libraries/com/paulscode/codecjorbis/20101023/codecjorbis-20101023.jar",
+								"libraries/com/paulscode/codecwav/20101023/codecwav-20101023.jar",
+								"libraries/com/paulscode/libraryjavasound/20101123/libraryjavasound-20101123.jar",
+								"libraries/com/paulscode/librarylwjglopenal/20100824/librarylwjglopenal-20100824.jar",
+								"libraries/com/paulscode/soundsystem/20120107/soundsystem-20120107.jar",
+								"libraries/argo/argo/2.25_fixed/argo-2.25_fixed.jar",
+								"libraries/org/bouncycastle/bcprov-jdk15on/1.47/bcprov-jdk15on-1.47.jar",
+								"libraries/com/google/guava/guava/14.0/guava-14.0.jar",
+								"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar",
+								"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar",
+								"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar"
+						)
+				)
+		); */
+		
+	}};
+	
+	
 	
 	//For download combobox
 	//folder in which clients .zip file will be downloaded
@@ -118,6 +177,12 @@ public class AllSettings {
 		}
 		return version;
 	}	
+	
+	public static ArrayList<String> getClientLibsByName(String name)
+	{
+		ArrayList<String> libs = clientlibs.get(name);
+		return libs;
+	}
 	//gui block 2 vars end
 	
 	

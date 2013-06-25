@@ -48,20 +48,25 @@ public class LauncherUtils {
     
     
     //Launch minecraft begin
-    public static void launchMC(String path, String nickin, int memin, int lvers, String jar)
+    public static void launchMC(String pathin, String nickin, int memin, int lvers, ArrayList<String> libsin ,String jarin)
     {
     	try {
         String nick = nickin;
         String mem = memin + "M";
-        String ps = LauncherUtils.getDir();
-        String OS = System.getProperty("os.name").toLowerCase();
-        String mcpath = ps+File.separator+path;
+        String mcpath = LauncherUtils.getDir()+File.separator+pathin;
         String cps;
-        if (OS.contains("win")) {
-        		cps = ";";
-        	} else {
-        		cps=":";
-        	}
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+        	cps = ";";
+        } else {
+        	cps=":";
+        }
+	  	String libs = "";
+		for (String lib : libsin)
+		{
+			  libs+=lib+cps;
+		}
+		String jar = LauncherUtils.getDir()+File.separator+jarin;
+
 	      ProcessBuilder pb = new ProcessBuilder();
 	      pb.directory(new File(mcpath).getCanonicalFile());
 		  List<String> cc = new ArrayList<String>(); 
@@ -69,39 +74,13 @@ public class LauncherUtils {
 		  cc.add("-Xmx"+mem);
 		  cc.add("-Djava.library.path=libraries/natives");
 		  cc.add("-cp");
+		  cc.add(libs+jar);
 		  if (lvers == 1) { //1.5 and older
-			  	cc.add("libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar"+cps
-				  +"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"+cps
-				  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar"+cps
-				  +"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar"+cps
-				  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar"+cps
-				  +"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"+cps
-				  +LauncherUtils.getDir()+File.separator+jar
-				  );
 			  	cc.add("net.minecraft.client.Minecraft");
 			  	cc.add(nick);
 			  	cc.add("session");
 		  }
 		  else if (lvers == 2) { //1.6 and newer (snapshot version)
-			  cc.add("libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar"+cps
-					  +"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"+cps
-					  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar"+cps
-					  +"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar"+cps
-					  +"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar"+cps
-					  +"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"+cps
-					  +"libraries/com/paulscode/codecjorbis/20101023/codecjorbis-20101023.jar"+cps
-					  +"libraries/com/paulscode/codecwav/20101023/codecwav-20101023.jar"+cps
-					  +"libraries/com/paulscode/libraryjavasound/20101123/libraryjavasound-20101123.jar"+cps
-					  +"libraries/com/paulscode/librarylwjglopenal/20100824/librarylwjglopenal-20100824.jar"+cps
-					  +"libraries/com/paulscode/soundsystem/20120107/soundsystem-20120107.jar"+cps
-					  +"libraries/argo/argo/2.25_fixed/argo-2.25_fixed.jar"+cps
-					  +"libraries/org/bouncycastle/bcprov-jdk15on/1.47/bcprov-jdk15on-1.47.jar"+cps
-					  +"libraries/com/google/guava/guava/14.0/guava-14.0.jar"+cps
-					  +"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar"+cps
-					  +"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar"+cps
-					  +"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar"+cps
-					  +LauncherUtils.getDir()+File.separator+jar
-					 );
 			  cc.add("net.minecraft.client.main.Main");
 			  cc.add("--username");
 			  cc.add("nick");
