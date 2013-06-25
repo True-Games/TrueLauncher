@@ -86,7 +86,7 @@ public class AllSettings {
 								"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar"
 						)
 				)
-		); */
+		);*/
 		
 	}};
 	

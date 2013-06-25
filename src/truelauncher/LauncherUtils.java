@@ -83,7 +83,7 @@ public class LauncherUtils {
 		  else if (lvers == 2) { //1.6 and newer (snapshot version)
 			  cc.add("net.minecraft.client.main.Main");
 			  cc.add("--username");
-			  cc.add("nick");
+			  cc.add(nick);
 			  cc.add("--session");
 			  cc.add("session");
 			  cc.add("--version");
