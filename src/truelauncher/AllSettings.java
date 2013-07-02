@@ -25,7 +25,7 @@ import java.util.List;
 public class AllSettings {
 	
 	//launcher version
-	private static int lversion = 10;
+	private static int lversion = 12;
 	//laucnher update URL;
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
@@ -33,9 +33,10 @@ public class AllSettings {
 	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 
 	private static String[][] clientfolders = 
 	{
+		{"Classic 1.6.1",".true-games.org/runclients/classic161", ".true-games.org/runclients/classic161/minecraft.jar", "2"} ,
 		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1"},
-		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"}/*,
-		{"MCSnapshot 1.6",".minecraft", ".minecraft/minecraft.jar", "2"} */
+		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"}
+
 	};
 	//key - client name, calues - array of paths to libs (-cp)
 	@SuppressWarnings("serial")
@@ -66,7 +67,7 @@ public class AllSettings {
 				)
 		);
 		
-		/*put("MCSnapshot 1.6",
+		put("Classic 1.6.1",
 				new ArrayList<String>(
 						Arrays.asList(
 								"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
@@ -88,7 +89,7 @@ public class AllSettings {
 								"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar"
 						)
 				)
-		);*/
+		);
 		
 	}};
 
@@ -100,6 +101,7 @@ public class AllSettings {
 	//1 - name, 2 - downloadlink, 3 - folderto
 	private static String[][] downloadclients = 
 	{
+		{"Classic 1.6.1","http://download.true-games.org/minecraft/clients/mc161.zip",".true-games.org/runclients/classic161"},
 		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runclients/classic"},
 		{"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};

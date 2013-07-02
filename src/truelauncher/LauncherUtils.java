@@ -87,8 +87,13 @@ public class LauncherUtils {
 			  cc.add("--session");
 			  cc.add("session");
 			  cc.add("--version");
-			  cc.add("1.6");
+			  cc.add("1.6.1");
 		  }
+		  cc.add("--gameDir");
+		  cc.add(mcpath);
+		  cc.add("--assetsDir");
+		  cc.add(mcpath+File.separator+"assets");
+		  
 		  pb.command(cc);
 	      pb.inheritIO(); //Do not remove this
 		  pb.start();
