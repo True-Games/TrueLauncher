@@ -200,12 +200,19 @@ public class GUI extends JPanel {
        launch.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
+            	 	//laucnher folder
             	 	String lfolder = AllSettings.getClientFolderByName(listclients.getSelectedItem().toString());
+            	 	//nickname
             	 	String nick = nickfield.getText();
+            	 	//RAM
             	 	int ram = Integer.valueOf(ramfield.getText());
+            	 	//minecraft launch version
             	 	int mclvers = AllSettings.getClientLaunchVersionByName(listclients.getSelectedItem().toString());
+            	 	//location of jar file
             	 	String jar = AllSettings.getClientJarByName(listclients.getSelectedItem().toString());
-            	 	ArrayList<String> libs = AllSettings.getClientLibsByLaunchVersion(mclvers);
+            	 	//libs locations
+            	 	ArrayList<String> libs = AllSettings.getClientLibs();
+            	 	//forge present flag
             	 	int forgepresent = AllSettings.getClientForgePresent(listclients.getSelectedItem().toString());
             	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers,libs, jar, forgepresent);
              }

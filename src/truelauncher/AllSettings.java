@@ -19,7 +19,6 @@ package truelauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class AllSettings {
@@ -38,55 +37,37 @@ public class AllSettings {
 		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1", "0"}
 
 	};
-	//key - client name, calues - array of paths to libs (-cp)
-	@SuppressWarnings("serial")
-	private static HashMap<String, ArrayList<String>> clientlibs = new HashMap<String, ArrayList<String>>()
-	{{
-		put("1",
-				new ArrayList<String>(
-						Arrays.asList(
-								"libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar",
-								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
-								"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"
-						)
-				)
-		);
-		
-		put("2",
-				new ArrayList<String>(
-						Arrays.asList(
-								"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
-								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
-								"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar",
-								"libraries/com/paulscode/codecjorbis/20101023/codecjorbis-20101023.jar",
-								"libraries/com/paulscode/codecwav/20101023/codecwav-20101023.jar",
-								"libraries/com/paulscode/libraryjavasound/20101123/libraryjavasound-20101123.jar",
-								"libraries/com/paulscode/librarylwjglopenal/20100824/librarylwjglopenal-20100824.jar",
-								"libraries/com/paulscode/soundsystem/20120107/soundsystem-20120107.jar",
-								"libraries/argo/argo/2.25_fixed/argo-2.25_fixed.jar",
-								"libraries/org/bouncycastle/bcprov-jdk15on/1.47/bcprov-jdk15on-1.47.jar",
-								"libraries/com/google/guava/guava/14.0/guava-14.0.jar",
-								"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar",
-								"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar",
-								"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar",
-								//forge libs
-								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
-								"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar",
-								"forge/lwrap.jar",
-								"forge/mcforge.jar"
-								
-						)
-				)
-		);
-		
-	}};
-
+	
+	//just a paths to all the libs that minecraft may need
+	private static ArrayList<String> clientlibs = new ArrayList<String>(
+			Arrays.asList(
+					
+					//minecraft libs
+					"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
+					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
+					"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
+					"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
+					"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
+					"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar",
+					"libraries/com/paulscode/codecjorbis/20101023/codecjorbis-20101023.jar",
+					"libraries/com/paulscode/codecwav/20101023/codecwav-20101023.jar",
+					"libraries/com/paulscode/libraryjavasound/20101123/libraryjavasound-20101123.jar",
+					"libraries/com/paulscode/librarylwjglopenal/20100824/librarylwjglopenal-20100824.jar",
+					"libraries/com/paulscode/soundsystem/20120107/soundsystem-20120107.jar",
+					"libraries/argo/argo/2.25_fixed/argo-2.25_fixed.jar",
+					"libraries/org/bouncycastle/bcprov-jdk15on/1.47/bcprov-jdk15on-1.47.jar",
+					"libraries/com/google/guava/guava/14.0/guava-14.0.jar",
+					"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar",
+					"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar",
+					"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar",
+					//forge libs
+					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
+					"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar",
+					"forge/lwrap.jar",
+					"forge/mcforge.jar"
+			)
+			
+	);
 	
 	
 	//For client download
@@ -173,9 +154,8 @@ public class AllSettings {
 		return version;
 	}	
 	
-	public static ArrayList<String> getClientLibsByLaunchVersion(int mclvers) {
-		ArrayList<String> libs = clientlibs.get(String.valueOf(mclvers));
-		return libs;
+	public static ArrayList<String> getClientLibs() {
+		return clientlibs;
 	}
 	
 	public static int getClientForgePresent(String name) {

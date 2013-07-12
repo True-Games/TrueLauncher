@@ -87,8 +87,10 @@ public class LauncherUtils {
 			  }
 			  else if
 			  (forgepresent == 1)
-			  {
+			  {//minecraft with forge
 				  cc.add("net.minecraft.launchwrapper.Launch");
+				  cc.add("--tweakClass");
+				  cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
 			  }
 			  
 			  cc.add("--username");
@@ -98,12 +100,12 @@ public class LauncherUtils {
 			  cc.add("--version");
 			  cc.add("1.6.2");
 		  }
+		  
 		  cc.add("--gameDir");
 		  cc.add(mcpath);
 		  cc.add("--assetsDir");
 		  cc.add(mcpath+File.separator+"assets");
-		  cc.add("--tweakClass");
-		  cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
+
 		  
 		  pb.command(cc);
 	      pb.inheritIO(); //Do not remove this
