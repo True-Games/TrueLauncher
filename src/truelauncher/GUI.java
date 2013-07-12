@@ -133,7 +133,7 @@ public class GUI extends JPanel {
     	 int irw = 140;
     	 int irh = 20;
     	 ramfield = new TTextField();
-    	 ramfield.setText("512");
+    	 ramfield.setText("400");
       	 ramfield.setHorizontalAlignment(TButton.CENTER);
     	 ramfield.setBounds(lrw,45,irw,irh);
     	 tifields.add(ramfield);
