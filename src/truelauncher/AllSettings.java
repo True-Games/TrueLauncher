@@ -25,11 +25,14 @@ public class AllSettings {
 	
 	//launcher version
 	private static int lversion = 15;
-	//laucnher update URL;
+	//laucnher folder update URL;
+	//folder structure 
+	//{folder}/Laucnher.jar - launcher location
+	//{folder}/version - launcher version
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
 	//For client launch
-	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 5 - forge presence (0 - no , 1 -yes , for 1.6.2 only) 
+	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - forge presence (0 - no , 1 -yes , for newer launch versions) 
 	private static String[][] clientfolders = 
 	{
 		{"Classic 1.6.2",".true-games.org/runclients/classic162", ".true-games.org/runclients/classic162/minecraft.jar", "2", "0"} ,
@@ -38,7 +41,7 @@ public class AllSettings {
 
 	};
 	
-	//just a paths to all the libs that minecraft may need
+	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need) (Warning: maybe i forgot some more forge libs)
 	private static ArrayList<String> clientlibs = new ArrayList<String>(
 			Arrays.asList(
 					
@@ -103,6 +106,8 @@ public class AllSettings {
 	public static String errFolder = ".true-games.org/errLog";
 	
 
+	//code to get those values
+	
 	//gui block 2 vars begin
 	public static List<String> getClientsList()
 	{
