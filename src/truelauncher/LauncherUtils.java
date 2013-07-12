@@ -48,7 +48,7 @@ public class LauncherUtils {
     
     
     //Launch minecraft begin
-    public static void launchMC(String pathin, String nickin, int memin, int lvers, ArrayList<String> libsin ,String jarin)
+    public static void launchMC(String pathin, String nickin, int memin, int lvers, ArrayList<String> libsin ,String jarin, int forgepresent)
     {
     	try {
         String nick = nickin;
@@ -81,18 +81,29 @@ public class LauncherUtils {
 			  	cc.add("session");
 		  }
 		  else if (lvers == 2) { //1.6 and newer
-			  cc.add("net.minecraft.client.main.Main");
+			  if (forgepresent == 0)
+			  {//normal minecraft
+				  cc.add("net.minecraft.client.main.Main");
+			  }
+			  else if
+			  (forgepresent == 1)
+			  {
+				  cc.add("net.minecraft.launchwrapper.Launch");
+			  }
+			  
 			  cc.add("--username");
 			  cc.add(nick);
 			  cc.add("--session");
 			  cc.add("session");
 			  cc.add("--version");
-			  cc.add("1.6.1");
+			  cc.add("1.6.2");
 		  }
 		  cc.add("--gameDir");
 		  cc.add(mcpath);
 		  cc.add("--assetsDir");
 		  cc.add(mcpath+File.separator+"assets");
+		  cc.add("--tweakClass");
+		  cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
 		  
 		  pb.command(cc);
 	      pb.inheritIO(); //Do not remove this

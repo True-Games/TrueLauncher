@@ -205,8 +205,9 @@ public class GUI extends JPanel {
             	 	int ram = Integer.valueOf(ramfield.getText());
             	 	int mclvers = AllSettings.getClientLaunchVersionByName(listclients.getSelectedItem().toString());
             	 	String jar = AllSettings.getClientJarByName(listclients.getSelectedItem().toString());
-            	 	ArrayList<String> libs = AllSettings.getClientLibsByName(listclients.getSelectedItem().toString());
-            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers,libs, jar);
+            	 	ArrayList<String> libs = AllSettings.getClientLibsByLaunchVersion(mclvers);
+            	 	int forgepresent = AllSettings.getClientForgePresent(listclients.getSelectedItem().toString());
+            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers,libs, jar, forgepresent);
              }
        });
 	   LauncherUtils.checkClientJarExist(thisclass);

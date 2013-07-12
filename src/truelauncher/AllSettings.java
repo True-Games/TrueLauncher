@@ -25,36 +25,24 @@ import java.util.List;
 public class AllSettings {
 	
 	//launcher version
-	private static int lversion = 14;
+	private static int lversion = 15;
 	//laucnher update URL;
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
 	//For client launch
-	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 
+	//1 - name, 2- launchfolder, 3 - jar file whick will be checked for existance, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer (not yet done)), 5 - forge presence (0 - no , 1 -yes , for 1.6.2 only) 
 	private static String[][] clientfolders = 
 	{
-		{"Classic 1.6.2",".true-games.org/runclients/classic162", ".true-games.org/runclients/classic162/minecraft.jar", "2"} ,
-		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1"},
-		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1"}
+		{"Classic 1.6.2",".true-games.org/runclients/classic162", ".true-games.org/runclients/classic162/minecraft.jar", "2", "0"} ,
+		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1", "0"},
+		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1", "0"}
 
 	};
 	//key - client name, calues - array of paths to libs (-cp)
 	@SuppressWarnings("serial")
 	private static HashMap<String, ArrayList<String>> clientlibs = new HashMap<String, ArrayList<String>>()
 	{{
-		put("Classic 1.5.2",
-				new ArrayList<String>(
-						Arrays.asList(
-								"libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar",
-								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
-								"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
-								"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"
-						)
-				)
-		);
-		put("HiTech 1.5.2",
+		put("1",
 				new ArrayList<String>(
 						Arrays.asList(
 								"libraries/net/sf/jopt-simple/jopt-simple/4.4/jopt-simple-4.4.jar",
@@ -67,7 +55,7 @@ public class AllSettings {
 				)
 		);
 		
-		put("Classic 1.6.2",
+		put("2",
 				new ArrayList<String>(
 						Arrays.asList(
 								"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
@@ -86,7 +74,13 @@ public class AllSettings {
 								"libraries/com/google/guava/guava/14.0/guava-14.0.jar",
 								"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar",
 								"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar",
-								"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar"
+								"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar",
+								//forge libs
+								"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
+								"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar",
+								"forge/lwrap.jar",
+								"forge/mcforge.jar"
+								
 						)
 				)
 		);
@@ -179,10 +173,22 @@ public class AllSettings {
 		return version;
 	}	
 	
-	public static ArrayList<String> getClientLibsByName(String name)
-	{
-		ArrayList<String> libs = clientlibs.get(name);
+	public static ArrayList<String> getClientLibsByLaunchVersion(int mclvers) {
+		ArrayList<String> libs = clientlibs.get(String.valueOf(mclvers));
 		return libs;
+	}
+	
+	public static int getClientForgePresent(String name) {
+		int present = 0;
+		for (int i=0; i<clientfolders.length;i++)
+		{
+			if (clientfolders[i][0].equals(name))
+			{
+				present = Integer.valueOf(clientfolders[i][4]);
+			}
+		}
+		// TODO Auto-generated method stub
+		return present;
 	}
 	//gui block 2 vars end
 	
@@ -249,5 +255,6 @@ public class AllSettings {
 		return lversion;
 	}
 	//Lacunher vars end
+
 
 }
