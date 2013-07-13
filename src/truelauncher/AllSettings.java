@@ -64,6 +64,8 @@ public class AllSettings {
 					"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar",
 					"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar",
 					//forge libs
+					"libraries/org/scala-lang/scala-library/2.10.2/scala-library-2.10.2.jar",
+					"libraries/org/scala-lang/scala-compiler/2.10.2/scala-compiler-2.10.2.jar",
 					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
 					"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar",
 					"forge/lwrap.jar",
