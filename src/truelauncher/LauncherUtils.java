@@ -74,6 +74,7 @@ public class LauncherUtils {
 		  cc.add("-Xmx"+mem);
 		  cc.add("-Djava.library.path=libraries/natives");
 		  cc.add("-Dfml.ignoreInvalidMinecraftCertificates=true");
+		  cc.add("-Dfml.ignorePatchDiscrepancies=true");
 		  cc.add("-cp");
 		  cc.add(libs+jar);
 		  if (lvers == 1) { //1.5 and older
