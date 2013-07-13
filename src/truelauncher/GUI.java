@@ -17,6 +17,7 @@
 
 package truelauncher;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -90,6 +91,7 @@ public class GUI extends JPanel {
       	 JPanel tifields = new JPanel();
       	 tifields.setLayout(null);
       	 tifields.setBounds(levelw, y, widgw, 95);
+      	 tifields.setBackground(new Color(0,0,0,0));
       	 
       	 //Плашка объясениния
     	 TLabel expbarset = new TLabel();
@@ -165,6 +167,7 @@ public class GUI extends JPanel {
       	JPanel sb = new JPanel();
       	sb.setLayout(null);
       	sb.setBounds(levelw, y , widgw, 95);
+      	sb.setBackground(new Color(0,0,0,0));
       	 
       	 //плашка объяснений
       	TLabel expbarset = new TLabel();
@@ -223,41 +226,6 @@ public class GUI extends JPanel {
    
        this.add(sb);
      }
-     
-     
-     
-     private void loadTextFields()
-     {
-         try {
-             String ps = LauncherUtils.getDir();
-             if ((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists()) {
-                 Scanner inFile = new Scanner(new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config"));
-                 nickfield.setText(inFile.nextLine());
-                 ramfield.setText(inFile.nextLine());
-                 inFile.close();
-             }
-         } catch (Exception e) {
-         }
-     }
-     
-     private void saveTextFields()
-     {
-     String ps = LauncherUtils.getDir();
-     if (!((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists())) {
-         (new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath())).mkdirs();
-     }
-     try {
-         PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
-         wrt.println(nickfield.getText());
-         wrt.println(ramfield.getText());
-         wrt.flush();
-         wrt.close();
-     } catch (Exception e) {}
-     }
-     
-     
-
-     
 
      //блок 3
      private void initDownloadCenter()
@@ -269,6 +237,7 @@ public class GUI extends JPanel {
       	 JPanel dc = new JPanel();
       	 dc.setLayout(null);
       	 dc.setBounds(levelw, y, widgw, 95);
+      	 dc.setBackground(new Color(0,0,0,0));
       	 
     	 TLabel expbarset = new TLabel();
     	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage),widgw, 25);
@@ -295,7 +264,7 @@ public class GUI extends JPanel {
   	    dc.add(listdownloads);
   	    
   	  	pbar = new JProgressBar();
-  	  	pbar.setBounds(0,55,widgw, 15);
+  	  	pbar.setBounds(0,55,widgw, 16);
   	    dc.add(pbar);
   	  
     	download = new TButton();
@@ -329,6 +298,38 @@ public class GUI extends JPanel {
     	 (new LVersionChecker(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"version", AllSettings.getLauncherVerison())).start();
     	 
      }
+     
+     
+     
+     private void loadTextFields()
+     {
+         try {
+             String ps = LauncherUtils.getDir();
+             if ((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists()) {
+                 Scanner inFile = new Scanner(new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config"));
+                 nickfield.setText(inFile.nextLine());
+                 ramfield.setText(inFile.nextLine());
+                 inFile.close();
+             }
+         } catch (Exception e) {
+         }
+     }
+     
+     private void saveTextFields()
+     {
+     String ps = LauncherUtils.getDir();
+     if (!((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists())) {
+         (new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath())).mkdirs();
+     }
+     try {
+         PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
+         wrt.println(nickfield.getText());
+         wrt.println(ramfield.getText());
+         wrt.flush();
+         wrt.close();
+     } catch (Exception e) {}
+     }
+     
      
      @Override
 	 public void paintComponent(Graphics g) {
