@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -59,10 +60,14 @@ public class GUI extends JPanel {
 	{
 		try {
 			this.f = f;
-			this.setLayout(null);	
+			this.setLayout(null);
+			//init GUI
 			initUI();
+			//load fields values
 			loadTextFields();
-		    //init GlassPane that will be used to darken main frame when launcher update is available
+			//border
+			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
+			//init GlassPane that will be used to darken main frame when launcher update is available
 		    f.setGlassPane(
 		    		new JComponent() {
 		        public void paintComponent(Graphics g) {
