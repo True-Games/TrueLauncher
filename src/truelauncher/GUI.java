@@ -220,7 +220,7 @@ public class GUI extends JPanel {
             	 	ArrayList<String> libs = AllSettings.getClientLibs();
             	 	//forge present flag
             	 	int forgepresent = AllSettings.getClientForgePresent(listclients.getSelectedItem().toString());
-            	 	LauncherUtils.launchMC(lfolder, nick, ram, mclvers,libs, jar, forgepresent);
+            	 	ClientLaunch.launchMC(lfolder, nick, ram, mclvers,libs, jar, forgepresent);
              }
        });
 	   LauncherUtils.checkClientJarExist(thisclass);
