@@ -61,10 +61,10 @@ public class GUI extends JPanel {
 	
 	int posX=0,posY=0;
  
-	public GUI(final JFrame f)
+	public GUI(JFrame frame)
 	{
 		try {
-			this.f = f;
+			this.f = frame;
 			this.setLayout(null);
 			//border
 			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
