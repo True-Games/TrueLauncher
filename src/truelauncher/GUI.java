@@ -22,6 +22,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,6 +35,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import truelauncher.gcomponents.TButton;
@@ -55,18 +58,37 @@ public class GUI extends JPanel {
 	public TComboBox listdownloads;
 	public LauncherUpdateDialog lu;
 	public JFrame f;
+	
+	int posX=0,posY=0;
  
-	public GUI(JFrame f)
+	public GUI(final JFrame f)
 	{
 		try {
 			this.f = f;
 			this.setLayout(null);
+			//border
+			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
+			//init drag
+			JLabel drag = new JLabel();
+			drag.setBounds(0, 0, AllSettings.w, 10);
+			drag.setOpaque(false);
+			drag.setBackground(new Color(0,0,0,0));
+			drag.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					posX=e.getX();
+					posY=e.getY();
+				}
+			});
+			drag.addMouseMotionListener(new MouseAdapter() {
+			     public void mouseDragged(MouseEvent evt) {
+					f.setLocation(evt.getXOnScreen()-posX,evt.getYOnScreen()-posY);
+			     }
+			});
+			this.add(drag);
 			//init GUI
 			initUI();
 			//load fields values
 			loadTextFields();
-			//border
-			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
 			//init GlassPane that will be used to darken main frame when launcher update is available
 		    f.setGlassPane(
 		    		new JComponent() {
