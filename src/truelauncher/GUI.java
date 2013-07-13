@@ -18,7 +18,6 @@
 package truelauncher;
 
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -26,12 +25,12 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -54,15 +53,24 @@ public class GUI extends JPanel {
 	public TButton download;
 	public TComboBox listdownloads;
 	public LauncherUpdateDialog lu;
-	public Frame f;
+	public JFrame f;
  
-	public GUI(Frame f)
+	public GUI(JFrame f)
 	{
 		try {
 			this.f = f;
 			this.setLayout(null);	
 			initUI();
 			loadTextFields();
+		    //init GlassPane that will be used to darken main frame when launcher update is available
+		    f.setGlassPane(
+		    		new JComponent() {
+		        public void paintComponent(Graphics g) {
+		            g.setColor(new Color(0, 0, 0, 150));
+		            g.fillRect(0, 0, AllSettings.w, AllSettings.h);
+		            super.paintComponent(g);
+		   	    }
+		   	});
 		}
 		catch (Exception e)
 		{
@@ -206,21 +214,7 @@ public class GUI extends JPanel {
        launch.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
-            	 	//laucnher folder
-            	 	String lfolder = AllSettings.getClientFolderByName(listclients.getSelectedItem().toString());
-            	 	//nickname
-            	 	String nick = nickfield.getText();
-            	 	//RAM
-            	 	int ram = Integer.valueOf(ramfield.getText());
-            	 	//minecraft launch version
-            	 	int mclvers = AllSettings.getClientLaunchVersionByName(listclients.getSelectedItem().toString());
-            	 	//location of jar file
-            	 	String jar = AllSettings.getClientJarByName(listclients.getSelectedItem().toString());
-            	 	//libs locations
-            	 	ArrayList<String> libs = AllSettings.getClientLibs();
-            	 	//forge present flag
-            	 	int forgepresent = AllSettings.getClientForgePresent(listclients.getSelectedItem().toString());
-            	 	ClientLaunch.launchMC(lfolder, nick, ram, mclvers,libs, jar, forgepresent);
+            	 	ClientLaunch.launchMC(thisclass);
              }
        });
 	   LauncherUtils.checkClientJarExist(thisclass);
@@ -279,11 +273,8 @@ public class GUI extends JPanel {
              @Override
              public void actionPerformed(ActionEvent e) {
             	 listdownloads.setEnabled(false);
-            	 String name = listdownloads.getSelectedItem().toString();
-            	 String URL = AllSettings.getClientDownloadLinkByName(name);
-            	 String clientto = AllSettings.getClientUnpackToFolderByName(name);
-            	 String tempfolder = AllSettings.getCientTempFolderPath();
-            	 new ClientUpdateThread(thisclass,URL,tempfolder,clientto).start();
+
+            	 new ClientUpdateThread(thisclass).start();
             	 download.setEnabled(false);
              }
          });
@@ -330,17 +321,15 @@ public class GUI extends JPanel {
       	 this.add(cmb);
      }
 
+     //Init laucnher updater
      private void showLauncherUpdateWindow()
      {
-      	 int ww = 250;
-      	 int wh = 125;
-    	 lu = new LauncherUpdateDialog(f, thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"Launcher.jar", ww, wh);
-    	 (new LVersionChecker(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"version", AllSettings.getLauncherVerison())).start();
+    	 lu = new LauncherUpdateDialog(thisclass);
+    	 new LVersionChecker(thisclass).start();
     	 
-     }
+     }     
      
-     
-     
+     //load nick and ram from file
      private void loadTextFields()
      {
          try {
@@ -355,22 +344,22 @@ public class GUI extends JPanel {
          }
      }
      
+     //save nick and ram to file
      private void saveTextFields()
      {
-     String ps = LauncherUtils.getDir();
-     if (!((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists())) {
-         (new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath())).mkdirs();
-     }
-     try {
-         PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
-         wrt.println(nickfield.getText());
-         wrt.println(ramfield.getText());
-         wrt.flush();
-         wrt.close();
-     } catch (Exception e) {}
+       	 String ps = LauncherUtils.getDir();
+    	 new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs();
+   
+    	 try {
+    		 PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
+    		 wrt.println(nickfield.getText());
+    		 wrt.println(ramfield.getText());
+    		 wrt.flush();
+    		 wrt.close();
+    	 } catch (Exception e) {}
      }
      
-     
+
      @Override
 	 public void paintComponent(Graphics g) {
     	 try {

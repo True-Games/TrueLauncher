@@ -23,29 +23,27 @@ import java.net.URL;
 public class LVersionChecker extends Thread {
 	
 	private GUI gui;
-	private String url;
-	private int curversion;
-	public LVersionChecker(GUI gui, String url, int curversion)
+	
+	public LVersionChecker(GUI gui)
 	{
 		this.gui = gui;
-		this.url = url;
-		this.curversion = curversion;
 	}
 	
-		public void run()
-		{
-			try {
-				int newversion = Integer.MAX_VALUE;
-				newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(url).openStream()));
-				if (curversion < newversion)
-				{
-					gui.lu.open();
-				}
-			} catch (Exception e)
+	public void run()
+	{
+		try {
+			int newversion = Integer.MAX_VALUE;
+			newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"/"+"version").openStream()));
+			if (AllSettings.getLauncherVerison() < newversion)
 			{
-				e.printStackTrace();
-        		LauncherUtils.logError(e);
+				gui.getRootPane().getGlassPane().setVisible(true);
+				gui.lu.open();
 			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+        	LauncherUtils.logError(e);
 		}
+	}
 
 }

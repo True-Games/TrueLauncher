@@ -34,18 +34,13 @@ public class ClientUpdateThread extends Thread {
 	private String urlfrom;
 	private String packedclientto;
 	private String unpackto;
-	private String tempfolder;
 
-	ClientUpdateThread(GUI gui, String urlfrom, String clientto, String unpackto) {
+	ClientUpdateThread(GUI gui) {
 		try {
 			this.gui = gui;
-			this.urlfrom = urlfrom;
-			this.tempfolder = LauncherUtils.getDir() + File.separator
-					+ clientto;
-			this.packedclientto = LauncherUtils.getDir() + File.separator
-					+ clientto + File.separator
-					+ new File(new URL(this.urlfrom).getFile()).getName();
-			this.unpackto = LauncherUtils.getDir() + File.separator + unpackto;
+			this.urlfrom = AllSettings.getClientDownloadLinkByName(gui.listdownloads.getSelectedItem().toString());
+			this.packedclientto = LauncherUtils.getDir() + File.separator + AllSettings.getCientTempFolderPath() + File.separator + new File(new URL(this.urlfrom).getFile()).getName();
+			this.unpackto = LauncherUtils.getDir() + File.separator + AllSettings.getClientUnpackToFolderByName(gui.listdownloads.getSelectedItem().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,17 +48,16 @@ public class ClientUpdateThread extends Thread {
 
 	public void filedownloader(String urlfrom, String clientto)
 			throws Exception {
-		if (!((new File(tempfolder)).exists())) {
-			(new File(tempfolder)).mkdirs();
-		}
+		
+		new File(packedclientto).getParentFile().mkdirs();
+		
 		URL url = new URL(urlfrom);
-
 		URLConnection conn = url.openConnection();
-
 		if ((conn instanceof HttpURLConnection)) {
 			conn.setRequestProperty("Cache-Control", "no-cache");
 			conn.connect();
 		}
+		
 		InputStream inputstream = conn.getInputStream();
 
 		FileOutputStream writer = new FileOutputStream(clientto);
