@@ -100,6 +100,8 @@ public class AllSettings {
 	public static String textimage = "images/textfield.png";
 	public static String explainimage = "images/expbar.png";
 	public static String mclaunchimage = "images/mclaunch.png";
+	public static String close = "images/close.png";
+	public static String hide = "images/hide.png";
 	
 	
 	//folder for error logging

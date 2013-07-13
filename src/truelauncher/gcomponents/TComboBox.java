@@ -17,18 +17,11 @@
 
 package truelauncher.gcomponents;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class TComboBox extends JComboBox<String>  {
-
 	
 	public TComboBox() {
 		DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
@@ -36,15 +29,16 @@ public class TComboBox extends JComboBox<String>  {
 		this.setRenderer(dlcr);
 	}
 	
+	/*
 	
 	private boolean renderImage = false;
 	private Image bgimage;
 	
-	public void setBackgroundImage(InputStream is,int w,int h)
+	public void setBackgroundImage(InputStream is)
 	{
 		try {
 			bgimage = ImageIO.read(is);
-			bgimage = bgimage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 			renderImage = true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -59,4 +53,6 @@ public class TComboBox extends JComboBox<String>  {
 		}
 		super.paintComponent(g);
 	}
+	
+	*/
 }

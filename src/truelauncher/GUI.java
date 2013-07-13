@@ -32,12 +32,13 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TLabel;
+import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
 
 @SuppressWarnings("serial")
@@ -49,7 +50,7 @@ public class GUI extends JPanel {
 	public TTextField ramfield;
 	public TComboBox listclients; 
 	public TButton launch;
-	public JProgressBar pbar;
+	public TProgressBar pbar;
 	public TButton download;
 	public TComboBox listdownloads;
 	public LauncherUpdateDialog lu;
@@ -77,13 +78,14 @@ public class GUI extends JPanel {
     	 initStartButton();
     	 initDownloadCenter();
     	 showLauncherUpdateWindow();
+    	 showCloseMinimizeButton();
      }
      
 
-     //1й блок
+     //block 1 (nickname chooser)
      private void initTextInputFieldsAndLabels()
      {
-    	 int y = AllSettings.h - 130;
+    	 int y = AllSettings.h - 110;
     	 int levelw = 30;
       	 int widgw = 220;
       	 
@@ -91,14 +93,15 @@ public class GUI extends JPanel {
       	 JPanel tifields = new JPanel();
       	 tifields.setLayout(null);
       	 tifields.setBounds(levelw, y, widgw, 95);
+      	 tifields.setOpaque(false);
       	 tifields.setBackground(new Color(0,0,0,0));
       	 
       	 //Плашка объясениния
     	 TLabel expbarset = new TLabel();
-    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage),widgw, 25);
+    	 expbarset.setBounds(0,0,widgw,25);
+    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage));
     	 expbarset.setText("Основные настройки");
       	 expbarset.setHorizontalAlignment(TButton.CENTER);
-    	 expbarset.setBounds(0,0,widgw,25);
     	 tifields.add(expbarset);
     	 
     	 
@@ -106,38 +109,38 @@ public class GUI extends JPanel {
     	 int lnw = 80;
     	 int lnh = 20;
     	 TLabel labelnick = new TLabel();
-    	 labelnick.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, lnh);
+    	 labelnick.setBounds(0,25,lnw,lnh);
+    	 labelnick.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage));
     	 labelnick.setText("Ник");
       	 labelnick.setHorizontalAlignment(TButton.CENTER);
-    	 labelnick.setBounds(0,25,lnw,lnh);
     	 tifields.add(labelnick);
 
     	 //Поле ника
     	 int inw = 140;
     	 int inh = 20;
     	 nickfield = new TTextField();
+    	 nickfield.setBounds(lnw,25,inw,inh);
     	 nickfield.setText("NoNickName");
     	 nickfield.setHorizontalAlignment(TButton.CENTER);
-    	 nickfield.setBounds(lnw,25,inw,inh);
     	 tifields.add(nickfield);
 
     	 //Плашка памяти
     	 int lrw = 80;
     	 int lrh = 20;
     	 TLabel labelram = new TLabel();
+    	 labelram.setBounds(0,45,lrw,lrh);
     	 labelram.setText("Память");
       	 labelram.setHorizontalAlignment(TButton.CENTER);
-    	 labelram.setBounds(0,45,lrw,lrh);
-    	 labelram.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage),widgw, lrh);
+    	 labelram.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage));
     	 tifields.add(labelram);
 
        	 //Поле памяти
     	 int irw = 140;
     	 int irh = 20;
     	 ramfield = new TTextField();
+    	 ramfield.setBounds(lrw,45,irw,irh);
     	 ramfield.setText("400");
       	 ramfield.setHorizontalAlignment(TButton.CENTER);
-    	 ramfield.setBounds(lrw,45,irw,irh);
     	 tifields.add(ramfield);
     	 
     	 //Кнопка сохранить
@@ -157,24 +160,25 @@ public class GUI extends JPanel {
      }
 
      
-     //блок 2
+     //block 2 (clients start)
      private void initStartButton()
      {
-    	 int y = AllSettings.h - 130;
+    	 int y = AllSettings.h - 110;
     	 int levelw = 250;
       	 int widgw = 240;
     	 
       	JPanel sb = new JPanel();
       	sb.setLayout(null);
       	sb.setBounds(levelw, y , widgw, 95);
+      	sb.setOpaque(false);
       	sb.setBackground(new Color(0,0,0,0));
       	 
       	 //плашка объяснений
       	TLabel expbarset = new TLabel();
+       	expbarset.setBounds(0,0,widgw,25);
       	expbarset.setText("Выбор клиента");
       	expbarset.setHorizontalAlignment(TButton.CENTER);
-    	expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage), widgw, 25);
-    	expbarset.setBounds(0,0,widgw,25);
+    	expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage));
       	 
     	sb.add(expbarset);
     	 
@@ -199,7 +203,6 @@ public class GUI extends JPanel {
        launch = new TButton();
        launch.setBounds(0, 55, widgw, 40);
        launch.setText("Запустить Minecraft");
-         
        launch.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
@@ -227,23 +230,24 @@ public class GUI extends JPanel {
        this.add(sb);
      }
 
-     //блок 3
+     //block 3 (clients download)
      private void initDownloadCenter()
      {
-    	 int y = AllSettings.h - 130;
+    	 int y = AllSettings.h - 110;
     	 int levelw = 490;
       	 int widgw = 220;
       	 
       	 JPanel dc = new JPanel();
       	 dc.setLayout(null);
       	 dc.setBounds(levelw, y, widgw, 95);
+      	 dc.setOpaque(false);
       	 dc.setBackground(new Color(0,0,0,0));
       	 
     	 TLabel expbarset = new TLabel();
-    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage),widgw, 25);
+    	 expbarset.setBounds(0,0,widgw,25);
+    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage));
     	 expbarset.setText("Скачивание клиентов");
     	 expbarset.setHorizontalAlignment(TLabel.CENTER);
-    	 expbarset.setBounds(0,0,widgw,25);
     	 dc.add(expbarset);
     	 
      	listdownloads = new TComboBox();
@@ -263,16 +267,15 @@ public class GUI extends JPanel {
     	});
   	    dc.add(listdownloads);
   	    
-  	  	pbar = new JProgressBar();
+  	  	pbar = new TProgressBar();
   	  	pbar.setBounds(0,55,widgw, 16);
   	    dc.add(pbar);
   	  
     	download = new TButton();
+    	download.setBounds(0, 70, widgw, 25);
     	download.setText("Скачать клиент");
     	download.setHorizontalAlignment(TButton.CENTER);
-    	download.setBounds(0, 70, widgw, 25);
-         
-    	download.addActionListener(new ActionListener() {
+             	download.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
             	 listdownloads.setEnabled(false);
@@ -289,6 +292,43 @@ public class GUI extends JPanel {
     	this.add(dc);
      }
      
+     //close and minimize buttonis block
+     private void showCloseMinimizeButton()
+     {
+      	 JPanel cmb = new JPanel();
+      	 cmb.setLayout(null);
+      	 cmb.setBounds(AllSettings.w - 70,10,60,25);
+      	 
+      	 TButton minimize = new TButton();
+      	 minimize.setBounds(0,0,25,25);
+      	 minimize.setBackgroundImage(AllSettings.hide);
+      	 minimize.addActionListener(new ActionListener()
+      	 {
+      		 @Override 
+      		 public void actionPerformed(ActionEvent e)
+      		 {
+      			 f.setExtendedState(JFrame.ICONIFIED);
+      		 }
+      	 });
+      	 cmb.add(minimize);
+      	 
+      	 TButton close = new TButton();
+      	 close.setBounds(35, 0, 25, 25);
+      	 close.setBackgroundImage(AllSettings.close);
+      	 close.addActionListener(new ActionListener()
+      	 {
+      		 @Override 
+      		 public void actionPerformed(ActionEvent e)
+      		 {
+      			 System.exit(0);
+      		 }
+      	 });
+      	 cmb.add(close);
+      	 cmb.setOpaque(false);
+      	 cmb.setBackground(new Color(0,0,0,0));
+      	 
+      	 this.add(cmb);
+     }
 
      private void showLauncherUpdateWindow()
      {
@@ -340,7 +380,6 @@ public class GUI extends JPanel {
     	 } catch (IOException e) {
 			e.printStackTrace();
     	 }
-
      }
      
      

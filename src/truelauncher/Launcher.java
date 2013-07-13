@@ -32,7 +32,7 @@ public class Launcher {
 	public static void main(String[] args) {
 		
 	    try {
-        UIManager.setLookAndFeel(
+	    	UIManager.setLookAndFeel(
         		UIManager.getSystemLookAndFeelClassName());
 	    } 
 	    catch (Exception e) {
@@ -42,12 +42,13 @@ public class Launcher {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-            	JFrame frame = new JFrame();
+            JFrame frame = new JFrame();
      	       frame.setResizable(false);
     	       frame.setTitle(AllSettings.lname);
     	       frame.setSize(AllSettings.w, AllSettings.h);
     	       frame.setLocationRelativeTo(null);
     	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+    	       frame.setUndecorated(true);
     	       try {
 				frame.setIconImage(ImageIO.read(GUI.class.getResourceAsStream(AllSettings.icon)));
 			} catch (IOException e) {

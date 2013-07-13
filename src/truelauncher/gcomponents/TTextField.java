@@ -29,6 +29,11 @@ import javax.swing.JTextField;
 public class TTextField extends JTextField {
 	
 	
+	public TTextField()
+	{
+		
+	}
+	
 	private boolean renderImage = false;
 	private Image bgimage;
 	
