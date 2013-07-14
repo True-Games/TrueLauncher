@@ -17,10 +17,13 @@
 
 package truelauncher;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import truelauncher.gcomponents.TButton;
@@ -37,6 +40,7 @@ public class LauncherUpdateDialog  extends JDialog {
 	public JProgressBar lpbar;
 	public TLabel lstatus;
 	TButton later;
+	JPanel panel;
 	GUI parent;
 	
 	private LauncherUpdateDialog thisclass = this;
@@ -45,6 +49,7 @@ public class LauncherUpdateDialog  extends JDialog {
         super(parent.f, true);
         this.parent = parent;
         this.setUndecorated(true);
+		this.setLayout(null);
     }
 	
 	public void open()
@@ -59,23 +64,27 @@ public class LauncherUpdateDialog  extends JDialog {
 	
 	private void initUI()
 	{
-		this.setLayout(null);
+		panel = new JPanel();
+		panel.setBounds(0, 0, this.w, this.h);
+		panel.setLayout(null);
+		panel.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.GRAY));
+		this.add(panel);
 		
      	lstatus = new TLabel();
-     	lstatus.setBounds(0,0,w,25);
+     	lstatus.setBounds(2,2,w-4,24);
      	lstatus.setBackgroundImage(GUI.class.getResourceAsStream(labelimage));
      	lstatus.setText("Доступно обновление лаунчера");
      	lstatus.setHorizontalAlignment(TLabel.CENTER);
-     	this.add(lstatus);
+     	panel.add(lstatus);
      	
   	  	lpbar = new JProgressBar();
-  	  	lpbar.setBounds(0,25,w, 15);
-     	this.add(lpbar);
+  	  	lpbar.setBounds(2,26,w-4, 14);
+     	panel.add(lpbar);
   	  	
   	  	
     	ldownload = new TButton();
     	ldownload.setText("Обновить");
-    	ldownload.setBounds(0, 40, w, 25);
+    	ldownload.setBounds(2, 40, w-4, 25);
     	ldownload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,13 +94,13 @@ public class LauncherUpdateDialog  extends JDialog {
             new LUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"Launcher.jar").start();
             }
         });
-    	this.add(ldownload);
+    	panel.add(ldownload);
 
     	
     	
     	later = new TButton();
     	later.setText("Позже");
-    	later.setBounds(0,65,w,25);
+    	later.setBounds(2,65,w-4,23);
     	later.addActionListener(new ActionListener() {
  	               @Override
  	               public void actionPerformed(ActionEvent e) {
@@ -99,7 +108,7 @@ public class LauncherUpdateDialog  extends JDialog {
  	            	   thisclass.dispose();
  	               }
     	});
-    	this.add(later);
+    	panel.add(later);
 
 	}
 
