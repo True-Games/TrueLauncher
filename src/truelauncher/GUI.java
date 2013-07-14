@@ -70,7 +70,7 @@ public class GUI extends JPanel {
 			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
 			//init drag
 			JLabel drag = new JLabel();
-			drag.setBounds(0, 0, AllSettings.w, 10);
+			drag.setBounds(0, 0, AllSettings.w, 15);
 			drag.setOpaque(false);
 			drag.setBackground(new Color(0,0,0,0));
 			drag.addMouseListener(new MouseAdapter() {
@@ -315,7 +315,7 @@ public class GUI extends JPanel {
      {
       	 JPanel cmb = new JPanel();
       	 cmb.setLayout(null);
-      	 cmb.setBounds(AllSettings.w - 70,10,60,25);
+      	 cmb.setBounds(AllSettings.w - 75,15,60,25);
       	 
       	 TButton minimize = new TButton();
       	 minimize.setBounds(0,0,25,25);
