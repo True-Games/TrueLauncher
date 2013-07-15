@@ -67,7 +67,7 @@ public class Zip {
             		pbupdate(unpackedfiles);
             	} catch (Exception e) 
             	{
-            		e.printStackTrace(); LauncherUtils.logError(e);
+            		LauncherUtils.logError(e);
             	} finally
             	{
                     in.close();

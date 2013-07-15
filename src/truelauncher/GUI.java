@@ -101,7 +101,7 @@ public class GUI extends JPanel {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			LauncherUtils.logError(e);
 		}
 	}  
  

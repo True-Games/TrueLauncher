@@ -84,8 +84,9 @@ public class LauncherUtils {
 		File errLogFile = new File(LauncherUtils.getDir() + File.separator + AllSettings.errFolder + File.separator + "LError.log");
 		if (!(errLogFile.exists())) {new File(LauncherUtils.getDir() + File.separator + AllSettings.errFolder + File.separator).mkdirs(); }
 	     try {
+	    	 err.printStackTrace();
 	         FileOutputStream fos = new FileOutputStream(errLogFile);  
-	         PrintStream ps = new PrintStream(fos);  
+	         PrintStream ps = new PrintStream(fos); 
 	         err.printStackTrace(ps);
 	         ps.flush();
 	         ps.close();

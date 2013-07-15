@@ -17,8 +17,6 @@
 
 package truelauncher;
 
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -33,32 +31,27 @@ public class Launcher {
 		
 	    try {
 	    	UIManager.setLookAndFeel(
-        		UIManager.getSystemLookAndFeelClassName());
+        	UIManager.getSystemLookAndFeelClassName());
 	    } 
-	    catch (Exception e) {
-	    	LauncherUtils.logError(e);
-	    }
+	    catch (Exception e) {LauncherUtils.logError(e);}
 		
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-            JFrame frame = new JFrame();
-     	       frame.setResizable(false);
-    	       frame.setTitle(AllSettings.lname);
-    	       frame.setSize(AllSettings.w, AllSettings.h);
-    	       frame.setLocationRelativeTo(null);
-    	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
-    	       frame.setUndecorated(true);
-    	       try {
-				frame.setIconImage(ImageIO.read(GUI.class.getResourceAsStream(AllSettings.icon)));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-                GUI gui = new GUI(frame);
-                gui.setVisible(true);
-                frame.add(gui);
-                frame.setVisible(true);
+            	try {
+            		JFrame frame = new JFrame();
+            		frame.setResizable(false);
+            		frame.setTitle(AllSettings.lname);
+            		frame.setSize(AllSettings.w, AllSettings.h);
+            		frame.setLocationRelativeTo(null);
+            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+            		frame.setUndecorated(true);
+            		frame.setIconImage(ImageIO.read(GUI.class.getResourceAsStream(AllSettings.icon)));
+            		GUI gui = new GUI(frame);
+            		gui.setVisible(true);
+            		frame.add(gui);
+            		frame.setVisible(true);
+            	} catch (Exception e) {LauncherUtils.logError(e);}
             }
         });
     }

@@ -93,7 +93,6 @@ public class ClientLaunch {
 			pb.start();
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			LauncherUtils.logError(e);
 		}
 	}

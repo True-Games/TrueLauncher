@@ -41,7 +41,6 @@ public class LVersionChecker extends Thread {
 			}
 		} catch (Exception e)
 		{
-			e.printStackTrace();
         	LauncherUtils.logError(e);
 		}
 	}

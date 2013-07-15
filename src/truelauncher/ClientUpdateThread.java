@@ -23,8 +23,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class ClientUpdateThread extends Thread {
@@ -114,7 +112,6 @@ public class ClientUpdateThread extends Thread {
 			LauncherUtils.checkClientJarExist(gui);
 
 		} catch (final Exception ex) {
-			Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
 
 			gui.download.setText("Ошибка");
 			gui.listdownloads.setEnabled(true);
