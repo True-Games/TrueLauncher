@@ -37,12 +37,15 @@ public class ClientLaunch {
 			int lvers = AllSettings.getClientLaunchVersionByName(gui.listclients.getSelectedItem().toString());
 			// location of jar file
 			String jar = LauncherUtils.getDir()+ File.separator + AllSettings.getClientJarByName(gui.listclients.getSelectedItem().toString());
-			// libs locations
+			// libs and java locations
 			String cps;
+			String java = System.getProperty("java.home");
 			if (System.getProperty("os.name").toLowerCase().contains("win")) {
 				cps = ";";
+				java+="/bin/javaw.exe";
 			} else {
 				cps = ":";
+				java+="/bin/java";
 			}
 			String libs = "";
 			for (String lib : AllSettings.getClientLibs()) {
@@ -55,7 +58,7 @@ public class ClientLaunch {
 			ProcessBuilder pb = new ProcessBuilder();
 			pb.directory(new File(mcpath).getCanonicalFile());
 			List<String> cc = new ArrayList<String>();
-			cc.add("java");
+			cc.add(java);
 			cc.add("-Xmx" + mem);
 			cc.add("-Djava.library.path=libraries/natives");
 			cc.add("-Dfml.ignoreInvalidMinecraftCertificates=true");
@@ -81,12 +84,11 @@ public class ClientLaunch {
 				cc.add("session");
 				cc.add("--version");
 				cc.add("1.6.2");
+				cc.add("--gameDir");
+				cc.add(mcpath);
+				cc.add("--assetsDir");
+				cc.add(mcpath + File.separator + "assets");
 			}
-
-			cc.add("--gameDir");
-			cc.add(mcpath);
-			cc.add("--assetsDir");
-			cc.add(mcpath + File.separator + "assets");
 
 			pb.command(cc);
 			pb.inheritIO(); // Do not remove this
