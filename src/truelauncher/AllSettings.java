@@ -32,7 +32,7 @@ public class AllSettings {
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
 	//For client launch
-	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - forge presence (0 - no , 1 -yes , for newer launch versions) 
+	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - tweaks present(0 - no , 1 - forge , 2 - forge w/o liteloader, 3 - liteloader w/ forge , for newer launch versions) 
 	private static String[][] clientfolders = 
 	{
 		{"Classic 1.6.2",".true-games.org/runclients/classic162", ".true-games.org/runclients/classic162/minecraft.jar", "2", "0"} ,
@@ -41,7 +41,7 @@ public class AllSettings {
 
 	};
 	
-	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need) (Warning: maybe i forgot some more forge libs)
+	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need)
 	private static ArrayList<String> clientlibs = new ArrayList<String>(
 			Arrays.asList(
 					
@@ -68,8 +68,10 @@ public class AllSettings {
 					"libraries/org/scala-lang/scala-compiler/2.10.2/scala-compiler-2.10.2.jar",
 					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
 					"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar",
-					"forge/lwrap.jar",
-					"forge/mcforge.jar"
+					"libraries/wrapper/lwrap.jar",
+					"libraries/forge/mcforge.jar",
+					//liteloader libs
+					"libraries/liteloader/ll.jar"
 			)
 			
 	);
@@ -167,7 +169,7 @@ public class AllSettings {
 		return clientlibs;
 	}
 	
-	public static int getClientForgePresent(String name) {
+	public static int getClientTweaksType(String name) {
 		int present = 0;
 		for (int i=0; i<clientfolders.length;i++)
 		{

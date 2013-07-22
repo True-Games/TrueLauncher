@@ -51,8 +51,8 @@ public class ClientLaunch {
 			for (String lib : AllSettings.getClientLibs()) {
 				libs += lib + cps;
 			}
-			// forge present flag
-			int forgepresent = AllSettings.getClientForgePresent(gui.listclients.getSelectedItem().toString());
+			// mods tweaks type
+			int tweakstype = AllSettings.getClientTweaksType(gui.listclients.getSelectedItem().toString());
 
 
 			ProcessBuilder pb = new ProcessBuilder();
@@ -65,17 +65,33 @@ public class ClientLaunch {
 			cc.add("-Dfml.ignorePatchDiscrepancies=true");
 			cc.add("-cp");
 			cc.add(libs + jar);
-			if (lvers == 1) { // 1.5 and older
+			if (lvers == 1) 
+			{ // 1.5 and older
 				cc.add("net.minecraft.client.Minecraft");
 				cc.add(nick);
 				cc.add("session");
-			} else if (lvers == 2) { // 1.6 and newer
-				if (forgepresent == 0) {// normal minecraft
+			}
+			else if (lvers == 2) 
+			{ // 1.6 and newer
+				if (tweakstype == 0) 
+				{// normal minecraft
 					cc.add("net.minecraft.client.main.Main");
-				} else if (forgepresent == 1) {// minecraft with forge
+				}
+				else
+				{//minecraft with tweaks
 					cc.add("net.minecraft.launchwrapper.Launch");
 					cc.add("--tweakClass");
-					cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
+					if (tweakstype == 1) {// minecraft with forge
+						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
+					} else 
+					if (tweakstype == 2) {//minecraft with liteloader
+						cc.add("com.mumfrey.liteloader.launch.LiteLoaderTweaker");
+					} else
+					if (tweakstype == 3) {//minecraft with forge and liteloader
+						cc.add("com.mumfrey.liteloader.launch.LiteLoaderTweaker");
+						cc.add("--cascadedTweaks");
+						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
+					}
 				}
 
 				cc.add("--username");
