@@ -24,7 +24,7 @@ import java.util.List;
 public class AllSettings {
 	
 	//launcher version
-	private static int lversion = 15;
+	private static int lversion = 16;
 	//laucnher folder update URL;
 	//folder structure 
 	//{folder}/Laucnher.jar - launcher location
@@ -36,7 +36,6 @@ public class AllSettings {
 	private static String[][] clientfolders = 
 	{
 		{"Classic 1.6.2",".true-games.org/runclients/classic162", ".true-games.org/runclients/classic162/minecraft.jar", "2", "0"} ,
-		{"Classic 1.5.2",".true-games.org/runclients/classic",".true-games.org/runclients/classic/minecraft.jar" ,"1", "0"},
 		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1", "0"}
 
 	};
@@ -44,7 +43,6 @@ public class AllSettings {
 	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need)
 	private static ArrayList<String> clientlibs = new ArrayList<String>(
 			Arrays.asList(
-					
 					//minecraft libs
 					"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
 					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
@@ -84,7 +82,6 @@ public class AllSettings {
 	private static String[][] downloadclients = 
 	{
 		{"Classic 1.6.2","http://download.true-games.org/minecraft/clients/mc162.zip",".true-games.org/runclients/classic162"},
-		{"Classic 1.5.2","http://download.true-games.org/minecraft/clients/classic.zip",".true-games.org/runclients/classic"},
 		{"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
 	};
 	
