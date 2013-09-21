@@ -64,6 +64,7 @@ public class GUI extends JPanel {
 	public GUI(JFrame frame)
 	{
 		try {
+    		AllSettings.loadConfig();
 			this.f = frame;
 			this.setLayout(null);
 			//border

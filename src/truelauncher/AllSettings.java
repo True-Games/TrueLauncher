@@ -17,12 +17,86 @@
 
 package truelauncher;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class AllSettings {
 	
+	
+	public static void loadConfig() throws FileNotFoundException
+	{
+		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clientsconfig");
+		if (configfile.exists())
+		{
+			Scanner in = new Scanner(configfile);
+			int clientsnumber = Integer.valueOf(in.nextLine().split("[=]")[1]);
+			in.nextLine();
+			clientfolders = new String[clientsnumber][5];
+			for (int i = 0; i < clientsnumber; i++)
+			{
+				String client = in.nextLine();
+				client = client.replace("\"", "");
+				clientfolders[i] = client.split("\\,");
+			}
+			in.nextLine();
+			tempfolder = in.nextLine();
+			tempfolder = tempfolder.replace("\"", "");
+			downloadclients = new String[clientsnumber][3];
+			for (int i = 0; i < clientsnumber; i++)
+			{
+				String client = in.nextLine();
+				client = client.replace("\"", "");
+				downloadclients[i] = client.split("\\,");
+			}
+			in.nextLine();
+			while (in.hasNextLine())
+			{
+				String lib = in.nextLine();
+				lib = lib.replace("\"", "");
+				clientlibs.add(lib);
+			}
+			in.close();
+		}
+		else
+		{
+			try {
+				configfile.getParentFile().mkdirs();
+				BufferedInputStream in = new BufferedInputStream(Launcher.class.getResourceAsStream("config/clientsconfig"));
+				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(configfile));
+				byte[] buf = new byte[4096];
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				out.close();
+				loadConfig();
+			}
+   			catch (Exception e) {LauncherUtils.logError(e);}
+			//load predefined config from laucnher and reload settings
+			//loadConfig();
+		}
+	}
+
+	//For client launch
+	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - tweaks present(0 - no , 1 - forge , 2 - forge w/o liteloader, 3 - liteloader w/ forge , for newer launch versions) 
+	private static String[][] clientfolders;
+
+	//For client download
+	//folder in which clients .zip file will be downloaded
+	private static String tempfolder = ".true-games.org/packedclients";
+	//1 - name, 2 - downloadlink, 3 - folderto
+	private static String[][] downloadclients;
+
+	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need)
+	private static ArrayList<String> clientlibs = new ArrayList<String>();
+
 	//launcher version
 	private static int lversion = 16;
 	//laucnher folder update URL;
@@ -31,64 +105,8 @@ public class AllSettings {
 	//{folder}/version - launcher version
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
 	
-	//For client launch
-	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - tweaks present(0 - no , 1 - forge , 2 - forge w/o liteloader, 3 - liteloader w/ forge , for newer launch versions) 
-	private static String[][] clientfolders = 
-	{
-		{"Classic 1.6.2",".true-games.org/runclients/classic162", ".true-games.org/runclients/classic162/minecraft.jar", "2", "0"} ,
-		{"HiTech 1.5.2",".true-games.org/runclients/hitech", ".true-games.org/runclients/hitech/minecraft.jar", "1", "0"}
-
-	};
-	
-	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need)
-	private static ArrayList<String> clientlibs = new ArrayList<String>(
-			Arrays.asList(
-					//minecraft libs
-					"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar",
-					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
-					"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar",
-					"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar",
-					"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar",
-					"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar",
-					"libraries/com/paulscode/codecjorbis/20101023/codecjorbis-20101023.jar",
-					"libraries/com/paulscode/codecwav/20101023/codecwav-20101023.jar",
-					"libraries/com/paulscode/libraryjavasound/20101123/libraryjavasound-20101123.jar",
-					"libraries/com/paulscode/librarylwjglopenal/20100824/librarylwjglopenal-20100824.jar",
-					"libraries/com/paulscode/soundsystem/20120107/soundsystem-20120107.jar",
-					"libraries/argo/argo/2.25_fixed/argo-2.25_fixed.jar",
-					"libraries/org/bouncycastle/bcprov-jdk15on/1.47/bcprov-jdk15on-1.47.jar",
-					"libraries/com/google/guava/guava/14.0/guava-14.0.jar",
-					"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar",
-					"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar",
-					"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar",
-					//forge libs
-					"libraries/org/scala-lang/scala-library/2.10.2/scala-library-2.10.2.jar",
-					"libraries/org/scala-lang/scala-compiler/2.10.2/scala-compiler-2.10.2.jar",
-					"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar",
-					"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar",
-					"libraries/wrapper/lwrap.jar",
-					"libraries/forge/mcforge.jar",
-					//liteloader libs
-					"libraries/liteloader/ll.jar"
-			)
-			
-	);
-	
-	
-	//For client download
-	//folder in which clients .zip file will be downloaded
-	private static String tempfolder = ".true-games.org/packedclients";
-	//1 - name, 2 - downloadlink, 3 - folderto
-	private static String[][] downloadclients = 
-	{
-		{"Classic 1.6.2","http://download.true-games.org/minecraft/clients/mc162.zip",".true-games.org/runclients/classic162"},
-		{"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"}
-	};
-	
-
 	//folder in which configuration will be stored
 	private static String configfolder = ".true-games.org/configdata";
-			
 
 	//main frame size
 	public static int w = 740;
@@ -136,7 +154,7 @@ public class AllSettings {
 		return folder;
 	}
 	
-		public static String getClientJarByName(String name)
+	public static String getClientJarByName(String name)
 	{
 		String folder = "fail";
 		for (int i=0; i<clientfolders.length;i++)
