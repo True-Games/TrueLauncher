@@ -1,9 +1,11 @@
-clientsnumber=2
+clientsnumber=3
 [launchclients]
+"Classic 1.6.4",".true-games.org/runclients/classic164",".true-games.org/runclients/classic164/minecraft.jar","2","0"
 "Classic 1.6.2",".true-games.org/runclients/classic162",".true-games.org/runclients/classic162/minecraft.jar","2","0"
 "HiTech 1.5.2",".true-games.org/runclients/hitech",".true-games.org/runclients/hitech/minecraft.jar","1","0"
 [downloadclients]
 ".true-games.org/packedclients"
+"Classic 1.6.4","http://download.true-games.org/minecraft/clients/mc164.zip",".true-games.org/runclients/classic164"
 "Classic 1.6.2","http://download.true-games.org/minecraft/clients/mc162.zip",".true-games.org/runclients/classic162"
 "Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"
 [libs]
