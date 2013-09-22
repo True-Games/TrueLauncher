@@ -33,7 +33,7 @@ public class LVersionChecker extends Thread {
 	{
 		try {
 			int newversion = Integer.MAX_VALUE;
-			newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"/"+"version").openStream()));
+			newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"version").openStream()));
 			if (AllSettings.getLauncherVerison() < newversion)
 			{
 				gui.getRootPane().getGlassPane().setVisible(true);

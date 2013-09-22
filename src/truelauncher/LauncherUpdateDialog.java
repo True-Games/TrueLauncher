@@ -88,10 +88,10 @@ public class LauncherUpdateDialog  extends JDialog {
     	ldownload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            lstatus.setText("Скачиваем обновление");
-           	ldownload.setEnabled(false);
-           	later.setEnabled(false);
-            new LUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"/"+"Launcher.jar").start();
+            	lstatus.setText("Скачиваем обновление");
+            	ldownload.setEnabled(false);
+            	later.setEnabled(false);
+           		new LUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"Launcher.jar").start();
             }
         });
     	panel.add(ldownload);

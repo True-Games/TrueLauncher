@@ -22,6 +22,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,7 +35,7 @@ public class AllSettings {
 	
 	public static void loadConfig() throws FileNotFoundException
 	{
-		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clientsconfig");
+		final File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clientsconfig");
 		if (configfile.exists())
 		{
 			Scanner in = new Scanner(configfile);
@@ -82,6 +86,35 @@ public class AllSettings {
 			//load predefined config from laucnher and reload settings
 			//loadConfig();
 		}
+		//update config
+		Thread update = new Thread(){
+			public void run()
+			{
+				try {
+					URL url = new URL(getLauncherWebUpdateURLFolder()+"clientsconfig");
+					URLConnection conn = url.openConnection();
+
+					if ((conn instanceof HttpURLConnection)) {
+						conn.setRequestProperty("Cache-Control", "no-cache");
+						conn.connect();
+					}
+					InputStream inputstream = conn.getInputStream();
+
+					FileOutputStream writer = new FileOutputStream(configfile);
+					byte[] buffer = new byte[153600];
+
+					int bufferSize = 0;
+					while ((bufferSize = inputstream.read(buffer)) > 0) {
+						writer.write(buffer, 0, bufferSize);
+						buffer = new byte[153600];
+					}
+
+					writer.close();
+					inputstream.close();
+				} catch (Exception e) {LauncherUtils.logError(e);}
+			}
+		};
+		update.start();
 	}
 
 	//For client launch
@@ -103,7 +136,7 @@ public class AllSettings {
 	//folder structure 
 	//{folder}/Laucnher.jar - launcher location
 	//{folder}/version - launcher version
-	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher";
+	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 	
 	//folder in which configuration will be stored
 	private static String configfolder = ".true-games.org/configdata";
