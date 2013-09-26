@@ -118,7 +118,7 @@ public class AllSettings {
 	}
 
 	//For client launch
-	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - tweaks present(0 - no , 1 - forge , 2 - forge w/o liteloader, 3 - liteloader w/ forge , for newer launch versions) 
+	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - tweaks present(0 - no , 1 - forge , 2 - liteloader w/o forge, 3 - liteloader w/ forge , for newer launch versions) 
 	private static String[][] clientfolders;
 
 	//For client download
