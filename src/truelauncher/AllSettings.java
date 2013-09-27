@@ -131,7 +131,7 @@ public class AllSettings {
 	private static ArrayList<String> clientlibs = new ArrayList<String>();
 
 	//launcher version
-	private static int lversion = 17;
+	private static int lversion = 18;
 	//laucnher folder update URL;
 	//folder structure 
 	//{folder}/Laucnher.jar - launcher location

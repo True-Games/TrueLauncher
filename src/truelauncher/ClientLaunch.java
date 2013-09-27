@@ -89,7 +89,11 @@ public class ClientLaunch {
 					} else
 					if (tweakstype == 3) {//minecraft with forge and liteloader
 						cc.add("com.mumfrey.liteloader.launch.LiteLoaderTweaker");
+						//1.6.2 liteloader
 						cc.add("--cascadedTweaks");
+						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
+						//1.6.4 and later liteloader
+						cc.add("--tweakClass");
 						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
 					}
 				}
