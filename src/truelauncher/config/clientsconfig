@@ -1,13 +1,11 @@
-clientsnumber=3
+clientsnumber=2
 [launchclients]
-"Classic 1.6.4",".true-games.org/runclients/classic164",".true-games.org/runclients/classic164/minecraft.jar","2","0"
-"Classic 1.6.2",".true-games.org/runclients/classic162",".true-games.org/runclients/classic162/minecraft.jar","2","0"
-"HiTech 1.5.2",".true-games.org/runclients/hitech",".true-games.org/runclients/hitech/minecraft.jar","1","0"
+"Classic 1.6.4",".true-games.org/runclients/classic164",".true-games.org/runclients/classic164/minecraft.jar","net.minecraft.client.main.Main","--username {USERNAME} --session session"
+"HiTech 1.6.4",".true-games.org/runclients/madhitech164",".true-games.org/runclients/madhitech164/minecraft.jar","net.minecraft.launchwrapper.Launch","--tweakClass com.mumfrey.liteloader.launch.LiteLoaderTweaker --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --username {USERNAME} --session session"
 [downloadclients]
 ".true-games.org/packedclients"
 "Classic 1.6.4","http://download.true-games.org/minecraft/clients/mc164.zip",".true-games.org/runclients/classic164"
-"Classic 1.6.2","http://download.true-games.org/minecraft/clients/mc162.zip",".true-games.org/runclients/classic162"
-"Hitech 1.5.2","http://download.true-games.org/minecraft/clients/hitech.zip",".true-games.org/runclients/hitech"
+"Hitech 1.6.4","http://download.true-games.org/minecraft/clients/madhitech164.zip",".true-games.org/runclients/madhitech164"
 [libs]
 "libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar"
 "libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"

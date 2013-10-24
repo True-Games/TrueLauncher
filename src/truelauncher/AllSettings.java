@@ -32,7 +32,7 @@ import java.util.Scanner;
 
 public class AllSettings {
 	
-	
+	//TODO: rewrite config structure
 	public static void loadConfig() throws FileNotFoundException
 	{
 		final File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clientsconfig");
@@ -205,6 +205,10 @@ public class AllSettings {
 		String mainclass = "net.minecraft.client.main.Main";
 		for (int i=0; i<clientfolders.length;i++)
 		{
+			if (clientfolders[i][0].equals(name))
+			{
+				mainclass = clientfolders[i][3];
+			}
 
 		}
 		return mainclass;
@@ -215,7 +219,10 @@ public class AllSettings {
 		String cmdargs = "--username {USERNAME} --session session";
 		for (int i=0; i<clientfolders.length;i++)
 		{
-
+			if (clientfolders[i][0].equals(name))
+			{
+				cmdargs = clientfolders[i][4];
+			}
 		}
 		return cmdargs;
 	}
