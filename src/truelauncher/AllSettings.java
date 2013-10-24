@@ -114,11 +114,11 @@ public class AllSettings {
 				} catch (Exception e) {LauncherUtils.logError(e);}
 			}
 		};
-		update.start();
+		//update.start();
 	}
 
 	//For client launch
-	//1 - name, 2- launchfolder, 3 - minecraft jar file, 4 - launch type (1 - 1.5.2 and older, 2 - 1.6 and newer), 5 - tweaks present(0 - no , 1 - forge , 2 - liteloader w/o forge, 3 - liteloader w/ forge , for newer launch versions) 
+	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
 	private static String[][] clientfolders;
 
 	//For client download
@@ -176,7 +176,7 @@ public class AllSettings {
 	
 	public static String getClientFolderByName(String name)
 	{
-		String folder = "minecraft";
+		String folder = ".minecraft";
 		for (int i=0; i<clientfolders.length;i++)
 		{
 			if (clientfolders[i][0].equals(name))
@@ -189,7 +189,7 @@ public class AllSettings {
 	
 	public static String getClientJarByName(String name)
 	{
-		String folder = "fail";
+		String folder = ".minecraft/minecraft.jar";
 		for (int i=0; i<clientfolders.length;i++)
 		{
 			if (clientfolders[i][0].equals(name))
@@ -199,35 +199,30 @@ public class AllSettings {
 		}
 		return folder;
 	}
-		
-	public static int getClientLaunchVersionByName(String name)
+	
+	public static String getClientMainClassByName(String name)
 	{
-		int version = 1;
+		String mainclass = "net.minecraft.client.main.Main";
 		for (int i=0; i<clientfolders.length;i++)
 		{
-			if (clientfolders[i][0].equals(name))
-			{
-				version = Integer.valueOf(clientfolders[i][3]);
-			}
+
 		}
-		return version;
-	}	
-	
-	public static ArrayList<String> getClientLibs() {
-		return clientlibs;
+		return mainclass;
 	}
 	
-	public static int getClientTweaksType(String name) {
-		int present = 0;
+	public static String getClientCmdArgsByName(String name)
+	{
+		String cmdargs = "--username {USERNAME} --session session";
 		for (int i=0; i<clientfolders.length;i++)
 		{
-			if (clientfolders[i][0].equals(name))
-			{
-				present = Integer.valueOf(clientfolders[i][4]);
-			}
+
 		}
-		// TODO Auto-generated method stub
-		return present;
+		return cmdargs;
+	}
+	
+	public static ArrayList<String> getClientLibs() 
+	{
+		return clientlibs;
 	}
 	//gui block 2 vars end
 	

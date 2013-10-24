@@ -19,24 +19,15 @@ package truelauncher;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientLaunch {
 
 	// Launch minecraft begin
-	public static void launchMC(GUI gui)
+	public static void launchMC(String mcpath, String nick, String mem, String jar, String mainlass, String cmdargs)
 	{
 		try {
-			// laucnher folder
-			String mcpath = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(gui.listclients.getSelectedItem().toString());
-			// nickname
-			String nick = gui.nickfield.getText();
-			// RAM
-			String mem = Integer.valueOf(gui.ramfield.getText()) + "M";
-			// minecraft launch version
-			int lvers = AllSettings.getClientLaunchVersionByName(gui.listclients.getSelectedItem().toString());
-			// location of jar file
-			String jar = LauncherUtils.getDir()+ File.separator + AllSettings.getClientJarByName(gui.listclients.getSelectedItem().toString());
 			// libs and java locations
 			String cps;
 			String java = System.getProperty("java.home");
@@ -51,10 +42,10 @@ public class ClientLaunch {
 			for (String lib : AllSettings.getClientLibs()) {
 				libs += lib + cps;
 			}
-			// mods tweaks type
-			int tweakstype = AllSettings.getClientTweaksType(gui.listclients.getSelectedItem().toString());
-
-
+			//replace nick
+			cmdargs = cmdargs.replace("{USERNAME}", nick);
+			List<String> cmdargsarray = Arrays.asList(cmdargs.split("\\s+"));
+			//now lets launch it
 			ProcessBuilder pb = new ProcessBuilder();
 			pb.directory(new File(mcpath).getCanonicalFile());
 			List<String> cc = new ArrayList<String>();
@@ -65,55 +56,17 @@ public class ClientLaunch {
 			cc.add("-Dfml.ignorePatchDiscrepancies=true");
 			cc.add("-cp");
 			cc.add(libs + jar);
-			if (lvers == 1) 
-			{ // 1.5 and older
-				cc.add("net.minecraft.client.Minecraft");
-				cc.add(nick);
-				cc.add("session");
-			}
-			else if (lvers == 2) 
-			{ // 1.6 and newer
-				if (tweakstype == 0) 
-				{// normal minecraft
-					cc.add("net.minecraft.client.main.Main");
-				}
-				else
-				{//minecraft with tweaks
-					cc.add("net.minecraft.launchwrapper.Launch");
-					cc.add("--tweakClass");
-					if (tweakstype == 1) {// minecraft with forge
-						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
-					} else 
-					if (tweakstype == 2) {//minecraft with liteloader
-						cc.add("com.mumfrey.liteloader.launch.LiteLoaderTweaker");
-					} else
-					if (tweakstype == 3) {//minecraft with forge and liteloader
-						cc.add("com.mumfrey.liteloader.launch.LiteLoaderTweaker");
-						//1.6.2 liteloader
-						cc.add("--cascadedTweaks");
-						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
-						//1.6.4 and later liteloader
-						cc.add("--tweakClass");
-						cc.add("cpw.mods.fml.common.launcher.FMLTweaker");
-					}
-				}
-
-				cc.add("--username");
-				cc.add(nick);
-				cc.add("--session");
-				cc.add("session");
-				cc.add("--version");
-				cc.add("1.6.2");
-				cc.add("--gameDir");
-				cc.add(mcpath);
-				cc.add("--assetsDir");
-				cc.add(mcpath + File.separator + "assets");
-			}
-
+			cc.add(mainlass);
+			cc.addAll(cmdargsarray);
+			cc.add("--version");
+			cc.add("fakeversion");
+			cc.add("--gameDir");
+			cc.add(mcpath);
+			cc.add("--assetsDir");
+			cc.add(mcpath + File.separator + "assets");
 			pb.command(cc);
 			pb.inheritIO(); // Do not remove this
 			pb.start();
-
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}

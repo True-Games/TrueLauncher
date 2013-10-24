@@ -235,14 +235,29 @@ public class GUI extends JPanel {
  	           });
  	   sb.add(listclients);
  	    
- 	     //кнопка запуска майна
+ 	   //кнопка запуска майна
        launch = new TButton();
        launch.setBounds(0, 55, widgw, 40);
        launch.setText("Запустить Minecraft");
        launch.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
-            	 	ClientLaunch.launchMC(thisclass);
+            	// selection name
+            	String clientname = listclients.getSelectedItem().toString();
+     			// laucnher folder
+     			String mcpath = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(clientname);
+     			// nickname
+     			String nick = nickfield.getText();
+     			// RAM
+     			String mem = Integer.valueOf(ramfield.getText()) + "M";
+     			// location of jar file
+     			String jar = LauncherUtils.getDir()+ File.separator + AllSettings.getClientJarByName(clientname);
+     			// mainclass
+     			String mainclass = AllSettings.getClientMainClassByName(clientname);
+     			// cmdargs
+     			String cmdargs = AllSettings.getClientCmdArgsByName(clientname);
+     			//launch minecraft (mcpach, nick, mem, jar, mainclass, cmdargs)
+            	ClientLaunch.launchMC(mcpath, nick, mem, jar, mainclass, cmdargs);
              }
        });
 	   LauncherUtils.checkClientJarExist(thisclass);
