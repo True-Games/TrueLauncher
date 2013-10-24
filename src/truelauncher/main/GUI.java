@@ -116,13 +116,50 @@ public class GUI extends JPanel {
  
  
      private void initUI() {
+    	 showCloseMinimizeButton();
     	 initTextInputFieldsAndLabels();
     	 initStartButton();
     	 initDownloadCenter();
     	 showLauncherUpdateWindow();
-    	 showCloseMinimizeButton();
      }
      
+     //close and minimize buttonis block
+     private void showCloseMinimizeButton()
+     {
+      	 JPanel cmb = new JPanel();
+      	 cmb.setLayout(null);
+      	 cmb.setBounds(AllSettings.w - 75,15,60,25);
+      	 
+      	 TButton minimize = new TButton();
+      	 minimize.setBounds(0,0,25,25);
+      	 minimize.setBackgroundImage(AllSettings.hide);
+      	 minimize.addActionListener(new ActionListener()
+      	 {
+      		 @Override 
+      		 public void actionPerformed(ActionEvent e)
+      		 {
+      			 f.setExtendedState(JFrame.ICONIFIED);
+      		 }
+      	 });
+      	 cmb.add(minimize);
+      	 
+      	 TButton close = new TButton();
+      	 close.setBounds(35, 0, 25, 25);
+      	 close.setBackgroundImage(AllSettings.close);
+      	 close.addActionListener(new ActionListener()
+      	 {
+      		 @Override 
+      		 public void actionPerformed(ActionEvent e)
+      		 {
+      			 System.exit(0);
+      		 }
+      	 });
+      	 cmb.add(close);
+      	 cmb.setOpaque(false);
+      	 cmb.setBackground(new Color(0,0,0,0));
+      	 
+      	 this.add(cmb);
+     }
 
      //block 1 (nickname chooser)
      private void initTextInputFieldsAndLabels()
@@ -330,44 +367,6 @@ public class GUI extends JPanel {
   	    dc.add(download);
     	
     	this.add(dc);
-     }
-     
-     //close and minimize buttonis block
-     private void showCloseMinimizeButton()
-     {
-      	 JPanel cmb = new JPanel();
-      	 cmb.setLayout(null);
-      	 cmb.setBounds(AllSettings.w - 75,15,60,25);
-      	 
-      	 TButton minimize = new TButton();
-      	 minimize.setBounds(0,0,25,25);
-      	 minimize.setBackgroundImage(AllSettings.hide);
-      	 minimize.addActionListener(new ActionListener()
-      	 {
-      		 @Override 
-      		 public void actionPerformed(ActionEvent e)
-      		 {
-      			 f.setExtendedState(JFrame.ICONIFIED);
-      		 }
-      	 });
-      	 cmb.add(minimize);
-      	 
-      	 TButton close = new TButton();
-      	 close.setBounds(35, 0, 25, 25);
-      	 close.setBackgroundImage(AllSettings.close);
-      	 close.addActionListener(new ActionListener()
-      	 {
-      		 @Override 
-      		 public void actionPerformed(ActionEvent e)
-      		 {
-      			 System.exit(0);
-      		 }
-      	 });
-      	 cmb.add(close);
-      	 cmb.setOpaque(false);
-      	 cmb.setBackground(new Color(0,0,0,0));
-      	 
-      	 this.add(cmb);
      }
 
      //Init laucnher updater
