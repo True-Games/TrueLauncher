@@ -36,7 +36,6 @@ public class LauncherUpdateDialog  extends JDialog {
 	
 	private String labelimage = "../images/labelbar.png";
 
-	Object result;
 	int w = 250; int h = 90;
 	public TButton ldownload;
 	public JProgressBar lpbar;
