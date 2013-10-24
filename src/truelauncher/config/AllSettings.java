@@ -17,121 +17,34 @@
 
 package truelauncher.config;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import truelauncher.main.Launcher;
 import truelauncher.utils.LauncherUtils;
 
 public class AllSettings {
 	
 	//TODO: rewrite config structure
-	public static void loadConfig() throws FileNotFoundException
+	public static void load() throws FileNotFoundException
 	{
-		final File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clientsconfig");
-		if (configfile.exists())
-		{
-			Scanner in = new Scanner(configfile);
-			int clientsnumber = Integer.valueOf(in.nextLine().split("[=]")[1]);
-			in.nextLine();
-			clientfolders = new String[clientsnumber][5];
-			for (int i = 0; i < clientsnumber; i++)
-			{
-				String client = in.nextLine();
-				client = client.replace("\"", "");
-				clientfolders[i] = client.split("\\,");
-			}
-			in.nextLine();
-			tempfolder = in.nextLine();
-			tempfolder = tempfolder.replace("\"", "");
-			downloadclients = new String[clientsnumber][3];
-			for (int i = 0; i < clientsnumber; i++)
-			{
-				String client = in.nextLine();
-				client = client.replace("\"", "");
-				downloadclients[i] = client.split("\\,");
-			}
-			in.nextLine();
-			while (in.hasNextLine())
-			{
-				String lib = in.nextLine();
-				lib = lib.replace("\"", "");
-				clientlibs.add(lib);
-			}
-			in.close();
-		}
-		else
-		{
-			try {
-				configfile.getParentFile().mkdirs();
-				BufferedInputStream in = new BufferedInputStream(Launcher.class.getResourceAsStream("config/clientsconfig"));
-				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(configfile));
-				byte[] buf = new byte[4096];
-				int len;
-				while ((len = in.read(buf)) > 0) {
-					out.write(buf, 0, len);
-				}
-				in.close();
-				out.close();
-				loadConfig();
-			}
-   			catch (Exception e) {LauncherUtils.logError(e);}
-			//load predefined config from laucnher and reload settings
-			//loadConfig();
-		}
-		//update config
-		Thread update = new Thread(){
-			public void run()
-			{
-				try {
-					URL url = new URL(getLauncherWebUpdateURLFolder()+"clientsconfig");
-					URLConnection conn = url.openConnection();
-
-					if ((conn instanceof HttpURLConnection)) {
-						conn.setRequestProperty("Cache-Control", "no-cache");
-						conn.connect();
-					}
-					InputStream inputstream = conn.getInputStream();
-
-					FileOutputStream writer = new FileOutputStream(configfile);
-					byte[] buffer = new byte[153600];
-
-					int bufferSize = 0;
-					while ((bufferSize = inputstream.read(buffer)) > 0) {
-						writer.write(buffer, 0, bufferSize);
-						buffer = new byte[153600];
-					}
-
-					writer.close();
-					inputstream.close();
-				} catch (Exception e) {LauncherUtils.logError(e);}
-			}
-		};
-		//update.start();
+		final File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clients");
+		ConfigLoader.loadConfig(configfile);
+		ConfigUpdater.updateConfig(configfile);
 	}
 
 	//For client launch
 	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
-	private static String[][] clientfolders;
+	protected static String[][] clientfolders;
 
 	//For client download
 	//folder in which clients .zip file will be downloaded
-	private static String tempfolder = ".true-games.org/packedclients";
+	protected static String tempfolder = ".true-games.org/packedclients";
 	//1 - name, 2 - downloadlink, 3 - folderto
-	private static String[][] downloadclients;
+	protected static String[][] downloadclients;
 
 	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need)
-	private static ArrayList<String> clientlibs = new ArrayList<String>();
+	protected static ArrayList<String> clientlibs = new ArrayList<String>();
 
 	//launcher version
 	private static int lversion = 18;

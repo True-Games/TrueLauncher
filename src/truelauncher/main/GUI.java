@@ -70,7 +70,7 @@ public class GUI extends JPanel {
 	public GUI(JFrame frame)
 	{
 		try {
-    		AllSettings.loadConfig();
+    		AllSettings.load();
 			this.f = frame;
 			this.setLayout(null);
 			//border
