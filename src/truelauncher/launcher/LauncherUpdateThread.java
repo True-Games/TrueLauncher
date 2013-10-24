@@ -32,8 +32,6 @@ import truelauncher.utils.LauncherUtils;
 
 public class LauncherUpdateThread extends Thread {
 
-	private String lpath;
-
 	private LauncherUpdateDialog lu;
 	private String urlfrom;
 
@@ -76,9 +74,9 @@ public class LauncherUpdateThread extends Thread {
 		inputstream.close();
 	}
 
-	public void lcopy(String from) throws Exception {
+	public void lcopy(String from, String to) throws Exception {
 		InputStream in = new FileInputStream(from);
-		OutputStream out = new FileOutputStream(lpath);
+		OutputStream out = new FileOutputStream(to);
 
 		byte[] buf = new byte[1024];
 		int len;
@@ -89,11 +87,11 @@ public class LauncherUpdateThread extends Thread {
 		out.close();
 	}
 
-	public void lrestart() throws Exception {
+	public void lrestart(String launcherfilename) throws Exception {
 		ArrayList<String> lls = new ArrayList<String>();
 		lls.add("java");
 		lls.add("-jar");
-		lls.add(new File(lpath).getName());
+		lls.add(launcherfilename);
 		ProcessBuilder lpb = new ProcessBuilder();
 		lpb.directory(new File(".").getCanonicalFile());
 		lpb.command(lls);
@@ -102,19 +100,18 @@ public class LauncherUpdateThread extends Thread {
 
 	public void run() {
 		try {
-			lpath = System.getProperty("sun.java.command");
-			lpath = new File(lpath).getName();
+			String launcherfilename = new File(System.getProperty("sun.java.command")).getName();
 			String temppath = System.getProperty("java.io.tmpdir") + "MCLauncherTemp" + new Random().nextInt() + ".jar";
 			//download launcher
 			ldownloader(urlfrom, temppath);
 			//delete old launcher
-			new File(lpath).delete();
+			new File(launcherfilename).delete();
 			//copy new launcher
-			lcopy(temppath);
+			lcopy(temppath,launcherfilename);
 			//set executable (to run on linux)
-			new File(lpath).setExecutable(true);
+			new File(launcherfilename).setExecutable(true);
 			//start new launcher
-			lrestart();
+			lrestart(launcherfilename);
 			//close this launcher
 			Runtime.getRuntime().exit(0);
 		} catch (final Exception e) {
