@@ -62,14 +62,14 @@ public class AllSettings {
 	public static int h = 340;
 	//images
 	public static String lname = "True-games.org|MinecraftLauncher";
-	public static String icon = "images/icon.png";
-	public static String bgimage = "images/bgimage.png";
-	public static String labelimage = "images/labelbar.png";
-	public static String textimage = "images/textfield.png";
-	public static String explainimage = "images/expbar.png";
-	public static String mclaunchimage = "images/mclaunch.png";
-	public static String close = "images/close.png";
-	public static String hide = "images/hide.png";
+	public static String icon = "../images/icon.png";
+	public static String bgimage = "../images/bgimage.png";
+	public static String labelimage = "../images/labelbar.png";
+	public static String textimage = "../images/textfield.png";
+	public static String explainimage = "../images/expbar.png";
+	public static String mclaunchimage = "../images/mclaunch.png";
+	public static String close = "../images/close.png";
+	public static String hide = "../images/hide.png";
 	
 	
 	//folder for error logging
