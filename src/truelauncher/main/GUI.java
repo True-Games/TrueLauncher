@@ -390,6 +390,7 @@ public class GUI extends JPanel {
                  inFile.close();
              }
          } catch (Exception e) {
+        	 LauncherUtils.logError(e);
          }
      }
      
@@ -405,7 +406,9 @@ public class GUI extends JPanel {
     		 wrt.println(ramfield.getText());
     		 wrt.flush();
     		 wrt.close();
-    	 } catch (Exception e) {}
+    	 } catch (Exception e) {
+    		 LauncherUtils.logError(e);
+    	 }
      }
      
 
