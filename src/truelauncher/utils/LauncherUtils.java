@@ -21,8 +21,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import truelauncher.config.AllSettings;
 import truelauncher.main.GUI;
 
@@ -85,11 +85,12 @@ public class LauncherUtils {
 	public static void logError(Exception err)
 	{
 		File errLogFile = new File(LauncherUtils.getDir() + File.separator + AllSettings.errFolder + File.separator + "LError.log");
-		if (!(errLogFile.exists())) {new File(LauncherUtils.getDir() + File.separator + AllSettings.errFolder + File.separator).mkdirs(); }
+		errLogFile.getParentFile().mkdirs();
 	     try {
 	    	 err.printStackTrace();
-	         FileOutputStream fos = new FileOutputStream(errLogFile);  
-	         PrintStream ps = new PrintStream(fos); 
+	         FileOutputStream fos = new FileOutputStream(errLogFile, true);
+	         PrintWriter ps = new PrintWriter(fos);
+	         ps.println(new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(System.currentTimeMillis())+":");
 	         err.printStackTrace(ps);
 	         ps.flush();
 	         ps.close();
