@@ -22,11 +22,6 @@ import javax.swing.JProgressBar;
 @SuppressWarnings("serial")
 public class TProgressBar extends JProgressBar {
 
-
-	public TProgressBar()
-	{
-
-	}
 	/*
 	private boolean renderImage = false;
 	private Image bgimage;

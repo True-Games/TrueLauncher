@@ -104,8 +104,7 @@ public class LauncherUpdateThread extends Thread {
 		try {
 			lpath = System.getProperty("sun.java.command");
 			lpath = new File(lpath).getName();
-			String temppath = System.getProperty("java.io.tmpdir")
-					+ "MCLauncherTemp" + new Random().nextInt() + ".jar";
+			String temppath = System.getProperty("java.io.tmpdir") + "MCLauncherTemp" + new Random().nextInt() + ".jar";
 			//download launcher
 			ldownloader(urlfrom, temppath);
 			//delete old launcher

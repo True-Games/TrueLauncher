@@ -28,11 +28,6 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class TLabel extends JLabel {
 
-	public TLabel()
-	{
-
-	}
-	
 	private boolean renderImage = false;
 	private Image bgimage;
 	

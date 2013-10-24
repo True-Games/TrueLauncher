@@ -39,8 +39,8 @@ public class TButton extends JButton {
 	
 	private boolean renderImage = false;
 	private Image bgimage;
-	private Image bgimage_pressed = bgimage;
-	private Image bgimage_focus = bgimage;
+	private Image bgimage_pressed;
+	private Image bgimage_focus;
 	
 	/**
 	 * WARNING: if you want to use custom image you should also add files for focus and pressed state.
