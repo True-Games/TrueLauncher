@@ -26,7 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Random;
 
 import truelauncher.utils.LauncherUtils;
 
@@ -101,14 +100,8 @@ public class LauncherUpdateThread extends Thread {
 	public void run() {
 		try {
 			String launcherfilename = new File(System.getProperty("sun.java.command")).getName();
-			String temppath = System.getProperty("java.io.tmpdir") + "MCLauncherTemp" + new Random().nextInt() + ".jar";
 			//download launcher
-			ldownloader(urlfrom, temppath);
-			//delete old launcher
-			new File(launcherfilename).delete();
-			//copy new launcher
-			lcopy(temppath,launcherfilename);
-			//set executable (to run on linux)
+			ldownloader(urlfrom, launcherfilename);
 			new File(launcherfilename).setExecutable(true);
 			//start new launcher
 			lrestart(launcherfilename);

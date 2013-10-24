@@ -34,7 +34,7 @@ import truelauncher.main.GUI;
 @SuppressWarnings("serial")
 public class LauncherUpdateDialog  extends JDialog {
 	
-	private String labelimage = "images/labelbar.png";
+	private String labelimage = "../images/labelbar.png";
 
 	Object result;
 	int w = 250; int h = 90;
