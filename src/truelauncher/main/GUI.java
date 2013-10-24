@@ -15,7 +15,7 @@
 *
 */
 
-package truelauncher;
+package truelauncher.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -38,11 +38,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import truelauncher.client.ClientLaunch;
+import truelauncher.client.ClientUpdateThread;
+import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TLabel;
 import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
+import truelauncher.launcher.LauncherVersionChecker;
+import truelauncher.launcher.LauncherUpdateDialog;
+import truelauncher.utils.LauncherUtils;
 
 @SuppressWarnings("serial")
 public class GUI extends JPanel {
@@ -368,7 +374,7 @@ public class GUI extends JPanel {
      private void showLauncherUpdateWindow()
      {
     	 lu = new LauncherUpdateDialog(thisclass);
-    	 new LVersionChecker(thisclass).start();
+    	 new LauncherVersionChecker(thisclass).start();
     	 
      }     
      

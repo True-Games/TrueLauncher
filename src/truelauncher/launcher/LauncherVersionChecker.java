@@ -15,16 +15,20 @@
 *
 */
 
-package truelauncher;
+package truelauncher.launcher;
 
 import java.net.URL;
 
+import truelauncher.config.AllSettings;
+import truelauncher.main.GUI;
+import truelauncher.utils.LauncherUtils;
 
-public class LVersionChecker extends Thread {
+
+public class LauncherVersionChecker extends Thread {
 	
 	private GUI gui;
 	
-	public LVersionChecker(GUI gui)
+	public LauncherVersionChecker(GUI gui)
 	{
 		this.gui = gui;
 	}

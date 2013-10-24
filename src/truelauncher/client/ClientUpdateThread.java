@@ -15,7 +15,7 @@
  *
  */
 
-package truelauncher;
+package truelauncher.client;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,6 +23,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+
+import truelauncher.config.AllSettings;
+import truelauncher.main.GUI;
+import truelauncher.utils.LauncherUtils;
+import truelauncher.utils.Zip;
 
 
 public class ClientUpdateThread extends Thread {
@@ -33,7 +38,7 @@ public class ClientUpdateThread extends Thread {
 	private String packedclientto;
 	private String unpackto;
 
-	ClientUpdateThread(GUI gui) {
+	public ClientUpdateThread(GUI gui) {
 		try {
 			this.gui = gui;
 			this.urlfrom = AllSettings.getClientDownloadLinkByName(gui.listdownloads.getSelectedItem().toString());

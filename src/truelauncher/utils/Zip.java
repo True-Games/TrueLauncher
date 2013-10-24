@@ -15,7 +15,7 @@
  *
  */
 
-package truelauncher;
+package truelauncher.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,13 +26,15 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import truelauncher.main.GUI;
+
 
 
 public class Zip {
 	
     private GUI gui;
 	
-    Zip(GUI gui){
+    public Zip(GUI gui){
     	this.gui = gui;
     }
     

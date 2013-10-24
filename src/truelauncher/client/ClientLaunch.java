@@ -15,12 +15,15 @@
  *
  */
 
-package truelauncher;
+package truelauncher.client;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import truelauncher.config.AllSettings;
+import truelauncher.utils.LauncherUtils;
 
 public class ClientLaunch {
 

@@ -15,7 +15,7 @@
 *
 */
 
-package truelauncher;
+package truelauncher.config;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -29,6 +29,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import truelauncher.main.Launcher;
+import truelauncher.utils.LauncherUtils;
 
 public class AllSettings {
 	

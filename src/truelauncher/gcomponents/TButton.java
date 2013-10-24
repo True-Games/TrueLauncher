@@ -27,7 +27,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 
-import truelauncher.GUI;
+import truelauncher.main.GUI;
 
 @SuppressWarnings("serial")
 public class TButton extends JButton {

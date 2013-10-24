@@ -15,7 +15,7 @@
 *
 */
 
-package truelauncher;
+package truelauncher.launcher;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -26,8 +26,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TLabel;
+import truelauncher.main.GUI;
 
 @SuppressWarnings("serial")
 public class LauncherUpdateDialog  extends JDialog {
@@ -91,7 +93,7 @@ public class LauncherUpdateDialog  extends JDialog {
             	lstatus.setText("Скачиваем обновление");
             	ldownload.setEnabled(false);
             	later.setEnabled(false);
-           		new LUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"Launcher.jar").start();
+           		new LauncherUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"Launcher.jar").start();
             }
         });
     	panel.add(ldownload);

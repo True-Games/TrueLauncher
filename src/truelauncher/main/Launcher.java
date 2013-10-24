@@ -15,12 +15,15 @@
 *
 */
 
-package truelauncher;
+package truelauncher.main;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import truelauncher.config.AllSettings;
+import truelauncher.utils.LauncherUtils;
 
 
 

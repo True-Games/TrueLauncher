@@ -15,7 +15,7 @@
  *
  */
 
-package truelauncher;
+package truelauncher.launcher;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,14 +28,16 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class LUpdateThread extends Thread {
+import truelauncher.utils.LauncherUtils;
+
+public class LauncherUpdateThread extends Thread {
 
 	private String lpath;
 
 	private LauncherUpdateDialog lu;
 	private String urlfrom;
 
-	LUpdateThread(LauncherUpdateDialog lu, String urlfrom) {
+	LauncherUpdateThread(LauncherUpdateDialog lu, String urlfrom) {
 		this.lu = lu;
 		this.urlfrom = urlfrom;
 	}
