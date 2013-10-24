@@ -49,9 +49,10 @@ public class AllSettings {
 	//launcher version
 	private static int lversion = 18;
 	//laucnher folder update URL;
-	//folder structure 
+	//folder structure
 	//{folder}/Laucnher.jar - launcher location
 	//{folder}/version - launcher version
+	//{folder}/clients - client config file
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 	
 	//folder in which configuration will be stored
