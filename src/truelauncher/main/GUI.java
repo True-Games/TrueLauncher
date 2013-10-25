@@ -46,6 +46,7 @@ import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TLabel;
 import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
+import truelauncher.images.Images;
 import truelauncher.launcher.LauncherVersionChecker;
 import truelauncher.launcher.LauncherUpdateDialog;
 import truelauncher.utils.LauncherUtils;
@@ -178,7 +179,7 @@ public class GUI extends JPanel {
       	 //Плашка объясениния
     	 TLabel expbarset = new TLabel();
     	 expbarset.setBounds(0,0,widgw,25);
-    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage));
+    	 expbarset.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.explainimage));
     	 expbarset.setText("Основные настройки");
       	 expbarset.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(expbarset);
@@ -189,7 +190,7 @@ public class GUI extends JPanel {
     	 int lnh = 20;
     	 TLabel labelnick = new TLabel();
     	 labelnick.setBounds(0,25,lnw,lnh);
-    	 labelnick.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage));
+    	 labelnick.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
     	 labelnick.setText("Ник");
       	 labelnick.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(labelnick);
@@ -210,7 +211,7 @@ public class GUI extends JPanel {
     	 labelram.setBounds(0,45,lrw,lrh);
     	 labelram.setText("Память");
       	 labelram.setHorizontalAlignment(TButton.CENTER);
-    	 labelram.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.labelimage));
+    	 labelram.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
     	 tifields.add(labelram);
 
        	 //Поле памяти
@@ -257,7 +258,7 @@ public class GUI extends JPanel {
        	expbarset.setBounds(0,0,widgw,25);
       	expbarset.setText("Выбор клиента");
       	expbarset.setHorizontalAlignment(TButton.CENTER);
-    	expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage));
+    	expbarset.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.explainimage));
       	 
     	sb.add(expbarset);
     	 
@@ -325,7 +326,7 @@ public class GUI extends JPanel {
       	 
     	 TLabel expbarset = new TLabel();
     	 expbarset.setBounds(0,0,widgw,25);
-    	 expbarset.setBackgroundImage(GUI.class.getResourceAsStream(AllSettings.explainimage));
+    	 expbarset.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.explainimage));
     	 expbarset.setText("Скачивание клиентов");
     	 expbarset.setHorizontalAlignment(TLabel.CENTER);
     	 dc.add(expbarset);
@@ -414,7 +415,7 @@ public class GUI extends JPanel {
      @Override
 	 public void paintComponent(Graphics g) {
     	 try {
-    		 Image bg = ImageIO.read(GUI.class.getResourceAsStream(AllSettings.bgimage));
+    		 Image bg = ImageIO.read(Images.class.getResourceAsStream(AllSettings.bgimage));
     		 bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
 			g.drawImage(bg, 0, 0, null);
     	 } catch (IOException e) {

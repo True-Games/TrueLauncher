@@ -29,12 +29,13 @@ import javax.swing.JProgressBar;
 import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TLabel;
+import truelauncher.images.Images;
 import truelauncher.main.GUI;
 
 @SuppressWarnings("serial")
 public class LauncherUpdateDialog  extends JDialog {
 	
-	private String labelimage = "../images/labelbar.png";
+	private String labelimage = "labelbar.png";
 
 	int w = 250; int h = 90;
 	public TButton ldownload;
@@ -73,7 +74,7 @@ public class LauncherUpdateDialog  extends JDialog {
 		
      	lstatus = new TLabel();
      	lstatus.setBounds(2,2,w-4,24);
-     	lstatus.setBackgroundImage(GUI.class.getResourceAsStream(labelimage));
+     	lstatus.setBackgroundImage(Images.class.getResourceAsStream(labelimage));
      	lstatus.setText("Доступно обновление лаунчера");
      	lstatus.setHorizontalAlignment(TLabel.CENTER);
      	panel.add(lstatus);

@@ -27,7 +27,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 
-import truelauncher.main.GUI;
+import truelauncher.images.Images;
 
 @SuppressWarnings("serial")
 public class TButton extends JButton {
@@ -57,11 +57,11 @@ public class TButton extends JButton {
 			this.setContentAreaFilled(false);
 			this.setFocusable(false);
 			this.setBorder(null);
-			bgimage = ImageIO.read(GUI.class.getResourceAsStream(filepath));
+			bgimage = ImageIO.read(Images.class.getResourceAsStream(filepath));
 			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			bgimage_pressed = ImageIO.read(GUI.class.getResourceAsStream(new File(filepath).getParent()+"/"+"pr_"+new File(filepath).getName()));
+			bgimage_pressed = ImageIO.read(Images.class.getResourceAsStream("pr_"+new File(filepath).getName()));
 			bgimage_pressed = bgimage_pressed.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			bgimage_focus = ImageIO.read(GUI.class.getResourceAsStream(new File(filepath).getParent()+"/"+"f_"+new File(filepath).getName()));
+			bgimage_focus = ImageIO.read(Images.class.getResourceAsStream("f_"+new File(filepath).getName()));
 			bgimage_focus = bgimage_focus.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 		} catch (Exception e) {
 			e.printStackTrace();

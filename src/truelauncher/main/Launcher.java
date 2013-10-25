@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import truelauncher.config.AllSettings;
+import truelauncher.images.Images;
 import truelauncher.utils.LauncherUtils;
 
 
@@ -49,7 +50,7 @@ public class Launcher {
             		frame.setLocationRelativeTo(null);
             		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
             		frame.setUndecorated(true);
-            		frame.setIconImage(ImageIO.read(GUI.class.getResourceAsStream(AllSettings.icon)));
+            		frame.setIconImage(ImageIO.read(Images.class.getResourceAsStream(AllSettings.icon)));
             		GUI gui = new GUI(frame);
             		gui.setVisible(true);
             		frame.add(gui);
