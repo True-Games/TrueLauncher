@@ -388,7 +388,7 @@ public class GUI extends JPanel {
      //Init laucnher updater
      private void showLauncherUpdateWindow()
      {
-    	 lu = new LauncherUpdateDialog(this);
+    	 lu = new LauncherUpdateDialog(this.f);
     	 new LauncherVersionChecker(this).start();
      }
      

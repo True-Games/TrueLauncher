@@ -27,7 +27,6 @@ import truelauncher.utils.LauncherUtils;
 public class LauncherVersionChecker extends Thread {
 	
 	private GUI gui;
-	
 	public LauncherVersionChecker(GUI gui)
 	{
 		this.gui = gui;
@@ -41,7 +40,7 @@ public class LauncherVersionChecker extends Thread {
 			if (AllSettings.getLauncherVerison() < newversion)
 			{
 				gui.getRootPane().getGlassPane().setVisible(true);
-				gui.lu.open();
+				gui.lu.open(gui);
 			}
 		} catch (Exception e)
 		{
