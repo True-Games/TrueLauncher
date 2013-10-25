@@ -106,15 +106,15 @@ public class AllSettings {
 	
 	public static String getClientJarByName(String name)
 	{
-		String folder = ".minecraft/minecraft.jar";
+		String file = "minecraft.jar";
 		for (int i=0; i<clientfolders.length;i++)
 		{
 			if (clientfolders[i][0].equals(name))
 			{
-				folder = clientfolders[i][2];
+				file = getClientFolderByName(name) + File.separator + clientfolders[i][2];
 			}
 		}
-		return folder;
+		return file;
 	}
 	
 	public static String getClientMainClassByName(String name)
