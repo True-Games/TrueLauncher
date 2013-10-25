@@ -24,6 +24,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import truelauncher.config.AllSettings;
+import truelauncher.gcomponents.TButton;
+import truelauncher.gcomponents.TComboBox;
+import truelauncher.gcomponents.TProgressBar;
 import truelauncher.main.GUI;
 import truelauncher.utils.LauncherUtils;
 import truelauncher.utils.Zip;
@@ -32,13 +36,17 @@ import truelauncher.utils.Zip;
 public class ClientUpdateThread extends Thread {
 	// Thread for downloading clients
 
-	private GUI gui;
+	private TComboBox selectionbox;
+	private TButton downloadbutton;
+	private TProgressBar progressbar;
 	private String urlfrom;
 	private String tempfile;
 	private String destination;
 
-	public ClientUpdateThread(GUI gui, String urlfrom, String tempfile, String destination) {
-		this.gui = gui;
+	public ClientUpdateThread(TComboBox selectionbox, TButton downloadbutton, TProgressBar progressbar, String urlfrom, String tempfile, String destination) {
+		this.selectionbox = selectionbox;
+		this.downloadbutton = downloadbutton;
+		this.progressbar = progressbar;
 		this.urlfrom = urlfrom;
 		this.tempfile = tempfile;
 		this.destination = destination;
@@ -64,8 +72,8 @@ public class ClientUpdateThread extends Thread {
 		long downloadedAmount = 0;
 		final long totalAmount = conn.getContentLength();
 
-		gui.pbar.setMaximum((int) totalAmount);
-		gui.pbar.setMinimum(0);
+		progressbar.setMaximum((int) totalAmount);
+		progressbar.setMinimum(0);
 
 		int bufferSize = 0;
 		while ((bufferSize = inputstream.read(buffer)) > 0) {
@@ -74,7 +82,7 @@ public class ClientUpdateThread extends Thread {
 			downloadedAmount += bufferSize;
 			final long pbda = downloadedAmount;
 
-			gui.pbar.setValue((int) pbda);
+			progressbar.setValue((int) pbda);
 
 		}
 
@@ -87,42 +95,56 @@ public class ClientUpdateThread extends Thread {
 		try {
 
 			// remove old zip file
-			gui.download.setText("Прибираемся");
+			downloadbutton.setText("Прибираемся");
 			new File(tempfile).delete();
 
 			// download packed zip
-			gui.download.setText("Скачиваем клиент");
+			downloadbutton.setText("Скачиваем клиент");
 			filedownloader(urlfrom, tempfile);
 
 			// delete old client
-			gui.download.setText("Удаляем старый клиент");
+			downloadbutton.setText("Удаляем старый клиент");
 			deleteDirectory(new File(destination));
 			new File(destination).mkdirs();
 
 			// unpack new cient
-			gui.download.setText("Распаковываем клиент");
-			Zip zip = new Zip(gui.pbar);
+			downloadbutton.setText("Распаковываем клиент");
+			Zip zip = new Zip(progressbar);
 			zip.unpack(tempfile, destination);
 			
 			// clean garbage 
-			gui.download.setText("Прибираемся");
+			downloadbutton.setText("Прибираемся");
 			new File(tempfile).delete();
 
 			// show finish message
-			gui.download.setText("Клиент установлен");
-			gui.listdownloads.setEnabled(true);
+			downloadbutton.setText("Клиент установлен");
+			selectionbox.setEnabled(true);
 			
 			//recheck client
-			LauncherUtils.checkClientJarExist(gui);
+			GUI.checkClientJarExist();
 
 		} catch (final Exception ex) {
 
-			gui.download.setText("Ошибка");
-			gui.listdownloads.setEnabled(true);
+			downloadbutton.setText("Ошибка");
+			selectionbox.setEnabled(true);
 			LauncherUtils.logError(ex);
 
 		}
 	}
+	
+	//check client exist begin
+	public static void checkClientJarExist(GUI gui)
+	{
+  	  	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(gui.listclients.getSelectedItem().toString()));
+   	  	if (cfile.exists()) {
+   	  			gui.launch.setEnabled(true);
+   	  			gui.launch.setText("Запустить Minecraft");
+   	  		} else {
+   	  			gui.launch.setText("Клиент не найден");
+   	  			gui.launch.setEnabled(false);
+   	  		}
+	}
+	//checkclientexist end
 
 	public void deleteDirectory(File file) {
 		if (!file.exists())

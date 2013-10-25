@@ -56,7 +56,7 @@ import truelauncher.utils.LauncherUtils;
 @SuppressWarnings("serial")
 public class GUI extends JPanel {
 
-	private GUI thisclass = this;
+	private static GUI staticgui;
 	
 	public TTextField nickfield;
 	public TTextField ramfield;
@@ -108,6 +108,7 @@ public class GUI extends JPanel {
 		            super.paintComponent(g);
 		   	    }
 		   	});
+		    staticgui = this;
 		}
 		catch (Exception e)
 		{
@@ -274,11 +275,11 @@ public class GUI extends JPanel {
   	    listclients.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
  	    listclients.addActionListener(
  	    		new ActionListener() {
- 	               @Override
- 	               public void actionPerformed(ActionEvent e) {
- 	      			LauncherUtils.checkClientJarExist(thisclass);
- 	              }
- 	           });
+ 	    			@Override
+ 	    			public void actionPerformed(ActionEvent e) {
+ 	    				checkClientJarExistInternal();
+ 	    			}
+ 	    		});
  	   sb.add(listclients);
  	    
  	   //кнопка запуска майна
@@ -306,7 +307,7 @@ public class GUI extends JPanel {
             	ClientLaunch.launchMC(mcpath, nick, mem, jar, mainclass, cmdargs);
              }
        });
-	   LauncherUtils.checkClientJarExist(thisclass);
+	   checkClientJarExistInternal();
        sb.add(launch);
 
    
@@ -376,7 +377,7 @@ public class GUI extends JPanel {
             	 //client destination
             	 String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientUnpackToFolderByName(client);
             	 //run client update
-            	 new ClientUpdateThread(thisclass, urlfrom, tempfile, destination).start();        	 
+            	 new ClientUpdateThread(listdownloads, download, pbar, urlfrom, tempfile, destination).start();    	 
              }
          });
   	    dc.add(download);
@@ -387,10 +388,9 @@ public class GUI extends JPanel {
      //Init laucnher updater
      private void showLauncherUpdateWindow()
      {
-    	 lu = new LauncherUpdateDialog(thisclass);
-    	 new LauncherVersionChecker(thisclass).start();
-    	 
-     }     
+    	 lu = new LauncherUpdateDialog(this);
+    	 new LauncherVersionChecker(this).start();
+     }
      
      //load nick and ram from file
      private void loadTextFields()
@@ -412,8 +412,7 @@ public class GUI extends JPanel {
      private void saveTextFields()
      {
        	 String ps = LauncherUtils.getDir();
-    	 new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs();
-   
+    	 new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs(); 
     	 try {
     		 PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
     		 wrt.println(nickfield.getText());
@@ -425,23 +424,35 @@ public class GUI extends JPanel {
     	 }
      }
      
+     //recheck client
+     //static
+     public static void checkClientJarExist()
+     {
+    	 staticgui.checkClientJarExistInternal();
+     }
+     //internal
+     private void checkClientJarExistInternal()
+     {
+    	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(listclients.getSelectedItem().toString()));
+		if (cfile.exists()) {
+			launch.setEnabled(true);
+    	 	launch.setText("Запустить Minecraft");
+		} else {
+			launch.setText("Клиент не найден");
+			launch.setEnabled(false);
+		}
+     }
+     
 
      @Override
-	 public void paintComponent(Graphics g) {
+     public void paintComponent(Graphics g) {
     	 try {
-    		 Image bg = ImageIO.read(Images.class.getResourceAsStream(AllSettings.bgimage));
-    		 bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
+			Image bg = ImageIO.read(Images.class.getResourceAsStream(AllSettings.bgimage));
+			bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
 			g.drawImage(bg, 0, 0, null);
     	 } catch (IOException e) {
-			e.printStackTrace();
+    		 e.printStackTrace();
     	 }
      }
      
-     
-}     
-
-     
-
-     
-
-
+}

@@ -23,8 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+
 import truelauncher.config.AllSettings;
-import truelauncher.main.GUI;
 
 
 public class LauncherUtils {
@@ -65,21 +65,7 @@ public class LauncherUtils {
 		return buf.toString();
 	}
     //get Last Launcher version end
-	
-	
-	//check client exist begin
-	public static void checkClientJarExist(GUI gui)
-	{
-  	  	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(gui.listclients.getSelectedItem().toString()));
-   	  	if (cfile.exists()) {
-   	  			gui.launch.setEnabled(true);
-   	  			gui.launch.setText("Запустить Minecraft");
-   	  		} else {
-   	  			gui.launch.setText("Клиент не найден");
-   	  			gui.launch.setEnabled(false);
-   	  		}
-	}
-	//checkclientexist end
+
 	
 	//Log error to file start
 	public static void logError(Exception err)
