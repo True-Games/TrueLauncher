@@ -108,6 +108,10 @@ public class ClientUpdateThread extends Thread {
 			gui.download.setText("Распаковываем клиент");
 			Zip zip = new Zip(gui);
 			zip.unpack(packedclientto, unpackto);
+			
+			// clean garbage 
+			gui.download.setText("Прибираемся");
+			new File(packedclientto).delete();
 
 			// show finish message
 			gui.download.setText("Клиент установлен");
