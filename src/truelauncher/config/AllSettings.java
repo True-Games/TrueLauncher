@@ -43,11 +43,11 @@ public class AllSettings {
 	//1 - name, 2 - downloadlink, 3 - folderto
 	protected static String[][] downloadclients;
 
-	//just a paths to all the libs that minecraft may need (add every lib here that minecraft may need)
-	protected static ArrayList<String> clientlibs = new ArrayList<String>();
+	//path to the folder where all libs are stored (all libs should end with .jar)
+	protected static String libsfolder;
 
 	//launcher version
-	private static int lversion = 18;
+	private static int lversion = 19;
 	//laucnher folder update URL;
 	//folder structure
 	//{folder}/Laucnher.jar - launcher location
@@ -144,9 +144,9 @@ public class AllSettings {
 		return cmdargs;
 	}
 	
-	public static ArrayList<String> getClientLibs() 
+	public static String getClientLibsFolder() 
 	{
-		return clientlibs;
+		return libsfolder;
 	}
 	//gui block 2 vars end
 	

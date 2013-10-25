@@ -1,33 +1,11 @@
-clientsnumber=2
+downloadtemp=.true-games.org/packedclients
+libsfolder=libraries
+clientsnumber=3
 [launchclients]
+"Classic 1.7.2",".true-games.org/runclients/classic172",".true-games.org/runclients/classic172/minecraft.jar","net.minecraft.client.main.Main","--username {USERNAME} --session session"
 "Classic 1.6.4",".true-games.org/runclients/classic164",".true-games.org/runclients/classic164/minecraft.jar","net.minecraft.client.main.Main","--username {USERNAME} --session session"
 "HiTech 1.6.4",".true-games.org/runclients/madhitech164",".true-games.org/runclients/madhitech164/minecraft.jar","net.minecraft.launchwrapper.Launch","--tweakClass com.mumfrey.liteloader.launch.LiteLoaderTweaker --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --username {USERNAME} --session session"
 [downloadclients]
-".true-games.org/packedclients"
+"Classic 1.7.2","http://download.true-games.org/minecraft/clients/mc172.zip",".true-games.org/runclients/classic172"
 "Classic 1.6.4","http://download.true-games.org/minecraft/clients/mc164.zip",".true-games.org/runclients/classic164"
 "Hitech 1.6.4","http://download.true-games.org/minecraft/clients/madhitech164.zip",".true-games.org/runclients/madhitech164"
-[libs]
-"libraries/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar"
-"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"
-"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/lwjgl-2.9.0.jar"
-"libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar"
-"libraries/org/lwjgl/lwjgl/lwjgl/2.9.0/jinput-2.0.5.jar"
-"libraries/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"
-"libraries/com/paulscode/codecjorbis/20101023/codecjorbis-20101023.jar"
-"libraries/com/paulscode/codecwav/20101023/codecwav-20101023.jar"
-"libraries/com/paulscode/libraryjavasound/20101123/libraryjavasound-20101123.jar"
-"libraries/com/paulscode/librarylwjglopenal/20100824/librarylwjglopenal-20100824.jar"
-"libraries/com/paulscode/soundsystem/20120107/soundsystem-20120107.jar"
-"libraries/argo/argo/2.25_fixed/argo-2.25_fixed.jar"
-"libraries/org/bouncycastle/bcprov-jdk15on/1.47/bcprov-jdk15on-1.47.jar"
-"libraries/com/google/guava/guava/14.0/guava-14.0.jar"
-"libraries/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar"
-"libraries/commons-io/commons-io/2.4/commons-io-2.4.jar"
-"libraries/com/google/code/gson/gson/2.2.2/gson-2.2.2.jar"
-"libraries/org/scala-lang/scala-library/2.10.2/scala-library-2.10.2.jar"
-"libraries/org/scala-lang/scala-compiler/2.10.2/scala-compiler-2.10.2.jar"
-"libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"
-"libraries/lzma/lzma/0.0.1/lzma-0.0.1.jar"
-"libraries/wrapper/lwrap.jar"
-"libraries/forge/mcforge.jar"
-"libraries/liteloader/ll.jar"

@@ -16,6 +16,8 @@ public class ConfigLoader {
 		if (configfile.exists())
 		{
 			Scanner in = new Scanner(configfile);
+			AllSettings.tempfolder = in.nextLine().split("[=]")[1];
+			AllSettings.libsfolder = in.nextLine().split("[=]")[1];
 			int clientsnumber = Integer.valueOf(in.nextLine().split("[=]")[1]);
 			in.nextLine();
 			AllSettings.clientfolders = new String[clientsnumber][5];
@@ -26,21 +28,12 @@ public class ConfigLoader {
 				AllSettings.clientfolders[i] = client.split("\\,");
 			}
 			in.nextLine();
-			AllSettings.tempfolder = in.nextLine();
-			AllSettings.tempfolder = AllSettings.tempfolder.replace("\"", "");
 			AllSettings.downloadclients = new String[clientsnumber][3];
 			for (int i = 0; i < clientsnumber; i++)
 			{
 				String client = in.nextLine();
 				client = client.replace("\"", "");
 				AllSettings.downloadclients[i] = client.split("\\,");
-			}
-			in.nextLine();
-			while (in.hasNextLine())
-			{
-				String lib = in.nextLine();
-				lib = lib.replace("\"", "");
-				AllSettings.clientlibs.add(lib);
 			}
 			in.close();
 		}
@@ -60,8 +53,6 @@ public class ConfigLoader {
 				loadConfig(configfile);
 			}
    			catch (Exception e) {LauncherUtils.logError(e);}
-			//load predefined config from laucnher and reload settings
-			//loadConfig();
 		}
 	}
 	

@@ -42,7 +42,9 @@ public class ClientLaunch {
 				java+="/bin/java";
 			}
 			String libs = "";
-			for (String lib : AllSettings.getClientLibs()) {
+			//resolve libs
+			File libsfolder = new File(mcpath + File.separator + AllSettings.getClientLibsFolder());
+			for (String lib : getLibs(libsfolder)) {
 				libs += lib + cps;
 			}
 			//replace nick
@@ -76,4 +78,24 @@ public class ClientLaunch {
 	}
 	// Launch minecraft end
 
+	
+	private static List<String> getLibs(File libsfolder)
+	{
+		List<String> libs = new ArrayList<String>();
+		for (File file : libsfolder.listFiles())
+		{
+			if (file.isDirectory())
+			{
+				libs.addAll(getLibs(file));
+			} else
+			{
+				if (file.getName().endsWith(".jar"))
+				{
+					libs.add(file.getAbsolutePath());
+				}
+			}
+		}
+		return libs;
+	}
+	
 }
