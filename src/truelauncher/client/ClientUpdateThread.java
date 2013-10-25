@@ -24,7 +24,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import truelauncher.config.AllSettings;
 import truelauncher.main.GUI;
 import truelauncher.utils.LauncherUtils;
 import truelauncher.utils.Zip;
@@ -35,24 +34,20 @@ public class ClientUpdateThread extends Thread {
 
 	private GUI gui;
 	private String urlfrom;
-	private String packedclientto;
-	private String unpackto;
+	private String tempfile;
+	private String destination;
 
-	public ClientUpdateThread(GUI gui) {
-		try {
-			this.gui = gui;
-			this.urlfrom = AllSettings.getClientDownloadLinkByName(gui.listdownloads.getSelectedItem().toString());
-			this.packedclientto = LauncherUtils.getDir() + File.separator + AllSettings.getCientTempFolderPath() + File.separator + new File(new URL(this.urlfrom).getFile()).getName();
-			this.unpackto = LauncherUtils.getDir() + File.separator + AllSettings.getClientUnpackToFolderByName(gui.listdownloads.getSelectedItem().toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public ClientUpdateThread(GUI gui, String urlfrom, String tempfile, String destination) {
+		this.gui = gui;
+		this.urlfrom = urlfrom;
+		this.tempfile = tempfile;
+		this.destination = destination;
 	}
 
 	public void filedownloader(String urlfrom, String clientto)
 			throws Exception {
 		
-		new File(packedclientto).getParentFile().mkdirs();
+		new File(tempfile).getParentFile().mkdirs();
 		
 		URL url = new URL(urlfrom);
 		URLConnection conn = url.openConnection();
@@ -93,25 +88,25 @@ public class ClientUpdateThread extends Thread {
 
 			// remove old zip file
 			gui.download.setText("Прибираемся");
-			new File(packedclientto).delete();
+			new File(tempfile).delete();
 
 			// download packed zip
 			gui.download.setText("Скачиваем клиент");
-			filedownloader(urlfrom, packedclientto);
+			filedownloader(urlfrom, tempfile);
 
 			// delete old client
 			gui.download.setText("Удаляем старый клиент");
-			deleteDirectory(new File(unpackto));
-			new File(unpackto).mkdirs();
+			deleteDirectory(new File(destination));
+			new File(destination).mkdirs();
 
 			// unpack new cient
 			gui.download.setText("Распаковываем клиент");
-			Zip zip = new Zip(gui);
-			zip.unpack(packedclientto, unpackto);
+			Zip zip = new Zip(gui.pbar);
+			zip.unpack(tempfile, destination);
 			
 			// clean garbage 
 			gui.download.setText("Прибираемся");
-			new File(packedclientto).delete();
+			new File(tempfile).delete();
 
 			// show finish message
 			gui.download.setText("Клиент установлен");

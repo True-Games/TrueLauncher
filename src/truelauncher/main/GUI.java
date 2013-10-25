@@ -27,6 +27,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
 
@@ -359,10 +361,22 @@ public class GUI extends JPanel {
              	download.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
+            	 //lock gui
             	 listdownloads.setEnabled(false);
-
-            	 new ClientUpdateThread(thisclass).start();
             	 download.setEnabled(false);
+            	 //get client name
+            	 String client = listdownloads.getSelectedItem().toString();
+            	 //url to donwload from
+            	 String urlfrom = AllSettings.getClientDownloadLinkByName(client);
+            	 //temp zip file
+            	 String tempfile = null;
+            	 try {
+            		 tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getCientTempFolderPath() + File.separator + new File(new URL(urlfrom).getFile()).getName();
+            	 } catch (MalformedURLException e1) {}
+            	 //client destination
+            	 String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientUnpackToFolderByName(client);
+            	 //run client update
+            	 new ClientUpdateThread(thisclass, urlfrom, tempfile, destination).start();        	 
              }
          });
   	    dc.add(download);

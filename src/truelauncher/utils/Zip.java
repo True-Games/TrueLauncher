@@ -26,24 +26,22 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import truelauncher.main.GUI;
-
-
+import truelauncher.gcomponents.TProgressBar;
 
 public class Zip {
 	
-    private GUI gui;
+    private TProgressBar bar;
 	
-    public Zip(GUI gui){
-    	this.gui = gui;
+    public Zip(TProgressBar bar){
+    	this.bar = bar;
     }
     
      public void unpack(String path, String dir_to) throws IOException {
     	final ZipFile zipFile = new ZipFile(path);
         		
-    	gui.pbar.setValue(0);
-        gui.pbar.setMinimum(0);
-        gui.pbar.setMaximum(zipFile.size());
+    	bar.setValue(0);
+        bar.setMinimum(0);
+        bar.setMaximum(zipFile.size());
         
         int unpackedfiles = 0;
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -81,9 +79,9 @@ public class Zip {
         zipFile.close();
     }
      
-    private void pbupdate(final int selection)
+    private void pbupdate(int selection)
     {
-       		gui.pbar.setValue(selection);
+       	bar.setValue(selection);
     }
     
 }
