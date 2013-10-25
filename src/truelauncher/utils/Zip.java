@@ -52,7 +52,7 @@ public class Zip {
             {//Directory
                 new File(dir_to + File.separator + entry.getName()).mkdirs();
             	unpackedfiles+=1;
-            	pbupdate(unpackedfiles);
+            	bar.setValue(unpackedfiles);
             } else
             {//File
                 InputStream in = zipFile.getInputStream(entry);
@@ -64,7 +64,7 @@ public class Zip {
             			out.write(buffer, 0, len);
             		}
             		unpackedfiles+=1;
-            		pbupdate(unpackedfiles);
+            		bar.setValue(unpackedfiles);
             	} catch (Exception e) 
             	{
             		LauncherUtils.logError(e);
@@ -77,11 +77,6 @@ public class Zip {
         }
         
         zipFile.close();
-    }
-     
-    private void pbupdate(int selection)
-    {
-       	bar.setValue(selection);
     }
     
 }
