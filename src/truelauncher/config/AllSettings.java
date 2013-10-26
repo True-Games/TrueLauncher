@@ -47,7 +47,7 @@ public class AllSettings {
 	protected static String libsfolder;
 
 	//launcher version
-	private static int lversion = 19;
+	private static int lversion = 20;
 	//laucnher folder update URL;
 	//folder structure
 	//{folder}/Laucnher.jar - launcher location

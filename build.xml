@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build" name="TrueLauncher">
+    <target name="build">
+        <mkdir dir="build/classes" />
+        <javac source="1.7" target="1.7" encoding="UTF-8" srcdir="src" destdir="build/classes" debug="on" />
+		<copy todir="build/classes">
+			<fileset file="src/LICENSE" />
+		</copy>
+		<copy todir="build/classes/truelauncher/images/">
+			<fileset dir="src/truelauncher/images/" />
+		</copy>
+        <jar destfile="Launcher.jar" basedir= "build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="truelauncher.main.Launcher"/>
+            </manifest>
+        </jar>
+		<delete dir="build" />
+    </target>
+</project>
