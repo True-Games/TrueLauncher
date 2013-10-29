@@ -20,37 +20,29 @@ package truelauncher.config;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.Scanner;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import truelauncher.utils.LauncherUtils;
 
 public class ConfigLoader {
 
 	protected static void loadConfig(File configfile) throws FileNotFoundException
-	{
+	{			
 		if (configfile.exists())
 		{
-			Scanner in = new Scanner(configfile);
-			AllSettings.tempfolder = in.nextLine().split("[=]")[1];
-			AllSettings.libsfolder = in.nextLine().split("[=]")[1];
-			int clientsnumber = Integer.valueOf(in.nextLine().split("[=]")[1]);
-			in.nextLine();
-			for (int i = 0; i < clientsnumber; i++)
-			{
-				String[] launchdata = in.nextLine().replace("\"", "").split("\\,");
-				ClientLaunchData clientlaunchdataobject = new ClientLaunchData(launchdata[1],launchdata[2],launchdata[3],launchdata[4]);
-				AllSettings.clientslaunchdata.put(launchdata[0], clientlaunchdataobject);
-			}
-			in.nextLine();
-			for (int i = 0; i < clientsnumber; i++)
-			{
-				String[] downloaddata = in.nextLine().replace("\"", "").split("\\,");
-				ClientDownloadData clientdownloaddataobject = new ClientDownloadData(downloaddata[1],downloaddata[2]);
-				AllSettings.clientsdownloaddata.put(downloaddata[0], clientdownloaddataobject);
-			}
-			in.close();
+			Gson gson = new GsonBuilder().create();
+			Reader gsonreader = new InputStreamReader(new FileInputStream(configfile));
+			JSONConfig jsonconfig = gson.fromJson(gsonreader, JSONConfig.class);
+			AllSettings.tempfolder = jsonconfig.getTempFolder();
+			AllSettings.libsfolder = jsonconfig.getLibsFolder();
+			AllSettings.clientsdata = jsonconfig.getClientDataMap();
 		}
 		else
 		{

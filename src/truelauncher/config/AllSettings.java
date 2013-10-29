@@ -30,26 +30,22 @@ public class AllSettings {
 	//TODO: rewrite config structure
 	public static void load() throws FileNotFoundException
 	{
-		final File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"clients");
+		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
 		ConfigLoader.loadConfig(configfile);
 		ConfigUpdater.updateConfig(configfile);
 	}
 
-	//For client launch
-	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
-	protected static LinkedHashMap<String, ClientLaunchData> clientslaunchdata = new LinkedHashMap<String, ClientLaunchData>();
-	//path to the folder where all libs are stored (all libs should end with .jar) (this is relative to client launchfolder)
-	protected static String libsfolder = "libraries";
-
-	//For client download
+	//For clients
 	//folder in which clients .zip file will be downloaded
 	protected static String tempfolder = ".true-games.org/packedclients";
-	//1 - name, 2 - downloadlink, 3 - folderto
-	protected static LinkedHashMap<String, ClientDownloadData> clientsdownloaddata = new LinkedHashMap<String, ClientDownloadData>();
+	//path to the folder where all libs are stored (all libs should end with .jar) (this is relative to client launchfolder)
+	protected static String libsfolder = "libraries";
+	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
+	protected static LinkedHashMap<String, ClientData> clientsdata = new LinkedHashMap<String, ClientData>();
 
 	//for launcher updater
 	//launcher version
-	private static int lversion = 20;
+	private static int lversion = 21;
 	//laucnher folder update URL;
 	//folder structure
 	//{folder}/Laucnher.jar - launcher location
@@ -81,27 +77,27 @@ public class AllSettings {
 	//gui block 2 vars begin
 	public static List<String> getClientsList()
 	{
-		return  new ArrayList<String>(clientslaunchdata.keySet());
+		return  new ArrayList<String>(clientsdata.keySet());
 	}
 	
 	public static String getClientFolderByName(String name)
 	{
-		return clientslaunchdata.get(name).getLaunchFolder();
+		return clientsdata.get(name).getLaunchFolder();
 	}
 	
 	public static String getClientJarByName(String name)
 	{
-		return getClientFolderByName(name) + File.separator + clientslaunchdata.get(name).getJarFile();
+		return getClientFolderByName(name) + File.separator + clientsdata.get(name).getJarFile();
 	}
 	
 	public static String getClientMainClassByName(String name)
 	{
-		return clientslaunchdata.get(name).getMainClass();
+		return clientsdata.get(name).getMainClass();
 	}
 	
 	public static String getClientCmdArgsByName(String name)
 	{
-		return clientslaunchdata.get(name).getCmdArgs();
+		return clientsdata.get(name).getCmdArgs();
 	}
 	
 	public static String getClientLibsFolder() 
@@ -114,17 +110,17 @@ public class AllSettings {
 	//gui block 3 vars begin
 	public static List<String> getClientListDownloads()
 	{
-		return new ArrayList<String>(clientsdownloaddata.keySet());
+		return new ArrayList<String>(clientsdata.keySet());
 	}
 	
 	public static String getClientDownloadLinkByName(String name)
 	{
-		return clientsdownloaddata.get(name).getDownloadLink();
+		return clientsdata.get(name).getDownloadLink();
 	}
 	
 	public static String getClientUnpackToFolderByName(String name)
 	{
-		return clientsdownloaddata.get(name).getUnpackFolder();
+		return clientsdata.get(name).getLaunchFolder();
 	}
 	//gui block 3 vars end
 	

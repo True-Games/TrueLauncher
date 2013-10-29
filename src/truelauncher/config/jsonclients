@@ -1,0 +1,27 @@
+{
+  "tempfolder": ".true-games.org/packedclients",
+  "libsfolder": "libraries",
+  "clientdata": {
+    "Classic 1.7.2": {
+      "launchfolder": ".true-games.org/runclients/classic172",
+      "jarfile": "minecraft.jar",
+      "mainclass": "net.minecraft.client.main.Main",
+      "cmdargs": "--username {USERNAME} --accessToken token",
+      "downloadlink": "http://download.true-games.org/minecraft/clients/mc172.zip"
+    },
+    "Classic 1.6.4": {
+      "launchfolder": ".true-games.org/runclients/classic164",
+      "jarfile": "minecraft.jar",
+      "mainclass": "net.minecraft.client.main.Main",
+      "cmdargs": "--username {USERNAME} --session session",
+      "downloadlink": "http://download.true-games.org/minecraft/clients/mc164.zip"
+    },
+    "Hitech 1.6.4": {
+      "launchfolder": ".true-games.org/runclients/madhitech164",
+      "jarfile": "minecraft.jar",
+      "mainclass": "net.minecraft.launchwrapper.Launch",
+      "cmdargs": "--tweakClass com.mumfrey.liteloader.launch.LiteLoaderTweaker --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --username {USERNAME} --session session",
+      "downloadlink": "http://download.true-games.org/minecraft/clients/madhitech164.zip"
+    }        
+  }
+}
