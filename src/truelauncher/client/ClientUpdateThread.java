@@ -24,7 +24,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TProgressBar;
@@ -131,20 +130,6 @@ public class ClientUpdateThread extends Thread {
 
 		}
 	}
-	
-	//check client exist begin
-	public static void checkClientJarExist(GUI gui)
-	{
-  	  	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(gui.listclients.getSelectedItem().toString()));
-   	  	if (cfile.exists()) {
-   	  			gui.launch.setEnabled(true);
-   	  			gui.launch.setText("Запустить Minecraft");
-   	  		} else {
-   	  			gui.launch.setText("Клиент не найден");
-   	  			gui.launch.setEnabled(false);
-   	  		}
-	}
-	//checkclientexist end
 
 	public void deleteDirectory(File file) {
 		if (!file.exists())

@@ -58,17 +58,17 @@ public class GUI extends JPanel {
 
 	private static GUI staticgui;
 	
-	public TTextField nickfield;
-	public TTextField ramfield;
-	public TComboBox listclients; 
-	public TButton launch;
-	public TProgressBar pbar;
-	public TButton download;
-	public TComboBox listdownloads;
-	public LauncherUpdateDialog lu;
-	public JFrame f;
+	private TTextField nickfield;
+	private TTextField ramfield;
+	private TComboBox listclients; 
+	private TButton launch;
+	private TProgressBar pbar;
+	private TButton download;
+	private TComboBox listdownloads;
+	private LauncherUpdateDialog lu;
+	private JFrame f;
 	
-	int posX=0,posY=0;
+	private int posX=0,posY=0;
  
 	public GUI(JFrame frame)
 	{
@@ -389,7 +389,7 @@ public class GUI extends JPanel {
      private void showLauncherUpdateWindow()
      {
     	 lu = new LauncherUpdateDialog(this.f);
-    	 new LauncherVersionChecker(this).start();
+    	 new LauncherVersionChecker().start();
      }
      
      //load nick and ram from file
@@ -408,6 +408,19 @@ public class GUI extends JPanel {
          }
      }
      
+     //check client jars exist
+     private void checkClientJarExistInternal()
+     {
+    	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(listclients.getSelectedItem().toString()));
+		if (cfile.exists()) {
+			launch.setEnabled(true);
+    	 	launch.setText("Запустить Minecraft");
+		} else {
+			launch.setText("Клиент не найден");
+			launch.setEnabled(false);
+		}
+     }
+     
      //save nick and ram to file
      private void saveTextFields()
      {
@@ -423,26 +436,6 @@ public class GUI extends JPanel {
     		 LauncherUtils.logError(e);
     	 }
      }
-     
-     //recheck client
-     //static
-     public static void checkClientJarExist()
-     {
-    	 staticgui.checkClientJarExistInternal();
-     }
-     //internal
-     private void checkClientJarExistInternal()
-     {
-    	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(listclients.getSelectedItem().toString()));
-		if (cfile.exists()) {
-			launch.setEnabled(true);
-    	 	launch.setText("Запустить Minecraft");
-		} else {
-			launch.setText("Клиент не найден");
-			launch.setEnabled(false);
-		}
-     }
-     
 
      @Override
      public void paintComponent(Graphics g) {
@@ -453,6 +446,20 @@ public class GUI extends JPanel {
     	 } catch (IOException e) {
     		 e.printStackTrace();
     	 }
+     }
+     
+     
+     //static access
+     //check client jar
+     public static void checkClientJarExist()
+     {
+    	 staticgui.checkClientJarExistInternal();
+     }
+     //open launcher update window
+     public static void openUpdateWindow()
+     {
+    	 staticgui.getRootPane().getGlassPane().setVisible(true);
+    	 staticgui.lu.open(staticgui);
      }
      
 }

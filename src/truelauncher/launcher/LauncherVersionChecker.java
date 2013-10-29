@@ -26,12 +26,6 @@ import truelauncher.utils.LauncherUtils;
 
 public class LauncherVersionChecker extends Thread {
 	
-	private GUI gui;
-	public LauncherVersionChecker(GUI gui)
-	{
-		this.gui = gui;
-	}
-	
 	public void run()
 	{
 		try {
@@ -39,11 +33,9 @@ public class LauncherVersionChecker extends Thread {
 			newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"version").openStream()));
 			if (AllSettings.getLauncherVerison() < newversion)
 			{
-				gui.getRootPane().getGlassPane().setVisible(true);
-				gui.lu.open(gui);
+				GUI.openUpdateWindow();
 			}
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
         	LauncherUtils.logError(e);
 		}
 	}
