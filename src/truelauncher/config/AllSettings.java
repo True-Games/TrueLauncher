@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import truelauncher.utils.LauncherUtils;
@@ -37,7 +38,7 @@ public class AllSettings {
 
 	//For client launch
 	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
-	protected static HashMap<String, ClientLaunchData> clientslaunchdata = new HashMap<String, ClientLaunchData>();
+	protected static LinkedHashMap<String, ClientLaunchData> clientslaunchdata = new LinkedHashMap<String, ClientLaunchData>();
 
 	//For client download
 	//folder in which clients .zip file will be downloaded
