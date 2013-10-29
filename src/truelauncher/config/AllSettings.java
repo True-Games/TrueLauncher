@@ -20,7 +20,9 @@ package truelauncher.config;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 import truelauncher.utils.LauncherUtils;
 
 public class AllSettings {
@@ -35,7 +37,7 @@ public class AllSettings {
 
 	//For client launch
 	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
-	protected static String[][] clientfolders;
+	protected static HashMap<String, ClientLaunchData> clientslaunchdata = new HashMap<String, ClientLaunchData>();
 
 	//For client download
 	//folder in which clients .zip file will be downloaded
@@ -82,66 +84,27 @@ public class AllSettings {
 	//gui block 2 vars begin
 	public static List<String> getClientsList()
 	{
-
-		List<String> servnames =new ArrayList<String>();
-		for (int i=0; i<clientfolders.length;i++)
-		{
-			servnames.add(clientfolders[i][0]);
-		}
-		return servnames;
+		return  new ArrayList<String>(clientslaunchdata.keySet());
 	}
 	
 	public static String getClientFolderByName(String name)
 	{
-		String folder = ".minecraft";
-		for (int i=0; i<clientfolders.length;i++)
-		{
-			if (clientfolders[i][0].equals(name))
-			{
-				folder = clientfolders[i][1];
-			}
-		}
-		return folder;
+		return clientslaunchdata.get(name).getLaunchFolder();
 	}
 	
 	public static String getClientJarByName(String name)
 	{
-		String file = "minecraft.jar";
-		for (int i=0; i<clientfolders.length;i++)
-		{
-			if (clientfolders[i][0].equals(name))
-			{
-				file = getClientFolderByName(name) + File.separator + clientfolders[i][2];
-			}
-		}
-		return file;
+		return getClientFolderByName(name) + File.separator + clientslaunchdata.get(name).getJarFile();
 	}
 	
 	public static String getClientMainClassByName(String name)
 	{
-		String mainclass = "net.minecraft.client.main.Main";
-		for (int i=0; i<clientfolders.length;i++)
-		{
-			if (clientfolders[i][0].equals(name))
-			{
-				mainclass = clientfolders[i][3];
-			}
-
-		}
-		return mainclass;
+		return clientslaunchdata.get(name).getMainClass();
 	}
 	
 	public static String getClientCmdArgsByName(String name)
 	{
-		String cmdargs = "--username {USERNAME} --session session";
-		for (int i=0; i<clientfolders.length;i++)
-		{
-			if (clientfolders[i][0].equals(name))
-			{
-				cmdargs = clientfolders[i][4];
-			}
-		}
-		return cmdargs;
+		return clientslaunchdata.get(name).getCmdArgs();
 	}
 	
 	public static String getClientLibsFolder() 

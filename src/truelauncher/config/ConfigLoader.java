@@ -37,12 +37,11 @@ public class ConfigLoader {
 			AllSettings.libsfolder = in.nextLine().split("[=]")[1];
 			int clientsnumber = Integer.valueOf(in.nextLine().split("[=]")[1]);
 			in.nextLine();
-			AllSettings.clientfolders = new String[clientsnumber][5];
 			for (int i = 0; i < clientsnumber; i++)
 			{
-				String client = in.nextLine();
-				client = client.replace("\"", "");
-				AllSettings.clientfolders[i] = client.split("\\,");
+				String[] clientdataarray = in.nextLine().replace("\"", "").split("\\,");
+				ClientLaunchData clientdataobject = new ClientLaunchData(clientdataarray[1],clientdataarray[2],clientdataarray[3],clientdataarray[4]);
+				AllSettings.clientslaunchdata.put(clientdataarray[0], clientdataobject);
 			}
 			in.nextLine();
 			AllSettings.downloadclients = new String[clientsnumber][3];
