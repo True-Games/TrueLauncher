@@ -20,7 +20,6 @@ package truelauncher.config;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -39,6 +38,8 @@ public class AllSettings {
 	//For client launch
 	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
 	protected static LinkedHashMap<String, ClientLaunchData> clientslaunchdata = new LinkedHashMap<String, ClientLaunchData>();
+	//path to the folder where all libs are stored (all libs should end with .jar) (this is relative to client launchfolder)
+	protected static String libsfolder;
 
 	//For client download
 	//folder in which clients .zip file will be downloaded
@@ -46,9 +47,7 @@ public class AllSettings {
 	//1 - name, 2 - downloadlink, 3 - folderto
 	protected static String[][] downloadclients;
 
-	//path to the folder where all libs are stored (all libs should end with .jar)
-	protected static String libsfolder;
-
+	//for launcher updater
 	//launcher version
 	private static int lversion = 20;
 	//laucnher folder update URL;
@@ -58,8 +57,10 @@ public class AllSettings {
 	//{folder}/clients - client config file
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 	
-	//folder in which configuration will be stored
+	//folder in which configurations will be stored
 	private static String configfolder = ".true-games.org/configdata";
+	//folder for error logging
+	public static String errFolder = ".true-games.org/errLog";
 
 	//main frame size
 	public static int w = 740;
@@ -74,11 +75,6 @@ public class AllSettings {
 	public static String mclaunchimage = "mclaunch.png";
 	public static String close = "close.png";
 	public static String hide = "hide.png";
-	
-	
-	//folder for error logging
-	public static String errFolder = ".true-games.org/errLog";
-	
 
 	//code to get those values
 	
