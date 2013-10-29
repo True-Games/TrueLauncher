@@ -18,7 +18,6 @@
 package truelauncher.config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +27,7 @@ import truelauncher.utils.LauncherUtils;
 public class AllSettings {
 	
 	//TODO: rewrite config structure
-	public static void load() throws FileNotFoundException
+	public static void load() throws Exception
 	{
 		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
 		ConfigLoader.loadConfig(configfile);
