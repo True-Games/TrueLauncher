@@ -14,13 +14,10 @@
 		<copy todir="build/classes/truelauncher/images/">
 			<fileset dir="src/truelauncher/images/" />
 		</copy>
-    	<copy todir="build/classes/libs/">
-    		<fileset dir="libs" includes="**/*.jar" />
-    	</copy>
-        <jar destfile="Launcher.jar" basedir="build/classes">
+    	<unzip src="libs/gson-2.2.4.jar" dest="build/classes/" />
+        <jar destfile="Launcher.jar" basedir="build/classes/">
             <manifest>
                 <attribute name="Main-Class" value="truelauncher.main.Launcher" />
-            	<attribute name="Class-Path" value="libs/gson-2.2.4.jar" />
             </manifest>
         </jar>
 		<delete dir="build" />
