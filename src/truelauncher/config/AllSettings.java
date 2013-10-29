@@ -39,13 +39,13 @@ public class AllSettings {
 	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
 	protected static LinkedHashMap<String, ClientLaunchData> clientslaunchdata = new LinkedHashMap<String, ClientLaunchData>();
 	//path to the folder where all libs are stored (all libs should end with .jar) (this is relative to client launchfolder)
-	protected static String libsfolder;
+	protected static String libsfolder = "libraries";
 
 	//For client download
 	//folder in which clients .zip file will be downloaded
 	protected static String tempfolder = ".true-games.org/packedclients";
 	//1 - name, 2 - downloadlink, 3 - folderto
-	protected static String[][] downloadclients;
+	protected static LinkedHashMap<String, ClientDownloadData> clientsdownloaddata = new LinkedHashMap<String, ClientDownloadData>();
 
 	//for launcher updater
 	//launcher version
@@ -114,39 +114,17 @@ public class AllSettings {
 	//gui block 3 vars begin
 	public static List<String> getClientListDownloads()
 	{
-
-		List<String> servlinks =new ArrayList<String>();
-		for (int i=0; i<downloadclients.length;i++)
-		{
-			servlinks.add(downloadclients[i][0]);
-		}
-		return servlinks;
+		return new ArrayList<String>(clientsdownloaddata.keySet());
 	}
 	
 	public static String getClientDownloadLinkByName(String name)
 	{
-		String link = "";
-		for (int i=0; i<downloadclients.length;i++)
-		{
-			if (downloadclients[i][0].equals(name))
-			{
-				link = downloadclients[i][1];
-			}
-		}
-		return link;
+		return clientsdownloaddata.get(name).getDownloadLink();
 	}
 	
 	public static String getClientUnpackToFolderByName(String name)
 	{
-		String fldto = "";
-		for (int i=0; i<downloadclients.length;i++)
-		{
-			if (downloadclients[i][0].equals(name))
-			{
-				fldto = downloadclients[i][2];
-			}
-		}
-		return fldto;
+		return clientsdownloaddata.get(name).getUnpackFolder();
 	}
 	//gui block 3 vars end
 	
