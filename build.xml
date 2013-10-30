@@ -11,6 +11,9 @@
 		<copy todir="build/classes/">
 			<fileset file="src/LICENSE" />
 		</copy>
+    	<copy todir="build/classes/truelauncher/config/">
+    		<fileset file="src/truelauncher/config/jsonclients" />
+    	</copy>
 		<copy todir="build/classes/truelauncher/images/">
 			<fileset dir="src/truelauncher/images/" />
 		</copy>

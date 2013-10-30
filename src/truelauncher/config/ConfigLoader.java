@@ -94,10 +94,11 @@ public class ConfigLoader {
 			configfile.getParentFile().mkdirs();
 			BufferedInputStream in = new BufferedInputStream(ConfigLoader.class.getResourceAsStream(configfile.getName()));
 			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(configfile));
-			byte[] buf = new byte[4096];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
+			byte[] buffer = new byte[4096];
+			int bytesRead = in.read(buffer);
+			while (bytesRead != -1) {
+				out.write(buffer, 0, bytesRead);
+			    bytesRead = in.read(buffer);
 			}
 			in.close();
 			out.close();
