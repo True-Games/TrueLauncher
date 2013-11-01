@@ -35,7 +35,6 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -66,7 +65,7 @@ public class GUI extends JPanel {
 	private TButton download;
 	private TComboBox listdownloads;
 	private LauncherUpdateDialog lu;
-	private JFrame f;
+	private JFrame frame;
 	
 	private int posX=0,posY=0;
  
@@ -74,40 +73,14 @@ public class GUI extends JPanel {
 	{
 		try {
     		AllSettings.load();
-			this.f = frame;
+			this.frame = frame;
 			this.setLayout(null);
 			//border
 			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
-			//init drag
-			JLabel drag = new JLabel();
-			drag.setBounds(0, 0, AllSettings.w, 15);
-			drag.setOpaque(false);
-			drag.setBackground(new Color(0,0,0,0));
-			drag.addMouseListener(new MouseAdapter() {
-				public void mousePressed(MouseEvent e) {
-					posX=e.getX();
-					posY=e.getY();
-				}
-			});
-			drag.addMouseMotionListener(new MouseAdapter() {
-			     public void mouseDragged(MouseEvent evt) {
-					f.setLocation(evt.getXOnScreen()-posX,evt.getYOnScreen()-posY);
-			     }
-			});
-			this.add(drag);
 			//init GUI
 			initUI();
 			//load fields values
 			loadTextFields();
-			//init GlassPane that will be used to darken main frame when launcher update is available
-		    f.setGlassPane(
-		    		new JComponent() {
-		        public void paintComponent(Graphics g) {
-		            g.setColor(new Color(0, 0, 0, 150));
-		            g.fillRect(0, 0, AllSettings.w, AllSettings.h);
-		            super.paintComponent(g);
-		   	    }
-		   	});
 		    staticgui = this;
 		}
 		catch (Exception e)
@@ -120,11 +93,33 @@ public class GUI extends JPanel {
  
  
      private void initUI() {
+    	 initHeader();
     	 showCloseMinimizeButton();
     	 initTextInputFieldsAndLabels();
     	 initStartButton();
     	 initDownloadCenter();
-    	 showLauncherUpdateWindow();
+    	 initLauncherUpdater();
+     }
+     
+     //header
+     private void initHeader()
+     {
+			JLabel drag = new JLabel();
+			drag.setBounds(0, 0, AllSettings.w, 15);
+			drag.setOpaque(false);
+			drag.setBackground(new Color(0,0,0,0));
+			drag.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					posX=e.getX();
+					posY=e.getY();
+				}
+			});
+			drag.addMouseMotionListener(new MouseAdapter() {
+			     public void mouseDragged(MouseEvent evt) {
+					frame.setLocation(evt.getXOnScreen()-posX,evt.getYOnScreen()-posY);
+			     }
+			});
+			this.add(drag);
      }
      
      //close and minimize buttonis block
@@ -142,7 +137,7 @@ public class GUI extends JPanel {
       		 @Override 
       		 public void actionPerformed(ActionEvent e)
       		 {
-      			 f.setExtendedState(JFrame.ICONIFIED);
+      			 frame.setExtendedState(JFrame.ICONIFIED);
       		 }
       	 });
       	 cmb.add(minimize);
@@ -386,9 +381,9 @@ public class GUI extends JPanel {
      }
 
      //Init laucnher updater
-     private void showLauncherUpdateWindow()
+     private void initLauncherUpdater()
      {
-    	 lu = new LauncherUpdateDialog(this.f);
+    	 lu = new LauncherUpdateDialog();
     	 new LauncherVersionChecker().start();
      }
      
@@ -458,8 +453,14 @@ public class GUI extends JPanel {
      //open launcher update window
      public static void openUpdateWindow()
      {
-    	 staticgui.getRootPane().getGlassPane().setVisible(true);
+    	 staticgui.frame.getGlassPane().setVisible(true);
     	 staticgui.lu.open(staticgui);
+     }
+     //close launcher update window
+     public static void closeUpdateWindow()
+     {
+    	 staticgui.lu.dispose();
+    	 staticgui.frame.getGlassPane().setVisible(false);
      }
      
 }

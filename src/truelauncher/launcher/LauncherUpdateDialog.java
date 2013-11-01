@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -46,11 +45,9 @@ public class LauncherUpdateDialog  extends JDialog {
 	public JPanel panel;
 	
 	private LauncherUpdateDialog thisclass = this;
-	
-	private JFrame frame;
-	public LauncherUpdateDialog(JFrame frame) {
-        super(frame, true);
-        this.frame = frame;
+
+	public LauncherUpdateDialog() {
+        super();
         this.setUndecorated(true);
 		this.setLayout(null);
     }
@@ -107,8 +104,7 @@ public class LauncherUpdateDialog  extends JDialog {
     	later.addActionListener(new ActionListener() {
  	               @Override
  	               public void actionPerformed(ActionEvent e) {
- 	            	   frame.getGlassPane().setVisible(false);
- 	            	   thisclass.dispose();
+ 	            	   GUI.closeUpdateWindow();
  	               }
     	});
     	panel.add(later);

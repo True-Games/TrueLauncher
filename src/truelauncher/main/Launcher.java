@@ -17,7 +17,11 @@
 
 package truelauncher.main;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -40,7 +44,8 @@ public class Launcher {
 	    catch (Exception e) {LauncherUtils.logError(e);}
 		
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
+            @SuppressWarnings("serial")
+			@Override
             public void run() {
             	try {
             		JFrame frame = new JFrame();
@@ -51,6 +56,13 @@ public class Launcher {
             		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
             		frame.setUndecorated(true);
             		frame.setIconImage(ImageIO.read(Images.class.getResourceAsStream(AllSettings.icon)));
+        		    frame.setGlassPane(new JComponent() {
+        		        public void paintComponent(Graphics g) {
+        		            g.setColor(new Color(0, 0, 0, 150));
+        		            g.fillRect(0, 0, AllSettings.w, AllSettings.h);
+        		            super.paintComponent(g);
+        		   	    }
+        		    });
             		GUI gui = new GUI(frame);
             		gui.setVisible(true);
             		frame.add(gui);
