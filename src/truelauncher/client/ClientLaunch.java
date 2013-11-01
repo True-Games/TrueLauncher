@@ -43,7 +43,7 @@ public class ClientLaunch {
 			}
 			String libs = "";
 			//resolve libs
-			File libsfolder = new File(mcpath + File.separator + AllSettings.getClientLibsFolder());
+			File libsfolder = new File(mcpath + File.separator + AllSettings.getClientsLibsFolder());
 			for (String lib : getLibs(libsfolder)) {
 				libs += lib + cps;
 			}

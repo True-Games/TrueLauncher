@@ -71,9 +71,18 @@ public class AllSettings {
 	public static String close = "close.png";
 	public static String hide = "hide.png";
 
-	//code to get those values
+
 	
-	//gui block 2 vars begin
+	//libs and temppath
+	public static String getClientsLibsFolder() 
+	{
+		return libsfolder;
+	}
+	public static String getClientsTempFolderPath()
+	{
+		return tempfolder;
+	}
+	//launch and download
 	public static List<String> getClientsList()
 	{
 		return  new ArrayList<String>(clientsdata.keySet());
@@ -98,38 +107,10 @@ public class AllSettings {
 	{
 		return clientsdata.get(name).getCmdArgs();
 	}
-	
-	public static String getClientLibsFolder() 
-	{
-		return libsfolder;
-	}
-	//gui block 2 vars end
-	
-	
-	//gui block 3 vars begin
-	public static List<String> getClientListDownloads()
-	{
-		return new ArrayList<String>(clientsdata.keySet());
-	}
-	
 	public static String getClientDownloadLinkByName(String name)
 	{
 		return clientsdata.get(name).getDownloadLink();
 	}
-	
-	public static String getClientUnpackToFolderByName(String name)
-	{
-		return clientsdata.get(name).getLaunchFolder();
-	}
-	//gui block 3 vars end
-	
-	//folder for packed clients begin
-	public static String getCientTempFolderPath()
-	{
-		return tempfolder;
-	}
-	//folder for packed clients end
-	
 	
 	//Lacunher vars begin
 	public static String getLauncherConfigFolderPath()

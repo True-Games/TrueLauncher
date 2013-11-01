@@ -330,7 +330,7 @@ public class GUI extends JPanel {
     	 dc.add(expbarset);
     	 
      	listdownloads = new TComboBox();
- 	    List<String> servdownloadlist = AllSettings.getClientListDownloads();
+ 	    List<String> servdownloadlist = AllSettings.getClientsList();
   	    for (String servname : servdownloadlist)
  	    {
   	    	listdownloads.addItem(servname);
@@ -367,10 +367,10 @@ public class GUI extends JPanel {
             	 //temp zip file
             	 String tempfile = null;
             	 try {
-            		 tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getCientTempFolderPath() + File.separator + new File(new URL(urlfrom).getFile()).getName();
+            		 tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getClientsTempFolderPath() + File.separator + new File(new URL(urlfrom).getFile()).getName();
             	 } catch (MalformedURLException e1) {}
             	 //client destination
-            	 String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientUnpackToFolderByName(client);
+            	 String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client);
             	 //run client update
             	 new ClientUpdateThread(listdownloads, download, pbar, urlfrom, tempfile, destination).start();    	 
              }
