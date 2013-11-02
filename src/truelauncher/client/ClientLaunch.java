@@ -18,6 +18,7 @@
 package truelauncher.client;
 
 import java.io.File;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,8 +71,11 @@ public class ClientLaunch {
 			cc.add("--assetsDir");
 			cc.add(mcpath + File.separator + "assets");
 			pb.command(cc);
-			pb.inheritIO(); // Do not remove this
-			pb.start();
+			pb.redirectInput(Redirect.INHERIT);
+			pb.redirectOutput(Redirect.INHERIT);
+			Process p = pb.start();
+			Thread reader = new OutReader(p, "testacc");
+			reader.start();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
