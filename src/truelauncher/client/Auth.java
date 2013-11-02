@@ -17,6 +17,10 @@
 
 package truelauncher.client;
 
+import java.io.DataOutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 import truelauncher.utils.LauncherUtils;
 
 public class Auth {
@@ -24,8 +28,16 @@ public class Auth {
 	public static void sendAuth1(String hostname, int port, String token, String password)
 	{
 		try {
-			//TODO: send authstring as handshake packet
-			//Socket socket = new Socket(hostname, port);
+			//establish connection
+			Socket socket = new Socket();
+			socket.setSoTimeout(6000);
+			socket.setTcpNoDelay(true);
+			socket.connect(new InetSocketAddress(hostname, port), 6000);
+			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+			//write handshake packet( format: packetid + authpacket(format:AuthMeSocketLoginSystem|token|password) + host + port)
+			String packetstring = "2" + "AuthMeSocketLoginSystem|" + token + "|" + password + hostname + port;
+            dos.write(packetstring.getBytes());
+            socket.close();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
