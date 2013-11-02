@@ -75,18 +75,18 @@ public class OutReader extends Thread {
 	}
 	private void onLoginFinished(String message)
 	{
-		//loginsystem string format: AuthMeSocketLoginSystem|authtype|host|port|token
+		//loginsystem string format: AuthMeSocketLoginSystem|authtype|host|port|nick|token
 		System.out.println("Login");
 		this.login = true;
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
 		if (authtype == 1)
 		{//1.6.4 and earlier
-			Auth.sendAuth1(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], password);
+			Auth.sendAuth1(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
 		} else
 		if (authtype == 2)
 		{//1.7.2 and newer (this is not supported currently)
-			Auth.sendAuth2(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], password);
+			Auth.sendAuth2(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
 		}
 	}
 

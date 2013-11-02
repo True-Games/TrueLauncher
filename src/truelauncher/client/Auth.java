@@ -25,7 +25,7 @@ import truelauncher.utils.LauncherUtils;
 
 public class Auth {
 
-	public static void sendAuth1(String hostname, int port, String token, String password)
+	public static void sendAuth1(String hostname, int port, String nick, String token, String password)
 	{
 		try {
 			//establish connection
@@ -34,8 +34,8 @@ public class Auth {
 			socket.setTcpNoDelay(true);
 			socket.connect(new InetSocketAddress(hostname, port), 6000);
 			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-			//write handshake packet( format: packetid + authpacket(format:AuthMeSocketLoginSystem|token|password) + host + port)
-			String packetstring = "2" + "AuthMeSocketLoginSystem|" + token + "|" + password + hostname + port;
+			//write handshake packet( format: packetid + authpacket(format:AuthMeSocketLoginSystem|nick|token|password) + host + port)
+			String packetstring = "2" + "AuthMeSocketLoginSystem|" + nick + "|" + token + "|" + password + hostname + port;
             dos.write(packetstring.getBytes());
             socket.close();
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class Auth {
 		}
 	}
 	
-	public static void sendAuth2(String hostname, int port, String token, String password)
+	public static void sendAuth2(String hostname, int port, String nick, String token, String password)
 	{
 		
 	}
