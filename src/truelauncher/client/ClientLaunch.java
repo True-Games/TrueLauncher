@@ -79,7 +79,7 @@ public class ClientLaunch {
 				pb.start();
 			} else {
 				Process p = pb.start();
-				Thread reader = new OutReader(p, "testacc");
+				Thread reader = new OutReader(p, password);
 				reader.start();
 			}
 		} catch (Exception e) {
