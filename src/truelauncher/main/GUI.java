@@ -192,12 +192,10 @@ public class GUI extends JPanel {
     	 labelnick.setText("Ник");
       	 labelnick.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(labelnick);
-
     	 //Поле ника
     	 int inw = 140;
-    	 int inh = 20;
     	 nickfield = new TTextField();
-    	 nickfield.setBounds(lnw,25,inw,inh);
+    	 nickfield.setBounds(lnw,25,inw,lnh);
     	 nickfield.setText("NoNickName");
     	 nickfield.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(nickfield);
@@ -211,12 +209,10 @@ public class GUI extends JPanel {
       	 labelram.setHorizontalAlignment(TButton.CENTER);
     	 labelram.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
     	 tifields.add(labelram);
-
-       	 //Поле памяти
+      	 //Поле памяти
     	 int irw = 140;
-    	 int irh = 20;
     	 ramfield = new TTextField();
-    	 ramfield.setBounds(lrw,45,irw,irh);
+    	 ramfield.setBounds(lrw,45,irw,lrh);
     	 ramfield.setText("400");
       	 ramfield.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(ramfield);
