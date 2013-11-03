@@ -50,6 +50,7 @@ import truelauncher.gcomponents.TTextField;
 import truelauncher.images.Images;
 import truelauncher.launcher.LauncherVersionChecker;
 import truelauncher.launcher.LauncherUpdateDialog;
+import truelauncher.utils.CryptoUtils;
 import truelauncher.utils.LauncherUtils;
 
 @SuppressWarnings("serial")
@@ -390,21 +391,55 @@ public class GUI extends JPanel {
     	 new LauncherVersionChecker().start();
      }
      
-     //load nick and ram from file
+     //load nick and password
      private void loadTextFields()
      {
          try {
              String ps = LauncherUtils.getDir();
-             if ((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists()) {
-                 Scanner inFile = new Scanner(new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config"));
-                 nickfield.setText(inFile.nextLine());
-                 inFile.close();
+             File config = new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "launcherdata");
+             if (config.exists()) {
+            	 Scanner scanner = new Scanner(config);
+                 String nick = scanner.nextLine();
+                 String passwordstring = scanner.nextLine();
+                 nickfield.setText(nick);
+                 if (passwordstring.isEmpty())
+                 {
+                	 passfield.setText("");
+                 } else
+                 {
+                	 passfield.setText(CryptoUtils.decryptString(passwordstring));
+                 }
+                 scanner.close();
              }
          } catch (Exception e) {
         	 LauncherUtils.logError(e);
          }
      }
-     
+     //save nick and password
+     private void saveTextFields()
+     {
+         try {
+        	 String ps = LauncherUtils.getDir();
+        	 new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs(); 
+             File config = new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "launcherdata");
+             PrintWriter writer = new PrintWriter(config);
+             String nick = nickfield.getText();
+             writer.println(nick);
+        	 String password = passfield.getText();
+             if (password.isEmpty())
+             {
+            	 writer.println("");
+             } else
+             {
+            	 writer.println(CryptoUtils.encryptString(password));
+             }
+             writer.flush();
+             writer.close();
+         } catch (Exception e) {
+        	 LauncherUtils.logError(e);
+         }
+     }
+
      //check client jars exist
      private void checkClientJarExistInternal()
      {
@@ -416,21 +451,6 @@ public class GUI extends JPanel {
 			launch.setText("Клиент не найден");
 			launch.setEnabled(false);
 		}
-     }
-     
-     //save nick and ram to file
-     private void saveTextFields()
-     {
-       	 String ps = LauncherUtils.getDir();
-    	 new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs(); 
-    	 try {
-    		 PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
-    		 wrt.println(nickfield.getText());
-    		 wrt.flush();
-    		 wrt.close();
-    	 } catch (Exception e) {
-    		 LauncherUtils.logError(e);
-    	 }
      }
 
      @Override
