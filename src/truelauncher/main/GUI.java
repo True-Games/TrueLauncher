@@ -58,7 +58,7 @@ public class GUI extends JPanel {
 	private static GUI staticgui;
 	
 	private TTextField nickfield;
-	private TTextField ramfield;
+	private TTextField passfield;
 	private TComboBox listclients; 
 	private TButton launch;
 	private TProgressBar pbar;
@@ -200,22 +200,22 @@ public class GUI extends JPanel {
     	 nickfield.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(nickfield);
 
-    	 //Плашка памяти
+    	 //Плашка пароля
     	 int lrw = 80;
     	 int lrh = 20;
-    	 TLabel labelram = new TLabel();
-    	 labelram.setBounds(0,45,lrw,lrh);
-    	 labelram.setText("Память");
-      	 labelram.setHorizontalAlignment(TButton.CENTER);
-    	 labelram.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
-    	 tifields.add(labelram);
-      	 //Поле памяти
+    	 TLabel labelpass = new TLabel();
+    	 labelpass.setBounds(0,45,lrw,lrh);
+    	 labelpass.setText("Пароль");
+      	 labelpass.setHorizontalAlignment(TButton.CENTER);
+    	 labelpass.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
+    	 tifields.add(labelpass);
+       	 //Поле пароля
     	 int irw = 140;
-    	 ramfield = new TTextField();
-    	 ramfield.setBounds(lrw,45,irw,lrh);
-    	 ramfield.setText("400");
-      	 ramfield.setHorizontalAlignment(TButton.CENTER);
-    	 tifields.add(ramfield);
+    	 passfield = new TTextField();
+    	 passfield.setBounds(lrw,45,irw,lrh);
+    	 passfield.setText("");
+    	 passfield.setHorizontalAlignment(TButton.CENTER);
+    	 tifields.add(passfield);
     	 
     	 //Кнопка сохранить
     	 TButton save = new TButton();
@@ -287,9 +287,14 @@ public class GUI extends JPanel {
      			// nickname
      			String nick = nickfield.getText();
      			// RAM
-     			String mem = Integer.valueOf(ramfield.getText()) + "M";
+     			int ram = 512;
+     			if (System.getProperty("sun.arch.data.model").contains("64"))
+     			{
+     				ram = 1024;
+     			}
+     			String mem = Integer.valueOf(ram) + "M";
      			// password (empty for now)
-     			String password = "";
+     			String password = passfield.getText();
      			// location of jar file
      			String jar = LauncherUtils.getDir()+ File.separator + AllSettings.getClientJarByName(clientname);
      			// mainclass
@@ -393,7 +398,6 @@ public class GUI extends JPanel {
              if ((new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config")).exists()) {
                  Scanner inFile = new Scanner(new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()+ File.separator + "config"));
                  nickfield.setText(inFile.nextLine());
-                 ramfield.setText(inFile.nextLine());
                  inFile.close();
              }
          } catch (Exception e) {
@@ -422,7 +426,6 @@ public class GUI extends JPanel {
     	 try {
     		 PrintWriter wrt = new PrintWriter(new File(ps+ File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"config"));
     		 wrt.println(nickfield.getText());
-    		 wrt.println(ramfield.getText());
     		 wrt.flush();
     		 wrt.close();
     	 } catch (Exception e) {
