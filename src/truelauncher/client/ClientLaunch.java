@@ -29,7 +29,7 @@ import truelauncher.utils.LauncherUtils;
 public class ClientLaunch {
 
 	// Launch minecraft begin
-	public static void launchMC(String mcpath, String nick, String mem, String jar, String mainlass, String cmdargs)
+	public static void launchMC(String mcpath, String nick, String password, String mem, String jar, String mainlass, String cmdargs)
 	{
 		try {
 			// libs and java locations
@@ -73,8 +73,15 @@ public class ClientLaunch {
 			pb.command(cc);
 			pb.redirectInput(Redirect.INHERIT);
 			pb.redirectOutput(Redirect.INHERIT);
-			Thread reader = new OutReader(pb.start(), "testacc");
-			reader.start();
+			if (password.isEmpty())
+			{
+				pb.redirectError(Redirect.INHERIT);
+				pb.start();
+			} else {
+				Process p = pb.start();
+				Thread reader = new OutReader(p, "testacc");
+				reader.start();
+			}
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}

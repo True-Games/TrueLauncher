@@ -292,6 +292,8 @@ public class GUI extends JPanel {
      			String nick = nickfield.getText();
      			// RAM
      			String mem = Integer.valueOf(ramfield.getText()) + "M";
+     			// password (empty for now)
+     			String password = "";
      			// location of jar file
      			String jar = LauncherUtils.getDir()+ File.separator + AllSettings.getClientJarByName(clientname);
      			// mainclass
@@ -299,7 +301,7 @@ public class GUI extends JPanel {
      			// cmdargs
      			String cmdargs = AllSettings.getClientCmdArgsByName(clientname);
      			//launch minecraft (mcpach, nick, mem, jar, mainclass, cmdargs)
-            	ClientLaunch.launchMC(mcpath, nick, mem, jar, mainclass, cmdargs);
+            	ClientLaunch.launchMC(mcpath, nick, password, mem, jar, mainclass, cmdargs);
              }
        });
 	   checkClientJarExistInternal();
