@@ -48,7 +48,14 @@ public class CryptoUtils {
    	 	Enumeration<NetworkInterface> ni = java.net.NetworkInterface.getNetworkInterfaces();
    	 	if (ni.hasMoreElements())
    	 	{
-   	 		return ni.nextElement().getHardwareAddress();
+   	 		byte[] mac = ni.nextElement().getHardwareAddress();
+   	 		if (mac != null)
+   	 		{
+   	 			return mac;
+   	 		} else
+   	 		{
+   	 			return "aGorRiaA".getBytes();
+   	 		}
    	 	} else
    	 	{
    	 		return "aGorRiaA".getBytes();
