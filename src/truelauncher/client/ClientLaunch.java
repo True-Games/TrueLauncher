@@ -73,10 +73,8 @@ public class ClientLaunch {
 			pb.command(cc);
 			pb.redirectInput(Redirect.INHERIT);
 			pb.redirectOutput(Redirect.INHERIT);
-			pb.redirectError(Redirect.INHERIT);
-			pb.start();
-			//Thread reader = new OutReader(p, "testacc");
-			//reader.start();
+			Thread reader = new OutReader(pb.start(), "testacc");
+			reader.start();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}

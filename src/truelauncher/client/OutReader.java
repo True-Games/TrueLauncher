@@ -41,15 +41,7 @@ public class OutReader extends Thread {
 			String line;
 			while ((line = reader.readLine ()) != null) 
 			{
-				if (line.contains("Connecting to"))
-				{
-					onConnectionStart(line);
-				} else
-				if (line.contains("Reached end of stream for"))
-				{
-					onDisconnect();
-				} else
-				if (line.contains("AuthMeSocketLoginSystem") && connecttoserver && !login) 
+				if (line.contains("AuthConnector")) 
 				{
 					onLoginFinished(line);
 				}
@@ -59,25 +51,11 @@ public class OutReader extends Thread {
 		}
 	}
 	
-	
-	private boolean connecttoserver = false;
-	private boolean login = false;
-	private void onConnectionStart(String message)
-	{
-		System.out.println("Connection");
-		this.connecttoserver = true;
-	}
-	private void onDisconnect()
-	{
-		System.out.println("Disconnection");
-		this.connecttoserver = false;
-		this.login = false;
-	}
+
 	private void onLoginFinished(String message)
 	{
-		//loginsystem string format: AuthMeSocketLoginSystem|authtype|host|port|nick|token
+		//loginsystem string format: AuthConnector|authtype|host|port|nick|token
 		System.out.println("Login");
-		this.login = true;
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
 		if (authtype == 1)

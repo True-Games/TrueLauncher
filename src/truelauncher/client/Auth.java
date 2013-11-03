@@ -34,8 +34,8 @@ public class Auth {
 			socket.setTcpNoDelay(true);
 			socket.connect(new InetSocketAddress(hostname, port), 6000);
 			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-			//write handshake packet( format: packetid + protocolversion + authpacket(format:AuthMeSocketLoginSystem|nick|token|password) + host + port)
-			String packetstring = "2" + -1 + "AuthMeSocketLoginSystem|" + nick + "|" + token + "|" + password + hostname + port;
+			//write handshake packet( format: packetid + protocolversion + authpacket(format:AuthConnector|nick|token|password) + host + port)
+			String packetstring = "2" + -1 + "AuthConnector|" + nick + "|" + token + "|" + password + hostname + port;
             dos.write(packetstring.getBytes());
             socket.close();
 		} catch (Exception e) {
