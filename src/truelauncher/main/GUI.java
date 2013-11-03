@@ -45,6 +45,7 @@ import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TLabel;
+import truelauncher.gcomponents.TPasswordField;
 import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
 import truelauncher.images.Images;
@@ -59,7 +60,7 @@ public class GUI extends JPanel {
 	private static GUI staticgui;
 	
 	private TTextField nickfield;
-	private TTextField passfield;
+	private TPasswordField passfield;
 	private TComboBox listclients; 
 	private TButton launch;
 	private TProgressBar pbar;
@@ -212,7 +213,7 @@ public class GUI extends JPanel {
     	 tifields.add(labelpass);
        	 //Поле пароля
     	 int irw = 140;
-    	 passfield = new TTextField();
+    	 passfield = new TPasswordField();
     	 passfield.setBounds(lrw,45,irw,lrh);
     	 passfield.setText("");
     	 passfield.setHorizontalAlignment(TButton.CENTER);
@@ -294,8 +295,8 @@ public class GUI extends JPanel {
      				ram = 1024;
      			}
      			String mem = Integer.valueOf(ram) + "M";
-     			// password (empty for now)
-     			String password = passfield.getText();
+     			// password
+     			String password = new String(passfield.getPassword());
      			// location of jar file
      			String jar = LauncherUtils.getDir()+ File.separator + AllSettings.getClientJarByName(clientname);
      			// mainclass
@@ -425,7 +426,7 @@ public class GUI extends JPanel {
              PrintWriter writer = new PrintWriter(config);
              String nick = nickfield.getText();
              writer.println(nick);
-        	 String password = passfield.getText();
+        	 String password = new String(passfield.getPassword());
              if (password.isEmpty())
              {
             	 writer.println("");
