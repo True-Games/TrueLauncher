@@ -18,6 +18,7 @@
 package truelauncher.client;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -34,18 +35,35 @@ public class Auth {
 			socket.setTcpNoDelay(true);
 			socket.connect(new InetSocketAddress(hostname, port), 6000);
 			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-			//write handshake packet( format: packetid + protocolversion + authpacket(format:AuthConnector|nick|token|password) + host + port)
-			String packetstring = "2" + -1 + "AuthConnector|" + nick + "|" + token + "|" + password + hostname + port;
-            dos.write(packetstring.getBytes());
+			//write handshake packet( format: packetid + protocolversion + nick + host|authpacket(format:AuthConnector|token|password) + port)
+			//write packet id
+			dos.write(2);
+			//write protocolVersion
+			dos.writeByte(-1);
+			//write name;
+			writeString(dos, nick);
+			//write hostname+authpacket (instead of hostname)
+			String authpacket = hostname+"|AuthConnector|"+token+"|"+password;
+			writeString(dos, authpacket);
+			//write port
+			dos.writeInt(port);
+			//close socket
             socket.close();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
 	}
-	
+
 	public static void sendAuth2(String hostname, int port, String nick, String token, String password)
 	{
 		
+	}
+	
+	
+	private static void writeString(DataOutputStream dos, String string) throws IOException
+	{
+		dos.writeShort(string.length());
+		dos.writeChars(string);
 	}
 	
 }
