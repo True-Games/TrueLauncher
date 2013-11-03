@@ -46,6 +46,7 @@ public class OutReader extends Thread {
 					onLoginFinished(line);
 				}
 			}
+			reader.close();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
