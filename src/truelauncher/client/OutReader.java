@@ -55,7 +55,6 @@ public class OutReader extends Thread {
 	private void onLoginFinished(String message)
 	{
 		//loginsystem string format: AuthConnector|authtype|host|port|nick|token
-		System.out.println("Login");
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
 		if (authtype == 1)
