@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 public class JSONConfig {
 
 	
-	private int configversion = Integer.MAX_VALUE;
+	private int configversion = 0;
 	protected int getConfigVersion()
 	{
 		return configversion;

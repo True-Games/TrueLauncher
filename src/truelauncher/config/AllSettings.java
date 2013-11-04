@@ -44,7 +44,7 @@ public class AllSettings {
 	//allowed addresses for launcher to auth with
 	protected static HashSet<String> allowedaddresses = new HashSet<String>();
 	//config version
-	protected static int clientsconfigversion = Integer.MAX_VALUE;
+	protected static int clientsconfigversion = 0;
 
 	//for launcher updater
 	//launcher version
