@@ -24,16 +24,16 @@ public class JSONConfig {
 
 	
 	private int configversion = 0;
-	protected int getConfigVersion()
-	{
-		return configversion;
-	}
-	
 	private String tempfolder = "temp";
 	private String libsfolder = "libraries";
 	private LinkedHashMap<String, ClientData> clientdata = new LinkedHashMap<String, ClientData>();
 	private HashSet<String> authaddresses = new HashSet<String>();
 	
+	
+	protected int getConfigVersion()
+	{
+		return configversion;
+	}
 	protected String getTempFolder()
 	{
 		return tempfolder;
