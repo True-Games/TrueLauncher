@@ -107,7 +107,7 @@ public class GUI extends JPanel {
      private void initHeader()
      {
 			JLabel drag = new JLabel();
-			drag.setBounds(0, 0, AllSettings.w, 15);
+			drag.setBounds(0, 0, GUISettings.w, 15);
 			drag.setOpaque(false);
 			drag.setBackground(new Color(0,0,0,0));
 			drag.addMouseListener(new MouseAdapter() {
@@ -129,11 +129,11 @@ public class GUI extends JPanel {
      {
       	 JPanel cmb = new JPanel();
       	 cmb.setLayout(null);
-      	 cmb.setBounds(AllSettings.w - 75,15,60,25);
+      	 cmb.setBounds(GUISettings.w - 75,15,60,25);
       	 
       	 TButton minimize = new TButton();
       	 minimize.setBounds(0,0,25,25);
-      	 minimize.setBackgroundImage(AllSettings.hide);
+      	 minimize.setBackgroundImage(GUISettings.hide);
       	 minimize.addActionListener(new ActionListener()
       	 {
       		 @Override 
@@ -146,7 +146,7 @@ public class GUI extends JPanel {
       	 
       	 TButton close = new TButton();
       	 close.setBounds(35, 0, 25, 25);
-      	 close.setBackgroundImage(AllSettings.close);
+      	 close.setBackgroundImage(GUISettings.close);
       	 close.addActionListener(new ActionListener()
       	 {
       		 @Override 
@@ -165,7 +165,7 @@ public class GUI extends JPanel {
      //block 1 (nickname chooser)
      private void initTextInputFieldsAndLabels()
      {
-    	 int y = AllSettings.h - 110;
+    	 int y = GUISettings.h - 110;
     	 int levelw = 30;
       	 int widgw = 220;
       	 
@@ -179,7 +179,7 @@ public class GUI extends JPanel {
       	 //Плашка объясениния
     	 TLabel expbarset = new TLabel();
     	 expbarset.setBounds(0,0,widgw,25);
-    	 expbarset.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.explainimage));
+    	 expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
     	 expbarset.setText("Основные настройки");
       	 expbarset.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(expbarset);
@@ -190,7 +190,7 @@ public class GUI extends JPanel {
     	 int lnh = 20;
     	 TLabel labelnick = new TLabel();
     	 labelnick.setBounds(0,25,lnw,lnh);
-    	 labelnick.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
+    	 labelnick.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.labelimage));
     	 labelnick.setText("Ник");
       	 labelnick.setHorizontalAlignment(TButton.CENTER);
     	 tifields.add(labelnick);
@@ -209,7 +209,7 @@ public class GUI extends JPanel {
     	 labelpass.setBounds(0,45,lrw,lrh);
     	 labelpass.setText("Пароль");
       	 labelpass.setHorizontalAlignment(TButton.CENTER);
-    	 labelpass.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.labelimage));
+    	 labelpass.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.labelimage));
     	 tifields.add(labelpass);
        	 //Поле пароля
     	 int irw = 140;
@@ -239,7 +239,7 @@ public class GUI extends JPanel {
      //block 2 (clients start)
      private void initStartButton()
      {
-    	 int y = AllSettings.h - 110;
+    	 int y = GUISettings.h - 110;
     	 int levelw = 250;
       	 int widgw = 240;
     	 
@@ -254,7 +254,7 @@ public class GUI extends JPanel {
        	expbarset.setBounds(0,0,widgw,25);
       	expbarset.setText("Выбор клиента");
       	expbarset.setHorizontalAlignment(TButton.CENTER);
-    	expbarset.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.explainimage));
+    	expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
       	 
     	sb.add(expbarset);
     	 
@@ -317,7 +317,7 @@ public class GUI extends JPanel {
      //block 3 (clients download)
      private void initDownloadCenter()
      {
-    	 int y = AllSettings.h - 110;
+    	 int y = GUISettings.h - 110;
     	 int levelw = 490;
       	 int widgw = 220;
       	 
@@ -329,7 +329,7 @@ public class GUI extends JPanel {
       	 
     	 TLabel expbarset = new TLabel();
     	 expbarset.setBounds(0,0,widgw,25);
-    	 expbarset.setBackgroundImage(Images.class.getResourceAsStream(AllSettings.explainimage));
+    	 expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
     	 expbarset.setText("Скачивание клиентов");
     	 expbarset.setHorizontalAlignment(TLabel.CENTER);
     	 dc.add(expbarset);
@@ -457,8 +457,8 @@ public class GUI extends JPanel {
      @Override
      public void paintComponent(Graphics g) {
     	 try {
-			Image bg = ImageIO.read(Images.class.getResourceAsStream(AllSettings.bgimage));
-			bg = bg.getScaledInstance(AllSettings.w, AllSettings.h, Image.SCALE_SMOOTH);
+			Image bg = ImageIO.read(Images.class.getResourceAsStream(GUISettings.bgimage));
+			bg = bg.getScaledInstance(GUISettings.w, GUISettings.h, Image.SCALE_SMOOTH);
 			g.drawImage(bg, 0, 0, null);
     	 } catch (IOException e) {
     		 e.printStackTrace();

@@ -53,10 +53,7 @@ public class ConfigLoader {
 				//check if we have at least 1 client in config()
 				if (jsonconfig.getClientDataMap().size() > 0)
 				{
-					//load settings
-					AllSettings.tempfolder = jsonconfig.getTempFolder();
-					AllSettings.libsfolder = jsonconfig.getLibsFolder();
-					AllSettings.clientsdata = jsonconfig.getClientDataMap();
+					loadSettings(jsonconfig);
 				} else
 				{
 					//no clients in config, WTF?
@@ -68,6 +65,7 @@ public class ConfigLoader {
 					loadConfig(configfile);
 				}
 			} catch (Exception e) {
+				LauncherUtils.logError(e);
 				//increment fail counter
 				failedcounter++;
 				//copy config from jar
@@ -85,6 +83,16 @@ public class ConfigLoader {
 			//now load it
 			loadConfig(configfile);
 		}
+	}
+	
+	private static void loadSettings(JSONConfig jsonconfig)
+	{
+		//load settings
+		AllSettings.clientsconfigversion = jsonconfig.getConfigVersion();
+		AllSettings.tempfolder = jsonconfig.getTempFolder();
+		AllSettings.libsfolder = jsonconfig.getLibsFolder();
+		AllSettings.clientsdata = jsonconfig.getClientDataMap();
+		AllSettings.allowedaddresses = jsonconfig.getAllowedAdresses();
 	}
 	
 	

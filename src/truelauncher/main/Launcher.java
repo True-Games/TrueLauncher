@@ -26,7 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import truelauncher.config.AllSettings;
 import truelauncher.images.Images;
 import truelauncher.utils.LauncherUtils;
 
@@ -50,16 +49,16 @@ public class Launcher {
             	try {
             		JFrame frame = new JFrame();
             		frame.setResizable(false);
-            		frame.setTitle(AllSettings.lname);
-            		frame.setSize(AllSettings.w, AllSettings.h);
+            		frame.setTitle(GUISettings.lname);
+            		frame.setSize(GUISettings.w, GUISettings.h);
             		frame.setLocationRelativeTo(null);
             		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
             		frame.setUndecorated(true);
-            		frame.setIconImage(ImageIO.read(Images.class.getResourceAsStream(AllSettings.icon)));
+            		frame.setIconImage(ImageIO.read(Images.class.getResourceAsStream(GUISettings.icon)));
         		    frame.setGlassPane(new JComponent() {
         		        public void paintComponent(Graphics g) {
         		            g.setColor(new Color(0, 0, 0, 150));
-        		            g.fillRect(0, 0, AllSettings.w, AllSettings.h);
+        		            g.fillRect(0, 0, GUISettings.w, GUISettings.h);
         		            super.paintComponent(g);
         		   	    }
         		    });

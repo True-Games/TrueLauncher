@@ -19,6 +19,7 @@ package truelauncher.config;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -28,37 +29,62 @@ import truelauncher.utils.LauncherUtils;
 
 public class ConfigUpdater {
 
-	protected static void updateConfig(final File configfile)
+	protected static void startConfigUpdater(final File configfile)
 	{
 		//update config
 		Thread update = new Thread(){
 			public void run()
 			{
 				try {
-					URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder()+configfile.getName());
-					URLConnection conn = url.openConnection();
-
-					if ((conn instanceof HttpURLConnection)) {
-						conn.setRequestProperty("Cache-Control", "no-cache");
-						conn.connect();
+					if (isUpdateNeeded())
+					{
+						updateConfig(configfile);
 					}
-					InputStream inputstream = conn.getInputStream();
-
-					FileOutputStream writer = new FileOutputStream(configfile);
-					byte[] buffer = new byte[153600];
-
-					int bufferSize = 0;
-					while ((bufferSize = inputstream.read(buffer)) > 0) {
-						writer.write(buffer, 0, bufferSize);
-						buffer = new byte[153600];
-					}
-
-					writer.close();
-					inputstream.close();
-				} catch (Exception e) {LauncherUtils.logError(e);}
+				} catch (Exception e) {
+					LauncherUtils.logError(e);
+				}
 			}
 		};
 		update.start();
+	}
+	
+	private static boolean isUpdateNeeded()
+	{
+		try {
+			URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder()+"clientsversion");
+			int latest = Integer.valueOf(LauncherUtils.readURLStreamToString(url.openStream()));
+			if (AllSettings.getClientConfigVersion() < latest)
+			{
+				return true;
+			}
+		}  catch (Exception e) {
+			LauncherUtils.logError(e);
+		}
+		return false;
+	}
+	
+	private static void updateConfig(final File configfile) throws IOException
+	{
+		URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder()+configfile.getName());
+		URLConnection conn = url.openConnection();
+
+		if ((conn instanceof HttpURLConnection)) {
+			conn.setRequestProperty("Cache-Control", "no-cache");
+			conn.connect();
+		}
+		InputStream inputstream = conn.getInputStream();
+
+		FileOutputStream writer = new FileOutputStream(configfile);
+		byte[] buffer = new byte[153600];
+
+		int bufferSize = 0;
+		while ((bufferSize = inputstream.read(buffer)) > 0) {
+			writer.write(buffer, 0, bufferSize);
+			buffer = new byte[153600];
+		}
+
+		writer.close();
+		inputstream.close();
 	}
 	
 }

@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
 
 public class OutReader extends Thread {
@@ -58,14 +59,24 @@ public class OutReader extends Thread {
 		//loginsystem string format: AuthConnector|authtype|host|port|nick|token
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
-		if (authtype == 1)
-		{//1.6.4 and earlier
-			Auth.sendAuth1(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
-		} else
-		if (authtype == 2)
-		{//1.7.2 and newer (this is not supported currently)
-			Auth.sendAuth2(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
+		if (isAddressAllowed(paramarray[2]))
+		{
+			if (authtype == 1)
+			{//1.6.4 and earlier
+				Auth.sendAuth1(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
+			} else
+			if (authtype == 2)
+			{//1.7.2 and newer (this is not supported currently)
+				Auth.sendAuth2(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
+			}
 		}
+	}
+	
+	
+	
+	private static boolean isAddressAllowed(String address)
+	{
+		return AllSettings.getAllowedAuthAddresses().contains(address);
 	}
 
 

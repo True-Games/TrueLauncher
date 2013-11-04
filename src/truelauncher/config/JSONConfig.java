@@ -17,14 +17,22 @@
 
 package truelauncher.config;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public class JSONConfig {
 
 	
+	private int configversion = Integer.MAX_VALUE;
+	protected int getConfigVersion()
+	{
+		return configversion;
+	}
+	
 	private String tempfolder = "temp";
 	private String libsfolder = "libraries";
 	private LinkedHashMap<String, ClientData> clientdata = new LinkedHashMap<String, ClientData>();
+	private HashSet<String> authaddresses = new HashSet<String>();
 	
 	protected String getTempFolder()
 	{
@@ -39,6 +47,10 @@ public class JSONConfig {
 		LinkedHashMap<String, ClientData> r = new LinkedHashMap<String, ClientData>();
 		r.putAll(clientdata);
 		return r;
+	}
+	protected HashSet<String> getAllowedAdresses()
+	{
+		return new HashSet<String>(authaddresses);
 	}
 	
 }
