@@ -24,7 +24,6 @@ public class CryptoUtils {
 	public static String decryptString(String string) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, ClassNotFoundException, IOException, InvalidAlgorithmParameterException
 	{
 		byte[] keyBytes = getKey();
-   	 	keyBytes = Arrays.copyOf(keyBytes, 8);
    	 	SecretKeySpec key = new SecretKeySpec(keyBytes, "DES");
    	 	IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
    	 	Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
@@ -35,7 +34,6 @@ public class CryptoUtils {
     public static String encryptString(String string) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException, ClassNotFoundException, InvalidAlgorithmParameterException
     {
    	 	byte[] keyBytes = getKey();
-   	 	keyBytes = Arrays.copyOf(keyBytes, 8);
    	 	SecretKeySpec key = new SecretKeySpec(keyBytes, "DES");
    	 	IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
    	 	Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
@@ -51,7 +49,7 @@ public class CryptoUtils {
    	 		byte[] mac = ni.nextElement().getHardwareAddress();
    	 		if (mac != null)
    	 		{
-   	 			return mac;
+   	 			return Arrays.copyOf(mac, 8);
    	 		} else
    	 		{
    	 			return "aGorRiaA".getBytes();
