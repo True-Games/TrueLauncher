@@ -29,7 +29,6 @@ public class JSONConfig {
 	private LinkedHashMap<String, ClientData> clientdata = new LinkedHashMap<String, ClientData>();
 	private HashSet<String> authaddresses = new HashSet<String>();
 	
-	
 	protected int getConfigVersion()
 	{
 		return configversion;

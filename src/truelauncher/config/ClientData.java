@@ -24,14 +24,7 @@ public class ClientData {
 	private String mainclass = "net.minecraft.client.main.Main";
 	private String cmdargs = "--username {USERNAME} --accessToken token";
 	private String downloadlink = "fake.fake/minecraft.zip";
-	public ClientData(String launchfolder, String jarfile, String mainclass, String cmdargs, String downloadlink)
-	{
-		this.launchfolder = launchfolder;
-		this.jarfile = jarfile;
-		this.mainclass = mainclass;
-		this.cmdargs = cmdargs;
-		this.downloadlink = downloadlink;
-	}
+	private int version = 1;
 	
 	protected String getLaunchFolder()
 	{
@@ -56,6 +49,11 @@ public class ClientData {
 	protected String getDownloadLink()
 	{
 		return downloadlink;
+	}
+	
+	protected int getVersion()
+	{
+		return version;
 	}
 	
 }

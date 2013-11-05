@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TProgressBar;
@@ -38,24 +39,18 @@ public class ClientUpdateThread extends Thread {
 	private TComboBox selectionbox;
 	private TButton downloadbutton;
 	private TProgressBar progressbar;
-	private String urlfrom;
-	private String tempfile;
-	private String destination;
+	private String client;
 
-	public ClientUpdateThread(TComboBox selectionbox, TButton downloadbutton, TProgressBar progressbar, String urlfrom, String tempfile, String destination) {
+	public ClientUpdateThread(TComboBox selectionbox, TButton downloadbutton, TProgressBar progressbar, String client) {
 		this.selectionbox = selectionbox;
 		this.downloadbutton = downloadbutton;
 		this.progressbar = progressbar;
-		this.urlfrom = urlfrom;
-		this.tempfile = tempfile;
-		this.destination = destination;
+		this.client = client;
 	}
 
 	public void filedownloader(String urlfrom, String clientto)
 			throws Exception {
-		
-		new File(tempfile).getParentFile().mkdirs();
-		
+
 		URL url = new URL(urlfrom);
 		URLConnection conn = url.openConnection();
 		if ((conn instanceof HttpURLConnection)) {
@@ -92,14 +87,20 @@ public class ClientUpdateThread extends Thread {
 	@Override
 	public void run() {
 		try {
-
+			//prepare some variables
+			String downloadurl = AllSettings.getClientDownloadLinkByName(client);
+			String tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getClientsTempFolderPath() + File.separator + new File(new URL(downloadurl).getFile()).getName();
+			String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client);
+			
+			
 			// remove old zip file
 			downloadbutton.setText("Прибираемся");
 			new File(tempfile).delete();
 
 			// download packed zip
 			downloadbutton.setText("Скачиваем клиент");
-			filedownloader(urlfrom, tempfile);
+			new File(tempfile).getParentFile().mkdirs();
+			filedownloader(downloadurl, tempfile);
 
 			// delete old client
 			downloadbutton.setText("Удаляем старый клиент");
@@ -120,7 +121,7 @@ public class ClientUpdateThread extends Thread {
 			selectionbox.setEnabled(true);
 			
 			//recheck client
-			GUI.checkClientJarExist();
+			GUI.checkClient(client);
 
 		} catch (final Exception ex) {
 

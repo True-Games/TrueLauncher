@@ -99,6 +99,10 @@ public class AllSettings {
 	{
 		return clientsdata.get(name).getDownloadLink();
 	}
+	public static int getClientVersion(String name)
+	{
+		return clientsdata.get(name).getVersion();
+	}
 	//auth
 	public static HashSet<String> getAllowedAuthAddresses()
 	{

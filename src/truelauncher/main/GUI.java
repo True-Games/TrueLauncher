@@ -27,8 +27,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
 
@@ -270,7 +268,7 @@ public class GUI extends JPanel {
  	    		new ActionListener() {
  	    			@Override
  	    			public void actionPerformed(ActionEvent e) {
- 	    				checkClientJarExistInternal();
+ 	    				checkClientInternal(listclients.getSelectedItem().toString());
  	    			}
  	    		});
  	   sb.add(listclients);
@@ -307,7 +305,7 @@ public class GUI extends JPanel {
             	ClientLaunch.launchMC(mcpath, nick, password, mem, jar, mainclass, cmdargs);
              }
        });
-	   checkClientJarExistInternal();
+	   checkClientInternal(listclients.getSelectedItem().toString());
        sb.add(launch);
 
    
@@ -367,17 +365,8 @@ public class GUI extends JPanel {
             	 download.setEnabled(false);
             	 //get client name
             	 String client = listdownloads.getSelectedItem().toString();
-            	 //url to donwload from
-            	 String urlfrom = AllSettings.getClientDownloadLinkByName(client);
-            	 //temp zip file
-            	 String tempfile = null;
-            	 try {
-            		 tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getClientsTempFolderPath() + File.separator + new File(new URL(urlfrom).getFile()).getName();
-            	 } catch (MalformedURLException e1) {}
-            	 //client destination
-            	 String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client);
             	 //run client update
-            	 new ClientUpdateThread(listdownloads, download, pbar, urlfrom, tempfile, destination).start();    	 
+            	 new ClientUpdateThread(listdownloads, download, pbar, client).start();    	 
              }
          });
   	    dc.add(download);
@@ -441,15 +430,34 @@ public class GUI extends JPanel {
          }
      }
 
-     //check client jars exist
-     private void checkClientJarExistInternal()
+     //check client jar and version
+     private void checkClientInternal(String client)
      {
-    	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(listclients.getSelectedItem().toString()));
+    	File cfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientJarByName(client));
+    	File versionfile = new File(LauncherUtils.getDir()+File.separator+AllSettings.getClientFolderByName(client)+File.separator+"clientversion");
+    	//first check the jar
 		if (cfile.exists()) {
-			launch.setEnabled(true);
-    	 	launch.setText("Запустить Minecraft");
+			//now check the version
+			try {
+				Scanner scan = new Scanner(versionfile);
+				int currentversion = scan.nextInt();
+				scan.close();
+				if (currentversion < AllSettings.getClientVersion(client))
+				{
+					launch.setEnabled(true);
+					launch.setText("✘ Запустить Minecraft");
+				} else
+				{
+					launch.setEnabled(true);
+					launch.setText("✔ Запустить Minecraft");
+				}
+			} catch (Exception e) {
+				LauncherUtils.logError(e);
+				launch.setEnabled(true);
+				launch.setText("☷ Запустить Minecraft");
+			}
 		} else {
-			launch.setText("Клиент не найден");
+			launch.setText("☠ Клиент не найден");
 			launch.setEnabled(false);
 		}
      }
@@ -467,10 +475,10 @@ public class GUI extends JPanel {
      
      
      //static access
-     //check client jar
-     public static void checkClientJarExist()
+     //check client jar an version
+     public static void checkClient(String client)
      {
-    	 staticgui.checkClientJarExistInternal();
+    	 staticgui.checkClientInternal(client);
      }
      //open launcher update window
      public static void openUpdateWindow()
