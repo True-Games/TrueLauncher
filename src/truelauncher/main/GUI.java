@@ -442,7 +442,7 @@ public class GUI extends JPanel {
 				Scanner scan = new Scanner(versionfile);
 				int currentversion = scan.nextInt();
 				scan.close();
-				if (currentversion < AllSettings.getClientVersion(client))
+				if (currentversion < AllSettings.getClientVersionByName(client))
 				{
 					launch.setEnabled(true);
 					launch.setText("✘ Запустить Minecraft");

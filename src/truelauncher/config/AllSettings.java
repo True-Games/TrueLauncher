@@ -49,7 +49,7 @@ public class AllSettings {
 	//for launcher updater
 	//launcher version
 	private static int lversion = 21;
-	//laucnher folder update URL;
+	//launcher folder update URL
 	//folder structure
 	//{folder}/Laucnher.jar - launcher location
 	//{folder}/version - launcher version
@@ -60,6 +60,9 @@ public class AllSettings {
 	private static String configfolder = ".true-games.org/configdata";
 	//folder for error logging
 	public static String errFolder = ".true-games.org/errLog";
+	
+	
+	
 	//config version
 	public static int getClientConfigVersion()
 	{
@@ -99,7 +102,7 @@ public class AllSettings {
 	{
 		return clientsdata.get(name).getDownloadLink();
 	}
-	public static int getClientVersion(String name)
+	public static int getClientVersionByName(String name)
 	{
 		return clientsdata.get(name).getVersion();
 	}
