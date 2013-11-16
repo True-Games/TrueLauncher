@@ -73,7 +73,7 @@ public class TButton extends JButton {
 		if (renderImage)
 		{
 			ButtonModel buttonModel = getModel();
-			Graphics2D g = (Graphics2D) graphics.create();
+			Graphics2D g = (Graphics2D) graphics;
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			if(!isEnabled())
 			{

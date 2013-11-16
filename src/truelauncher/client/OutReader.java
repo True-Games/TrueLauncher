@@ -56,18 +56,23 @@ public class OutReader extends Thread {
 
 	private void onLoginFinished(String message)
 	{
-		//loginsystem string format: AuthConnector|authtype|host|port|nick|token
+		//loginsystem string format: AuthConnector|authtype|protocolversion|host|port|nick|token|
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
+		String host = paramarray[3];
+		int port = Integer.valueOf(paramarray[4]);
+		int protocolversion = Integer.valueOf(paramarray[2]);
+		String nick = paramarray[5];
+		String token = paramarray[6];
 		if (isAddressAllowed(paramarray[2]))
 		{
 			if (authtype == 1)
 			{//1.6.4 and earlier
-				Auth.sendAuth1(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
+				Auth.sendAuth1(host, port, protocolversion, nick, token, password);
 			} else
 			if (authtype == 2)
 			{//1.7.2 and newer (this is not supported currently)
-				Auth.sendAuth2(paramarray[2], Integer.valueOf(paramarray[3]), paramarray[4], paramarray[5], password);
+				Auth.sendAuth2(host, port, protocolversion, nick, token, password);
 			}
 		}
 	}

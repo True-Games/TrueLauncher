@@ -66,8 +66,6 @@ public class GUI extends JPanel {
 	private TComboBox listdownloads;
 	private LauncherUpdateDialog lu;
 	private JFrame frame;
-	
-	private int posX=0,posY=0;
  
 	public GUI(JFrame frame)
 	{
@@ -102,8 +100,9 @@ public class GUI extends JPanel {
      }
      
      //header
+     private int posX=0,posY=0;
      private void initHeader()
-     {
+     {	 
 			JLabel drag = new JLabel();
 			drag.setBounds(0, 0, GUISettings.w, 15);
 			drag.setOpaque(false);
@@ -137,7 +136,7 @@ public class GUI extends JPanel {
       		 @Override 
       		 public void actionPerformed(ActionEvent e)
       		 {
-      			 frame.setExtendedState(JFrame.ICONIFIED);
+      			frame.setExtendedState(frame.getExtendedState() | JFrame.ICONIFIED);
       		 }
       	 });
       	 cmb.add(minimize);

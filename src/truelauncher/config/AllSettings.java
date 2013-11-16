@@ -48,7 +48,7 @@ public class AllSettings {
 
 	//for launcher updater
 	//launcher version
-	private static int lversion = 22;
+	private static int lversion = 23;
 	//launcher folder update URL
 	//folder structure
 	//{folder}/Laucnher.jar - launcher location
