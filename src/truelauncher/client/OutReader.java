@@ -64,7 +64,7 @@ public class OutReader extends Thread {
 		int protocolversion = Integer.valueOf(paramarray[2]);
 		String nick = paramarray[5];
 		String token = paramarray[6];
-		if (isAddressAllowed(paramarray[2]))
+		if (isAddressAllowed(host))
 		{
 			if (authtype == 1)
 			{//1.6.4 and earlier
