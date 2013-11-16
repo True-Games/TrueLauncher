@@ -19,45 +19,49 @@ package truelauncher.client;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import truelauncher.utils.LauncherUtils;
 
 public class Auth {
 
-	public static void sendAuth1(String hostname, int port, int protocolversion, String nick, String token, String password)
+	public static void sendAuth1(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password)
 	{
-		try {
-			//
-			//fake handshake packet format.
-			//nick = AuthConnector
-			//host = authpacket(nick + token + password)
-			//port = port
-			//
-			//establish connection
-			Socket socket = new Socket();
-			socket.setSoTimeout(6000);
-			socket.setTcpNoDelay(true);
-			socket.connect(new InetSocketAddress(hostname, port), 6000);
-			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-			//write handshake packet
-			//write packet id
-			dos.write(2);
-			//write protocolVersion
-			dos.writeByte(protocolversion);
-			//write name;
-			writeString(dos, "AuthConnector");
-			//write authpacket instead of hostname
-			String authpacket = nick+"|"+token+"|"+password;
-			writeString(dos, authpacket);
-			//write port
-			dos.writeInt(port);
-			//close socket
-            socket.close();
-		} catch (Exception e) {
-			LauncherUtils.logError(e);
-		}
+		new Thread()
+		{
+			public void run()
+			{
+				//
+				//fake handshake packet format.
+				//nick = AuthConnector
+				//host = authpacket(nick + token + password)
+				//port = port
+				//
+				try {
+					//establish connection
+					Socket socket = new Socket(hostname, port);
+					socket.setKeepAlive(true);
+					socket.setSoTimeout(30000);
+					socket.setTrafficClass(24);
+					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+					//write handshake packet
+					//write packet id
+					dos.write(2);
+					//write protocolVersion
+					dos.writeByte(protocolversion);
+					//write name;
+					writeString(dos, "AuthConnector");
+					//write authpacket instead of hostname
+					String authpacket = nick+"|"+token+"|"+password;
+					writeString(dos, authpacket);
+					//write port
+					dos.writeInt(port);
+					socket.close();	
+				} catch (Exception e) {
+					LauncherUtils.logError(e);
+				}
+			}
+		}.start();
 	}
 
 	public static void sendAuth2(String hostname, int port, int protocolversion, String nick, String token, String password)
