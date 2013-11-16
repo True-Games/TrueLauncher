@@ -40,7 +40,6 @@ public class Auth {
 				try {
 					//establish connection
 					Socket socket = new Socket(hostname, port);
-					socket.setKeepAlive(true);
 					socket.setSoTimeout(30000);
 					socket.setTrafficClass(24);
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
