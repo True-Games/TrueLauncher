@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import truelauncher.client.auth.Auth;
 import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
 
@@ -71,7 +72,7 @@ public class OutReader extends Thread {
 				Auth.sendAuth1(host, port, protocolversion, nick, token, password);
 			} else
 			if (authtype == 2)
-			{//1.7.2 and newer (this is not supported currently)
+			{//1.7.2 and newer
 				Auth.sendAuth2(host, port, protocolversion, nick, token, password);
 			}
 		}
