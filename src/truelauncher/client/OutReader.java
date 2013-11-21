@@ -42,9 +42,9 @@ public class OutReader extends Thread {
 			String line;
 			while ((line = reader.readLine ()) != null) 
 			{
-				if (line.contains("AuthConnector")) 
+				if (line.contains("AuthConnector") && !password.isEmpty()) 
 				{
-					onLoginFinished(line);
+					doAuth(line);
 				}
 			}
 			reader.close();
@@ -54,7 +54,7 @@ public class OutReader extends Thread {
 	}
 	
 
-	private void onLoginFinished(String message)
+	private void doAuth(String message)
 	{
 		//loginsystem string format: AuthConnector|authtype|protocolversion|host|port|nick|token|
 		String[] paramarray = message.split("[|]");
