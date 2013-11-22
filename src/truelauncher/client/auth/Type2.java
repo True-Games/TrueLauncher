@@ -15,7 +15,7 @@ public class Type2 {
 		//
 		//prepare variables to know the length (packet id + protocolversion + authpacket + port + status)
 		String authpacket = "AuthConnector|"+nick+"|"+token+"|"+password;
-		int length = getVarIntSize(0x00)+getVarIntSize(protocolversion)+getStringSize(authpacket)+getVarIntSize(port)+getVarIntSize(2);
+		int length = getVarIntSize(0x00)+getVarIntSize(protocolversion)+getStringSize(authpacket)+2+getVarIntSize(2);
 		//write handshake packet
 		//write packet length
 		writeVarInt(dos, length);
@@ -26,7 +26,7 @@ public class Type2 {
 		//write authpacket instead of hostname
 		writeString(dos, authpacket);
 		//write port
-		writeVarInt(dos, port);
+		dos.writeShort(port);
 		//write state
 		writeVarInt(dos, 2);
 	}
@@ -34,8 +34,9 @@ public class Type2 {
 	
     private static void writeString(DataOutputStream dos, String string) throws IOException
     {
-        writeVarInt(dos, string.getBytes(Charsets.UTF_8).length);
-        dos.writeChars(string);
+    	byte[] bytes = string.getBytes(Charsets.UTF_8);
+        writeVarInt(dos, bytes.length);
+        dos.write(bytes);
     }
 	private static int getStringSize(String string)
 	{
