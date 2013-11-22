@@ -38,11 +38,12 @@ public class OutReader extends Thread {
 	public void run()
 	{
 		try {
-			InputStream is = p.getErrorStream();
-			BufferedReader reader = new BufferedReader (new InputStreamReader(is));
+			InputStream is = p.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String line;
 			while ((line = reader.readLine ()) != null) 
 			{
+				System.out.println(line);
 				if (line.contains("AuthConnector") && !password.isEmpty()) 
 				{
 					doAuth(line);

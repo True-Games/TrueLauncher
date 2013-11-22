@@ -72,10 +72,10 @@ public class ClientLaunch {
 			cc.add(mcpath + File.separator + "assets");
 			pb.command(cc);
 			pb.redirectInput(Redirect.INHERIT);
-			pb.redirectOutput(Redirect.INHERIT);
+			pb.redirectErrorStream(true);
 			if (password.isEmpty())
 			{
-				pb.redirectError(Redirect.INHERIT);
+				pb.redirectOutput(Redirect.INHERIT);
 				pb.start();
 			} else {
 				Process p = pb.start();
