@@ -10,13 +10,12 @@ public class Type2 {
 	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException
 	{
 		//
-		//fake 1.6.4 handshake packet changes format.
-		//nick = AuthConnector
-		//host = authpacket(nick + token + password)
+		//fake 1.7.2 handshake packet changes format.
+		//host = authpacket(AuthConnector + nick + token + password)
 		//
 		//prepare variables to know the length (packet id + protocolversion + authpacket + port + status)
 		String authpacket = "AuthConnector|"+nick+"|"+token+"|"+password;
-		int length = getVarIntSize(0x00)+getVarIntSize(protocolversion)+getStringSize(authpacket)+getVarIntSize(port)+getVarIntSize(port);
+		int length = getVarIntSize(0x00)+getVarIntSize(protocolversion)+getStringSize(authpacket)+getVarIntSize(port)+getVarIntSize(2);
 		//write handshake packet
 		//write packet length
 		writeVarInt(dos, length);
