@@ -21,6 +21,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.commons.codec.Charsets;
+
 import truelauncher.client.auth.Auth;
 import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
@@ -39,7 +41,7 @@ public class OutReader extends Thread {
 	{
 		try {
 			InputStream is = p.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charsets.UTF_8));
 			String line;
 			while ((line = reader.readLine ()) != null) 
 			{
@@ -50,6 +52,7 @@ public class OutReader extends Thread {
 				}
 			}
 			reader.close();
+			is.close();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
