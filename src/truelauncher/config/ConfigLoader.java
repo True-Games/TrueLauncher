@@ -38,6 +38,7 @@ public class ConfigLoader {
 		if (failedcounter == 3) 
 		{
 			//we failed to load config 3 times in a row, giving up
+			System.exit(0);
 			throw new Exception("failed to load config 3 times in a row");
 		}
 		
