@@ -1,5 +1,6 @@
 package truelauncher.client.auth;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -8,27 +9,35 @@ import org.apache.commons.codec.Charsets;
 public class Type2 {
 
 	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException
-	{
+	{		
+		//create frame buffer
+		ByteArrayOutputStream frame = new ByteArrayOutputStream();
+		DataOutputStream frameOut = new DataOutputStream(frame);
 		//
 		//fake 1.7.2 handshake packet changes format.
 		//host = authpacket(AuthConnector + nick + token + password)
 		//
-		//prepare variables to know the length (packet id + protocolversion + authpacket + port + status)
 		String authpacket = "AuthConnector|"+nick+"|"+token+"|"+password;
-		int length = getVarIntSize(0x00)+getVarIntSize(protocolversion)+getStringSize(authpacket)+2+getVarIntSize(2);
-		//write handshake packet
-		//write packet length
-		writeVarInt(dos, length);
+		//write handshake packet to frame
 		//write packet id
-		writeVarInt(dos, 0x00);
+		writeVarInt(frameOut, 0x00);
 		//write protocolVersion
-		writeVarInt(dos, protocolversion);
+		writeVarInt(frameOut, protocolversion);
 		//write authpacket instead of hostname
-		writeString(dos, authpacket);
+		writeString(frameOut, authpacket);
 		//write port
-		dos.writeShort(port);
+		frameOut.writeShort(port);
 		//write state
-		writeVarInt(dos, 2);
+		writeVarInt(frameOut, 2);
+		//now write frame to real socket
+		//write length
+		writeVarInt(dos, frame.size());
+		//write packet
+        frame.writeTo(dos);
+        frame.reset();
+        //close frames
+        frameOut.close();
+        frame.close();
 	}
 	
 	
@@ -38,11 +47,7 @@ public class Type2 {
         writeVarInt(dos, bytes.length);
         dos.write(bytes);
     }
-	private static int getStringSize(String string)
-	{
-		byte[] bytes = string.getBytes(Charsets.UTF_8);
-		return getVarIntSize(bytes.length)+bytes.length;
-	}
+
 	private static void writeVarInt(DataOutputStream dos, int varint) throws IOException
 	{
         int part;
@@ -61,25 +66,5 @@ public class Type2 {
             }
         }
 	}
-    private static int getVarIntSize(int varint)
-    {
-        if ((varint&0xFFFFFF80) == 0)
-        {
-            return 1;
-        }
-        if ((varint & 0xFFFFC000) == 0)
-        {
-            return 2;
-        }
-        if ((varint & 0xFFE00000) == 0 )
-        {
-            return 3;
-        }
-        if ((varint & 0xF0000000) == 0 )
-        {
-            return 4;
-        }
-        return 5;
-    }
 	
 }

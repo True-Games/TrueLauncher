@@ -61,7 +61,7 @@ public class OutReader extends Thread {
 
 	private void doAuth(String message)
 	{
-		//loginsystem string format: AuthConnector|authtype|protocolversion|host|port|nick|token|
+		//loginsystem server string format: AuthConnector|authtype|protocolversion|host|port|nick|token|
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
 		String host = paramarray[3];

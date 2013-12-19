@@ -65,8 +65,8 @@ public class Auth {
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 					//write handshake packet
 					Type2.writeAuthPacket(dos, port, protocolversion, nick, token, password);
-					//clsoe socket
-					socket.close();	
+					//close socket
+					socket.close();
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
 				}
