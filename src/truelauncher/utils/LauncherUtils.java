@@ -74,6 +74,10 @@ public class LauncherUtils {
 		errLogFile.getParentFile().mkdirs();
 	     try {
 	    	 err.printStackTrace();
+	    	 if (errLogFile.length()/1024/1024 > 1) 
+	    	 {
+	    		 errLogFile.delete();
+	    	 }
 	         FileOutputStream fos = new FileOutputStream(errLogFile, true);
 	         PrintWriter ps = new PrintWriter(fos);
 	         ps.println(new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(System.currentTimeMillis())+":");
