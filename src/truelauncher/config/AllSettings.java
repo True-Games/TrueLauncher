@@ -33,6 +33,11 @@ public class AllSettings {
 		ConfigLoader.loadConfig(configfile);
 		ConfigUpdater.startConfigUpdater(configfile);
 	}
+	public static void reload() throws Exception
+	{
+		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
+		ConfigLoader.loadConfig(configfile);
+	}
 	
 	//For clients, this all is loaded from config.
 	//folder in which clients .zip file will be downloaded

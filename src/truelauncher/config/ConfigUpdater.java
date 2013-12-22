@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import truelauncher.main.GUI;
 import truelauncher.utils.LauncherUtils;
 
 public class ConfigUpdater {
@@ -39,6 +40,9 @@ public class ConfigUpdater {
 					if (isUpdateNeeded())
 					{
 						updateConfig(configfile);
+						Thread.sleep(1000);
+						AllSettings.reload();
+						GUI.refreshClients();
 					}
 				} catch (Exception e) {
 					LauncherUtils.logError(e);

@@ -70,6 +70,7 @@ public class GUI extends JPanel {
 	public GUI(JFrame frame)
 	{
 		try {
+		    staticgui = this;
     		AllSettings.load();
 			this.frame = frame;
 			this.setLayout(null);
@@ -79,7 +80,8 @@ public class GUI extends JPanel {
 			initUI();
 			//load fields values
 			loadTextFields();
-		    staticgui = this;
+			//load comboboxes values
+		    fillClients();
 		}
 		catch (Exception e)
 		{
@@ -251,23 +253,20 @@ public class GUI extends JPanel {
        	expbarset.setBounds(0,0,widgw,25);
       	expbarset.setText("Выбор клиента");
       	expbarset.setHorizontalAlignment(TButton.CENTER);
-    	expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
-      	 
+    	expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));      	 
     	sb.add(expbarset);
     	 
     	listclients = new TComboBox();
- 	    List<String> servclientslist = AllSettings.getClientsList();
-  	    for (String servname : servclientslist)
- 	    {
- 	    	listclients.addItem(servname);
- 	    }
   	    listclients.setBounds(0,25,widgw,30);
   	    listclients.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
  	    listclients.addActionListener(
  	    		new ActionListener() {
  	    			@Override
  	    			public void actionPerformed(ActionEvent e) {
- 	    				checkClientInternal(listclients.getSelectedItem().toString());
+ 	    				if (listclients.getItemCount() != 0)
+ 	    				{
+ 	    					checkClientInternal(listclients.getSelectedItem().toString());
+ 	    				}
  	    			}
  	    		});
  	   sb.add(listclients);
@@ -304,9 +303,7 @@ public class GUI extends JPanel {
             	ClientLaunch.launchMC(mcpath, nick, password, mem, jar, mainclass, cmdargs);
              }
        });
-	   checkClientInternal(listclients.getSelectedItem().toString());
        sb.add(launch);
-
    
        this.add(sb);
      }
@@ -332,18 +329,16 @@ public class GUI extends JPanel {
     	 dc.add(expbarset);
     	 
      	listdownloads = new TComboBox();
- 	    List<String> servdownloadlist = AllSettings.getClientsList();
-  	    for (String servname : servdownloadlist)
- 	    {
-  	    	listdownloads.addItem(servname);
- 	    }
   	    listdownloads.setBounds(0,25,widgw,30);
   	    listdownloads.addActionListener(new ActionListener() {
     		 @Override
              public void actionPerformed(ActionEvent e) {
-    			 download.setText("Скачать клиент");
-    			 pbar.setValue(0);
-    			 download.setEnabled(true);
+    			 if (listdownloads.getItemCount() != 0)
+    			 {
+    				 download.setText("Скачать клиент");
+    				 pbar.setValue(0);
+    				 download.setEnabled(true);
+    			 }
     		 }
     	});
   	    dc.add(listdownloads);
@@ -371,6 +366,22 @@ public class GUI extends JPanel {
   	    dc.add(download);
     	
     	this.add(dc);
+     }
+     
+     //Fill clients comboboxes
+     private void fillClients()
+     {
+  	    List<String> servclientslist = AllSettings.getClientsList();
+  	    for (String servname : servclientslist)
+ 	    {
+ 	    	listclients.addItem(servname);
+ 	    }
+ 	    List<String> servdownloadlist = AllSettings.getClientsList();
+  	    for (String servname : servdownloadlist)
+ 	    {
+  	    	listdownloads.addItem(servname);
+ 	    }
+  	    checkClientInternal(listclients.getSelectedItem().toString());
      }
 
      //Init laucnher updater
@@ -460,6 +471,7 @@ public class GUI extends JPanel {
 			launch.setEnabled(false);
 		}
      }
+   
 
      @Override
      public void paintComponent(Graphics g) {
@@ -490,6 +502,13 @@ public class GUI extends JPanel {
      {
     	 staticgui.lu.dispose();
     	 staticgui.frame.getGlassPane().setVisible(false);
+     }
+     //reinit client comboboxes
+     public static void refreshClients()
+     {
+    	 staticgui.listclients.removeAllItems();
+    	 staticgui.listdownloads.removeAllItems();
+    	 staticgui.fillClients();
      }
      
 }
