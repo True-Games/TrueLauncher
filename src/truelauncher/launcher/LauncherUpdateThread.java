@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 import truelauncher.utils.LauncherUtils;
 
@@ -86,27 +85,14 @@ public class LauncherUpdateThread extends Thread {
 		out.close();
 	}
 
-	public void lrestart(String launcherfilename) throws Exception {
-		ArrayList<String> lls = new ArrayList<String>();
-		lls.add("java");
-		lls.add("-jar");
-		lls.add(launcherfilename);
-		ProcessBuilder lpb = new ProcessBuilder();
-		lpb.directory(new File(".").getCanonicalFile());
-		lpb.command(lls);
-		lpb.start();
-	}
-
 	public void run() {
 		try {
 			String launcherfilename = new File(System.getProperty("sun.java.command")).getName();
 			//download launcher
 			ldownloader(urlfrom, launcherfilename);
 			new File(launcherfilename).setExecutable(true);
-			//start new launcher
-			lrestart(launcherfilename);
-			//close this launcher
-			Runtime.getRuntime().exit(0);
+			//restart launcher
+			LauncherUtils.restartLauncher();
 		} catch (final Exception e) {
 			lu.lstatus.setText("Ошибка обновления");
 			lu.later.setEnabled(true);

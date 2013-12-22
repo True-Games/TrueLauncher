@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import truelauncher.config.AllSettings;
 
@@ -30,6 +31,20 @@ import truelauncher.config.AllSettings;
 public class LauncherUtils {
 	
 
+	//restart launcher
+	public static void restartLauncher() throws Exception 
+	{
+		String launcherfilename = new File(System.getProperty("sun.java.command")).getName();
+		ArrayList<String> lls = new ArrayList<String>();
+		lls.add("java");
+		lls.add("-jar");
+		lls.add(launcherfilename);
+		ProcessBuilder lpb = new ProcessBuilder();
+		lpb.directory(new File(".").getCanonicalFile());
+		lpb.command(lls);
+		lpb.start();
+		Runtime.getRuntime().exit(0);
+	}
 	
 	//get Directory (Addpata for win and home for linux) begin
     public static String getDir() {
@@ -45,10 +60,9 @@ public class LauncherUtils {
         }
         return null;
     }
-	//get Directory end
     
     
-    //get Last Launcher version begin
+    //get Last Launcher version
 	public static String readURLStreamToString(InputStream in) throws Exception
 	{
 		StringBuffer buf = new StringBuffer();
@@ -64,7 +78,6 @@ public class LauncherUtils {
 		}
 		return buf.toString();
 	}
-    //get Last Launcher version end
 
 	
 	//Log error to file start
@@ -88,5 +101,5 @@ public class LauncherUtils {
 	     } catch (Exception e) {}
 		
 	}
-	//Log error to file end
+
 }
