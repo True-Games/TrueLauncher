@@ -428,8 +428,8 @@ public class GUI extends JPanel {
 				int currentversion = scan.nextInt();
 				scan.close();
 				if (currentversion < AllSettings.getClientVersionByName(client)) {
-					launch.setEnabled(true);
-					launch.setText("✘ Запустить Minecraft");
+					launch.setEnabled(false);
+					launch.setText("Требуется обновление");
 				} else {
 					launch.setEnabled(true);
 					launch.setText("✔ Запустить Minecraft");
@@ -437,7 +437,7 @@ public class GUI extends JPanel {
 			} catch (Exception e) {
 				LauncherUtils.logError(e);
 				launch.setEnabled(true);
-				launch.setText("☷ Запустить Minecraft");
+				launch.setText("✘ Запустить Minecraft");
 			}
 		} else {
 			launch.setText("☠ Клиент не найден");
