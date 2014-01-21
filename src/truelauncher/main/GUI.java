@@ -60,7 +60,6 @@ public class GUI extends JPanel {
 	private TTextField nickfield;
 	private TPasswordField passfield;
 	private TComboBox listclients;
-	private TLabel clientstatus;
 	private TButton launch;
 	private TProgressBar pbar;
 	private TButton download;
