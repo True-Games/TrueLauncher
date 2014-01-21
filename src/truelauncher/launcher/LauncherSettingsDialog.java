@@ -45,7 +45,7 @@ public class LauncherSettingsDialog extends JDialog {
 		JPanel lupanel = new JPanel();
 		lupanel.setLayout(null);
 		lupanel.setOpaque(false);
-		lupanel.setBounds(10, 10, 380, 20);
+		lupanel.setBounds(5, 5, 380, 20);
 		JCheckBox lucbox = new JCheckBox();
 		lucbox.setOpaque(false);
 		lucbox.setBounds(0, 0, 20, 20);
@@ -61,7 +61,7 @@ public class LauncherSettingsDialog extends JDialog {
 		JPanel cupanel = new JPanel();
 		cupanel.setLayout(null);
 		cupanel.setOpaque(false);
-		cupanel.setBounds(10, 30, 380, 20);
+		cupanel.setBounds(5, 25, 380, 20);
 		JCheckBox cucbox = new JCheckBox();
 		cucbox.setOpaque(false);
 		cucbox.setBounds(0, 0, 20, 20);
@@ -77,7 +77,7 @@ public class LauncherSettingsDialog extends JDialog {
 		JPanel lepanel = new JPanel();
 		lepanel.setLayout(null);
 		lepanel.setOpaque(false);
-		lepanel.setBounds(10, 50, 380, 20);
+		lepanel.setBounds(5, 45, 380, 20);
 		JCheckBox lecbox = new JCheckBox();
 		lecbox.setOpaque(false);
 		lecbox.setBounds(0, 0, 20, 20);
