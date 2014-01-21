@@ -47,6 +47,7 @@ import truelauncher.gcomponents.TPasswordField;
 import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
 import truelauncher.images.Images;
+import truelauncher.launcher.LauncherSettingsDialog;
 import truelauncher.launcher.LauncherVersionChecker;
 import truelauncher.launcher.LauncherUpdateDialog;
 import truelauncher.utils.CryptoUtils;
@@ -65,6 +66,7 @@ public class GUI extends JPanel {
 	private TButton download;
 	private TComboBox listdownloads;
 	private LauncherUpdateDialog lu;
+	private LauncherSettingsDialog ls;
 	private JFrame frame;
 
 	public GUI(JFrame frame) {
@@ -88,11 +90,13 @@ public class GUI extends JPanel {
 
 	private void initUI() {
 		initHeader();
-		showCloseMinimizeButton();
+		initSettingsButton();
+		initCloseMinimizeButton();
 		initTextInputFieldsAndLabels();
 		initStartButton();
 		initDownloadCenter();
 		initLauncherUpdater();
+		initLauncherSettings();
 	}
 
 	// header
@@ -117,14 +121,41 @@ public class GUI extends JPanel {
 		this.add(drag);
 	}
 
+	// settings button
+	private void initSettingsButton() {
+		JPanel sb = new JPanel();
+		sb.setLayout(null);
+		sb.setBounds(20, 15, 25, 25);
+		sb.setOpaque(false);
+		sb.setBackground(new Color(0, 0, 0, 0));
+		
+		TButton settings = new TButton();
+		settings.setOpaque(false);
+		settings.setBackground(new Color(0, 0, 0, 0));
+		settings.setBounds(0, 0, 25, 25);
+		settings.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openSettingsWindow();
+			}
+		});
+		sb.add(settings);
+		
+		this.add(sb);
+	}
+	
 	// close and minimize buttonis block
-	private void showCloseMinimizeButton() {
+	private void initCloseMinimizeButton() {
 		JPanel cmb = new JPanel();
 		cmb.setLayout(null);
 		cmb.setBounds(GUISettings.w - 75, 15, 60, 25);
+		cmb.setOpaque(false);
+		cmb.setBackground(new Color(0, 0, 0, 0));
 
 		TButton minimize = new TButton();
 		minimize.setBounds(0, 0, 25, 25);
+		minimize.setOpaque(false);
+		minimize.setBackground(new Color(0, 0, 0, 0));
 		minimize.setBackgroundImage(GUISettings.hide);
 		minimize.addActionListener(new ActionListener() {
 			@Override
@@ -136,6 +167,8 @@ public class GUI extends JPanel {
 
 		TButton close = new TButton();
 		close.setBounds(35, 0, 25, 25);
+		close.setOpaque(false);
+		close.setBackground(new Color(0, 0, 0, 0));
 		close.setBackgroundImage(GUISettings.close);
 		close.addActionListener(new ActionListener() {
 			@Override
@@ -144,8 +177,6 @@ public class GUI extends JPanel {
 			}
 		});
 		cmb.add(close);
-		cmb.setOpaque(false);
-		cmb.setBackground(new Color(0, 0, 0, 0));
 
 		this.add(cmb);
 	}
@@ -174,8 +205,7 @@ public class GUI extends JPanel {
 		int lnh = 20;
 		TLabel labelnick = new TLabel();
 		labelnick.setBounds(0, 25, lnw, lnh);
-		labelnick.setBackgroundImage(Images.class
-				.getResourceAsStream(GUISettings.labelimage));
+		labelnick.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.labelimage));
 		labelnick.setText("Ник");
 		labelnick.setHorizontalAlignment(TButton.CENTER);
 		tifields.add(labelnick);
@@ -194,8 +224,7 @@ public class GUI extends JPanel {
 		labelpass.setBounds(0, 45, lrw, lrh);
 		labelpass.setText("Пароль");
 		labelpass.setHorizontalAlignment(TButton.CENTER);
-		labelpass.setBackgroundImage(Images.class
-				.getResourceAsStream(GUISettings.labelimage));
+		labelpass.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.labelimage));
 		tifields.add(labelpass);
 		// Поле пароля
 		int irw = 140;
@@ -237,8 +266,7 @@ public class GUI extends JPanel {
 		expbarset.setBounds(0, 0, widgw, 25);
 		expbarset.setText("Выбор клиента");
 		expbarset.setHorizontalAlignment(TButton.CENTER);
-		expbarset.setBackgroundImage(Images.class
-				.getResourceAsStream(GUISettings.explainimage));
+		expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
 		sb.add(expbarset);
 
 		listclients = new TComboBox();
@@ -350,6 +378,19 @@ public class GUI extends JPanel {
 		this.add(dc);
 	}
 
+	// Init laucnher updater
+	private void initLauncherUpdater() {
+		lu = new LauncherUpdateDialog();
+		new LauncherVersionChecker().start();
+	}
+	
+	// Init Launcher settings
+	private void initLauncherSettings() {
+		ls = new LauncherSettingsDialog();
+	}
+
+	
+	// Some methods
 	// Fill clients comboboxes
 	private void fillClients() {
 		List<String> servclientslist = AllSettings.getClientsList();
@@ -362,13 +403,7 @@ public class GUI extends JPanel {
 		}
 		checkClientInternal(listclients.getSelectedItem().toString());
 	}
-
-	// Init laucnher updater
-	private void initLauncherUpdater() {
-		lu = new LauncherUpdateDialog();
-		new LauncherVersionChecker().start();
-	}
-
+	
 	// load nick and password
 	private void loadTextFields() {
 		try {
@@ -395,11 +430,8 @@ public class GUI extends JPanel {
 	private void saveTextFields() {
 		try {
 			String ps = LauncherUtils.getDir();
-			new File(ps + File.separator
-					+ AllSettings.getLauncherConfigFolderPath()).mkdirs();
-			File config = new File(ps + File.separator
-					+ AllSettings.getLauncherConfigFolderPath()
-					+ File.separator + "launcherdata");
+			new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs();
+			File config = new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "launcherdata");
 			PrintWriter writer = new PrintWriter(config);
 			String nick = nickfield.getText();
 			writer.println(nick);
@@ -461,7 +493,7 @@ public class GUI extends JPanel {
 	public static void checkClient(String client) {
 		staticgui.checkClientInternal(client);
 	}
-
+	
 	// open launcher update window
 	public static void openUpdateWindow() {
 		staticgui.frame.getGlassPane().setVisible(true);
@@ -471,6 +503,18 @@ public class GUI extends JPanel {
 	// close launcher update window
 	public static void closeUpdateWindow() {
 		staticgui.lu.dispose();
+		staticgui.frame.getGlassPane().setVisible(false);
+	}
+	
+	// open settings window
+	public static void openSettingsWindow() {
+		staticgui.frame.getGlassPane().setVisible(true);
+		staticgui.ls.open(staticgui);
+	}
+	
+	// close settings window
+	public static void closeSettingsWindow() {
+		staticgui.ls.dispose();
 		staticgui.frame.getGlassPane().setVisible(false);
 	}
 

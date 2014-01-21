@@ -54,6 +54,7 @@ public class LauncherUpdateDialog  extends JDialog {
 	
 	public void open(GUI parent)
 	{
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setSize(w,h);
 		setLocationRelativeTo(parent);
