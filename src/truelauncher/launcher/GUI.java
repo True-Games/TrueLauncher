@@ -104,7 +104,7 @@ public class GUI extends JPanel {
 
 	private void initHeader() {
 		JLabel drag = new JLabel();
-		drag.setBounds(0, 0, GUISettings.w, 15);
+		drag.setBounds(0, 0, GUISettings.w, 20);
 		drag.setOpaque(false);
 		drag.setBackground(new Color(0, 0, 0, 0));
 		drag.addMouseListener(new MouseAdapter() {
@@ -125,14 +125,15 @@ public class GUI extends JPanel {
 	private void initSettingsButton() {
 		JPanel sb = new JPanel();
 		sb.setLayout(null);
-		sb.setBounds(20, 15, 25, 25);
+		sb.setBounds(20, 20, 25, 25);
 		sb.setOpaque(false);
 		sb.setBackground(new Color(0, 0, 0, 0));
 		
 		TButton settings = new TButton();
+		settings.setBounds(0, 0, 25, 25);
 		settings.setOpaque(false);
 		settings.setBackground(new Color(0, 0, 0, 0));
-		settings.setBounds(0, 0, 25, 25);
+		settings.setBackgroundImage(GUISettings.options);
 		settings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -148,7 +149,7 @@ public class GUI extends JPanel {
 	private void initCloseMinimizeButton() {
 		JPanel cmb = new JPanel();
 		cmb.setLayout(null);
-		cmb.setBounds(GUISettings.w - 75, 15, 60, 25);
+		cmb.setBounds(GUISettings.w - 75, 20, 60, 25);
 		cmb.setOpaque(false);
 		cmb.setBackground(new Color(0, 0, 0, 0));
 
@@ -276,8 +277,7 @@ public class GUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (listclients.getItemCount() != 0) {
-					checkClientInternal(listclients.getSelectedItem()
-							.toString());
+					checkClientInternal(listclients.getSelectedItem().toString());
 				}
 			}
 		});
