@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Scanner;
 
 import truelauncher.config.AllSettings;
 import truelauncher.utils.CryptoUtils;
@@ -35,6 +36,27 @@ public class UserFieldsChoice {
 				LauncherUtils.logError(e);
 			}
 		}
+		loadLegacy();
+	}
+	private static void loadLegacy() {
+		try {
+			String ps = LauncherUtils.getDir();
+			File config = new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "launcherdata");
+			if (config.exists()) {
+				Scanner scanner = new Scanner(config);
+				String nickstring = scanner.nextLine();
+				String passwordstring = scanner.nextLine();
+				nick = nickstring;
+				if (!passwordstring.isEmpty()) {
+					password = CryptoUtils.decryptString(passwordstring);
+				}
+				scanner.close();
+				config.delete();
+			}
+		} catch (Exception e) {
+			LauncherUtils.logError(e);
+		}
+
 	}
 	public static void saveBlock1Config()
 	{
