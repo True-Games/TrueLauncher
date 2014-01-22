@@ -22,11 +22,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,8 +48,8 @@ import truelauncher.gcomponents.TPasswordField;
 import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
 import truelauncher.images.Images;
+import truelauncher.userprefs.fields.UserFieldsChoice;
 import truelauncher.userprefs.settings.UserLauncherSettings;
-import truelauncher.utils.CryptoUtils;
 import truelauncher.utils.LauncherUtils;
 
 @SuppressWarnings("serial")
@@ -67,22 +68,26 @@ public class GUI extends JPanel {
 	private LauncherSettingsDialog ls;
 	private JFrame frame;
 
+	private boolean guiinitfinished = false;
 	public GUI(JFrame frame) {
 		try {
 			staticgui = this;
-			//load all settings
+			//load settings
 			AllSettings.load();
-			//load user prefs
+			//load user prefs data
 			UserLauncherSettings.loadConfig();
+			UserFieldsChoice.loadConfig();
 			//create gui
 			this.frame = frame;
 			setLayout(null);
 			setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
 			initUI();
-			// load fields values
-			loadTextFields();
 			// load comboboxes values
 			fillClients();
+			// load client fields values
+			loadPrefs();
+			// gui init ad settings load finished
+			guiinitfinished = true;
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
@@ -242,7 +247,9 @@ public class GUI extends JPanel {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveTextFields();
+				UserFieldsChoice.nick = staticgui.nickfield.getText();
+				UserFieldsChoice.password = new String(staticgui.passfield.getPassword());
+				UserFieldsChoice.saveBlock1Config();
 			}
 		});
 		tifields.add(save);
@@ -273,11 +280,13 @@ public class GUI extends JPanel {
 		listclients = new TComboBox();
 		listclients.setBounds(0, 25, widgw, 30);
 		listclients.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
-		listclients.addActionListener(new ActionListener() {
+		listclients.addItemListener(new ItemListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (listclients.getItemCount() != 0) {
+			public void itemStateChanged(ItemEvent e) {
+				if (guiinitfinished) {
 					checkClientInternal(listclients.getSelectedItem().toString());
+					UserFieldsChoice.launchclient = listclients.getSelectedItem().toString();
+					UserFieldsChoice.saveBlock23Config();
 				}
 			}
 		});
@@ -340,13 +349,15 @@ public class GUI extends JPanel {
 
 		listdownloads = new TComboBox();
 		listdownloads.setBounds(0, 25, widgw, 30);
-		listdownloads.addActionListener(new ActionListener() {
+		listdownloads.addItemListener(new ItemListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (listdownloads.getItemCount() != 0) {
+			public void itemStateChanged(ItemEvent e) {
+				if (guiinitfinished) {
 					download.setText("Скачать клиент");
 					pbar.setValue(0);
 					download.setEnabled(true);
+					UserFieldsChoice.downloadclient = listdownloads.getSelectedItem().toString();
+					UserFieldsChoice.saveBlock23Config();
 				}
 			}
 		});
@@ -403,47 +414,23 @@ public class GUI extends JPanel {
 		checkClientInternal(listclients.getSelectedItem().toString());
 	}
 	
-	// load nick and password
-	private void loadTextFields() {
-		try {
-			String ps = LauncherUtils.getDir();
-			File config = new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "launcherdata");
-			if (config.exists()) {
-				Scanner scanner = new Scanner(config);
-				String nick = scanner.nextLine();
-				String passwordstring = scanner.nextLine();
-				nickfield.setText(nick);
-				if (passwordstring.isEmpty()) {
-					passfield.setText("");
-				} else {
-					passfield.setText(CryptoUtils.decryptString(passwordstring));
-				}
-				scanner.close();
+	//load client prefs
+	private void loadPrefs() {
+		nickfield.setText(UserFieldsChoice.nick);
+		passfield.setText(UserFieldsChoice.password);
+		for (int i = 0; i < listclients.getItemCount(); i++) {
+			String clientname = listclients.getItemAt(i);
+			if (clientname.equals(UserFieldsChoice.launchclient)) {
+				listclients.setSelectedIndex(i);
+				break;
 			}
-		} catch (Exception e) {
-			LauncherUtils.logError(e);
 		}
-	}
-
-	// save nick and password
-	private void saveTextFields() {
-		try {
-			String ps = LauncherUtils.getDir();
-			new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath()).mkdirs();
-			File config = new File(ps + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "launcherdata");
-			PrintWriter writer = new PrintWriter(config);
-			String nick = nickfield.getText();
-			writer.println(nick);
-			String password = new String(passfield.getPassword());
-			if (password.isEmpty()) {
-				writer.println("");
-			} else {
-				writer.println(CryptoUtils.encryptString(password));
+		for (int i = 0; i < listdownloads.getItemCount(); i++) {
+			String clientname = listdownloads.getItemAt(i);
+			if (clientname.equals(UserFieldsChoice.downloadclient)) {
+				listdownloads.setSelectedIndex(i);
+				break;
 			}
-			writer.flush();
-			writer.close();
-		} catch (Exception e) {
-			LauncherUtils.logError(e);
 		}
 	}
 
