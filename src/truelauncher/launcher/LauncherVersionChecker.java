@@ -20,7 +20,7 @@ package truelauncher.launcher;
 import java.net.URL;
 
 import truelauncher.config.AllSettings;
-import truelauncher.main.GUI;
+import truelauncher.userprefs.settings.UserLauncherSettings;
 import truelauncher.utils.LauncherUtils;
 
 
@@ -28,16 +28,18 @@ public class LauncherVersionChecker extends Thread {
 	
 	public void run()
 	{
-		try {
-			Thread.sleep(1000);
-			int newversion = Integer.MAX_VALUE;
-			newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"version").openStream()));
-			if (AllSettings.getLauncherVerison() < newversion)
-			{
-				GUI.openUpdateWindow();
+		if (UserLauncherSettings.updatelauncher) {
+			try {
+				Thread.sleep(1000);
+				int newversion = Integer.MAX_VALUE;
+				newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"version").openStream()));
+				if (AllSettings.getLauncherVerison() < newversion)
+				{
+					GUI.openUpdateWindow();
+				}
+			} catch (Exception e) {
+	        	LauncherUtils.logError(e);
 			}
-		} catch (Exception e) {
-        	LauncherUtils.logError(e);
 		}
 	}
 

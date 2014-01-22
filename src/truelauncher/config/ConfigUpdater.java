@@ -25,31 +25,35 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import truelauncher.main.GUI;
+import truelauncher.launcher.GUI;
+import truelauncher.userprefs.settings.UserLauncherSettings;
 import truelauncher.utils.LauncherUtils;
 
 public class ConfigUpdater {
 
 	protected static void startConfigUpdater(final File configfile)
 	{
-		//update config
-		Thread update = new Thread(){
-			public void run()
-			{
-				try {
-					if (isUpdateNeeded())
-					{
-						updateConfig(configfile);
-						Thread.sleep(1000);
-						AllSettings.reload();
-						GUI.refreshClients();
+		if (UserLauncherSettings.updateclient)
+		{
+			//update config
+			Thread update = new Thread(){
+				public void run()
+				{
+					try {
+						if (isUpdateNeeded())
+						{
+							updateConfig(configfile);
+							Thread.sleep(1000);
+							AllSettings.reload();
+							GUI.refreshClients();
+						}
+					} catch (Exception e) {
+						LauncherUtils.logError(e);
 					}
-				} catch (Exception e) {
-					LauncherUtils.logError(e);
 				}
-			}
-		};
-		update.start();
+			};
+			update.start();
+		}
 	}
 	
 	private static boolean isUpdateNeeded()

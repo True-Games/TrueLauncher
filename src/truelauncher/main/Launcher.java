@@ -27,6 +27,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import truelauncher.images.Images;
+import truelauncher.launcher.GUI;
+import truelauncher.launcher.GUISettings;
 import truelauncher.utils.LauncherUtils;
 
 

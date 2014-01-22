@@ -15,7 +15,7 @@
  *
  */
 
-package truelauncher.main;
+package truelauncher.launcher;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -47,9 +47,7 @@ import truelauncher.gcomponents.TPasswordField;
 import truelauncher.gcomponents.TProgressBar;
 import truelauncher.gcomponents.TTextField;
 import truelauncher.images.Images;
-import truelauncher.launcher.LauncherSettingsDialog;
-import truelauncher.launcher.LauncherVersionChecker;
-import truelauncher.launcher.LauncherUpdateDialog;
+import truelauncher.userprefs.settings.UserLauncherSettings;
 import truelauncher.utils.CryptoUtils;
 import truelauncher.utils.LauncherUtils;
 
@@ -72,12 +70,14 @@ public class GUI extends JPanel {
 	public GUI(JFrame frame) {
 		try {
 			staticgui = this;
+			//load all settings
 			AllSettings.load();
+			//load user prefs
+			UserLauncherSettings.loadConfig();
+			//create gui
 			this.frame = frame;
-			this.setLayout(null);
-			// border
-			this.setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
-			// init GUI
+			setLayout(null);
+			setBorder(BorderFactory.createBevelBorder(1, Color.GRAY, Color.GRAY));
 			initUI();
 			// load fields values
 			loadTextFields();
@@ -369,8 +369,7 @@ public class GUI extends JPanel {
 				// get client name
 				String client = listdownloads.getSelectedItem().toString();
 				// run client update
-				new ClientUpdateThread(listdownloads, download, pbar, client)
-						.start();
+				new ClientUpdateThread(listdownloads, download, pbar, client).start();
 			}
 		});
 		dc.add(download);
@@ -454,22 +453,27 @@ public class GUI extends JPanel {
 		File versionfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client) + File.separator + "clientversion");
 		// first check the jar
 		if (cfile.exists()) {
-			// now check the version
-			try {
-				Scanner scan = new Scanner(versionfile);
-				int currentversion = scan.nextInt();
-				scan.close();
-				if (currentversion < AllSettings.getClientVersionByName(client)) {
-					launch.setEnabled(false);
-					launch.setText("Требуется обновление");
-				} else {
+			if (UserLauncherSettings.updateclient) { 
+				// now check the version
+				try {
+					Scanner scan = new Scanner(versionfile);
+					int currentversion = scan.nextInt();
+					scan.close();
+					if (currentversion < AllSettings.getClientVersionByName(client)) {
+						launch.setEnabled(false);
+						launch.setText("Требуется обновление");
+					} else {
+						launch.setEnabled(true);
+						launch.setText("✔ Запустить Minecraft");
+					}
+				} catch (Exception e) {
+					LauncherUtils.logError(e);
 					launch.setEnabled(true);
-					launch.setText("✔ Запустить Minecraft");
+					launch.setText("✘ Запустить Minecraft");
 				}
-			} catch (Exception e) {
-				LauncherUtils.logError(e);
+			} else {
 				launch.setEnabled(true);
-				launch.setText("✘ Запустить Minecraft");
+				launch.setText("✔ Запустить Minecraft");
 			}
 		} else {
 			launch.setText("☠ Клиент не найден");

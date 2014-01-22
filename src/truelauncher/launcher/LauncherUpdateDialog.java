@@ -30,7 +30,6 @@ import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TLabel;
 import truelauncher.images.Images;
-import truelauncher.main.GUI;
 
 @SuppressWarnings("serial")
 public class LauncherUpdateDialog  extends JDialog {

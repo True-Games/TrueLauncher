@@ -1,4 +1,4 @@
-package truelauncher.main;
+package truelauncher.launcher;
 
 public class GUISettings {
 

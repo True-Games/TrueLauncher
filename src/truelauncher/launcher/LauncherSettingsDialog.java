@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import truelauncher.gcomponents.TButton;
-import truelauncher.main.GUI;
+import truelauncher.userprefs.settings.UserLauncherSettings;
 
 @SuppressWarnings("serial")
 public class LauncherSettingsDialog extends JDialog {
@@ -46,10 +46,10 @@ public class LauncherSettingsDialog extends JDialog {
 		lupanel.setLayout(null);
 		lupanel.setOpaque(false);
 		lupanel.setBounds(5, 5, 380, 20);
-		JCheckBox lucbox = new JCheckBox();
+		final JCheckBox lucbox = new JCheckBox();
 		lucbox.setOpaque(false);
 		lucbox.setBounds(0, 0, 20, 20);
-		lucbox.setSelected(true);
+		lucbox.setSelected(UserLauncherSettings.updatelauncher);
 		lupanel.add(lucbox);
 		JLabel lulabel = new JLabel();
 		lulabel.setOpaque(false);
@@ -62,10 +62,10 @@ public class LauncherSettingsDialog extends JDialog {
 		cupanel.setLayout(null);
 		cupanel.setOpaque(false);
 		cupanel.setBounds(5, 25, 380, 20);
-		JCheckBox cucbox = new JCheckBox();
+		final JCheckBox cucbox = new JCheckBox();
 		cucbox.setOpaque(false);
 		cucbox.setBounds(0, 0, 20, 20);
-		cucbox.setSelected(true);
+		cucbox.setSelected(UserLauncherSettings.updateclient);
 		cupanel.add(cucbox);
 		JLabel culabel = new JLabel();
 		culabel.setOpaque(false);
@@ -78,10 +78,10 @@ public class LauncherSettingsDialog extends JDialog {
 		lepanel.setLayout(null);
 		lepanel.setOpaque(false);
 		lepanel.setBounds(5, 45, 380, 20);
-		JCheckBox lecbox = new JCheckBox();
+		final JCheckBox lecbox = new JCheckBox();
 		lecbox.setOpaque(false);
 		lecbox.setBounds(0, 0, 20, 20);
-		lecbox.setSelected(true);
+		lecbox.setSelected(UserLauncherSettings.doerrlog);
 		lepanel.add(lecbox);
 		JLabel lelabel = new JLabel();
 		lelabel.setOpaque(false);
@@ -94,6 +94,15 @@ public class LauncherSettingsDialog extends JDialog {
 		save.setOpaque(false);
 		save.setBounds(2, 70, 198, 29);
 		save.setText("Сохранить");
+		save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UserLauncherSettings.updatelauncher = lucbox.isSelected();
+				UserLauncherSettings.updateclient = cucbox.isSelected();
+				UserLauncherSettings.doerrlog = lecbox.isSelected();
+				UserLauncherSettings.saveConfig();
+			}
+		});
 		panel.add(save);
 		TButton close = new TButton();
 		close.setOpaque(false);

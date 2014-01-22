@@ -28,7 +28,7 @@ import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TProgressBar;
-import truelauncher.main.GUI;
+import truelauncher.launcher.GUI;
 import truelauncher.utils.LauncherUtils;
 import truelauncher.utils.Zip;
 
