@@ -1,8 +1,16 @@
 {
-  "configversion": 1,
+  "configversion": 2,
   "tempfolder": ".true-games.org/packedclients",
   "libsfolder": "libraries",
   "clientdata": {
+    "Classic 1.7.4": {
+      "launchfolder": ".true-games.org/runclients/classic174",
+      "jarfile": "minecraft.jar",
+      "mainclass": "net.minecraft.client.main.Main",
+      "cmdargs": "--username {USERNAME} --accessToken token --assetIndex 1.7.4 --userProperties {} --userType mojang",
+      "downloadlink": "http://download.true-games.org/minecraft/clients/mc174.zip",
+      "version": 1
+    },
     "Classic 1.7.2": {
       "launchfolder": ".true-games.org/runclients/classic172",
       "jarfile": "minecraft.jar",
