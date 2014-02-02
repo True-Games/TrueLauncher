@@ -43,7 +43,6 @@ public class ConfigUpdater {
 						if (isUpdateNeeded())
 						{
 							updateConfig(configfile);
-							Thread.sleep(1000);
 							AllSettings.reload();
 							GUI.refreshClients();
 						}

@@ -86,7 +86,7 @@ public class GUI extends JPanel {
 			fillClients();
 			// load client fields values
 			loadPrefs();
-			// gui init ad settings load finished
+			// gui init and settings load finished
 			guiinitfinished = true;
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
@@ -283,7 +283,7 @@ public class GUI extends JPanel {
 		listclients.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (guiinitfinished) {
+				if (guiinitfinished && listclients.getItemCount() > 0) {
 					checkClientInternal(listclients.getSelectedItem().toString());
 					UserFieldsChoice.launchclient = listclients.getSelectedItem().toString();
 					UserFieldsChoice.saveBlock23Config();
@@ -352,7 +352,7 @@ public class GUI extends JPanel {
 		listdownloads.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (guiinitfinished) {
+				if (guiinitfinished && listdownloads.getItemCount() > 0) {
 					download.setText("Скачать клиент");
 					pbar.setValue(0);
 					download.setEnabled(true);
@@ -432,6 +432,7 @@ public class GUI extends JPanel {
 				break;
 			}
 		}
+		checkClientInternal(listclients.getSelectedItem().toString());
 	}
 
 	// check client jar and version
@@ -480,6 +481,12 @@ public class GUI extends JPanel {
 	}
 
 	// static access
+	
+	//check if gui is ready
+	public static boolean isGUIReady() {
+		return staticgui.guiinitfinished;
+	}
+	
 	// check client jar an version
 	public static void checkClient(String client) {
 		staticgui.checkClientInternal(client);
@@ -487,6 +494,9 @@ public class GUI extends JPanel {
 	
 	// open launcher update window
 	public static void openUpdateWindow() {
+		while (!GUI.isGUIReady()) {
+			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+		}
 		staticgui.frame.getGlassPane().setVisible(true);
 		staticgui.lu.open(staticgui);
 	}
@@ -499,6 +509,9 @@ public class GUI extends JPanel {
 	
 	// open settings window
 	public static void openSettingsWindow() {
+		while (!GUI.isGUIReady()) {
+			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+		}
 		staticgui.frame.getGlassPane().setVisible(true);
 		staticgui.ls.open(staticgui);
 	}
@@ -511,6 +524,9 @@ public class GUI extends JPanel {
 
 	// reinit client comboboxes
 	public static void refreshClients() {
+		while (!GUI.isGUIReady()) {
+			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+		}
 		staticgui.listclients.removeAllItems();
 		staticgui.listdownloads.removeAllItems();
 		staticgui.fillClients();
