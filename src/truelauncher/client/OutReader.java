@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import org.apache.commons.codec.Charsets;
 
 import truelauncher.client.auth.Auth;
+import truelauncher.client.auth.PlayerAuthData;
 import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
 
@@ -62,10 +63,11 @@ public class OutReader extends Thread {
 		String nick = paramarray[5];
 		String token = paramarray[6];
 		if (isAddressAllowed(host)) {
+			PlayerAuthData padata = new PlayerAuthData(port, protocolversion, nick, token, password);
 			if (authtype == 1) {// 1.6.4 and earlier
-				Auth.sendAuth1(host, port, protocolversion, nick, token, password);
+				Auth.sendAuth1(host, padata);
 			} else if (authtype == 2) {// 1.7.2 and newer
-				Auth.sendAuth2(host, port, protocolversion, nick, token, password);
+				Auth.sendAuth2(host, padata);
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import org.apache.commons.codec.Charsets;
 
 public class Type2 {
 
-	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException {
+	protected static void writeAuthPacket(DataOutputStream dos, PlayerAuthData padata) throws IOException {
 		//
 		//fake 1.7.2 handshake packet format.
 		//host = authpacket(AuthConnector + nick + token + password)
@@ -17,16 +17,16 @@ public class Type2 {
 		//create frame buffer
 		ByteArrayOutputStream frame = new ByteArrayOutputStream();
 		DataOutputStream frameOut = new DataOutputStream(frame);
-		String authpacket = "AuthConnector|"+nick+"|"+token+"|"+password;
+		String authpacket = "AuthConnector|"+padata.getNick()+"|"+padata.getToken()+"|"+padata.getPassword();
 		//write handshake packet to frame
 		//write packet id
 		writeVarInt(frameOut, 0x00);
 		//write protocolVersion
-		writeVarInt(frameOut, protocolversion);
+		writeVarInt(frameOut, padata.getProtocolVersion());
 		//write authpacket instead of hostname
 		writeString(frameOut, authpacket);
 		//write port
-		frameOut.writeShort(port);
+		frameOut.writeShort(padata.getPort());
 		//write state
 		writeVarInt(frameOut, 2);
 		//now write frame to real socket

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Type1 {
 
-	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException {
+	protected static void writeAuthPacket(DataOutputStream dos, PlayerAuthData padata) throws IOException {
 		//
 		// fake 1.6.4 handshake packet changes format.
 		// nick = AuthConnector
@@ -15,14 +15,14 @@ public class Type1 {
 		// write packet id
 		dos.write(2);
 		// write protocolVersion
-		dos.writeByte(protocolversion);
+		dos.writeByte(padata.getProtocolVersion());
 		// write name;
 		writeString(dos, "AuthConnector");
 		// write authpacket instead of hostname
-		String authpacket = nick + "|" + token + "|" + password;
+		String authpacket = padata.getNick() + "|" + padata.getToken() + "|" + padata.getPassword();
 		writeString(dos, authpacket);
 		// write port
-		dos.writeInt(port);
+		dos.writeInt(padata.getPort());
 	}
 
 	private static void writeString(DataOutputStream dos, String string) throws IOException {

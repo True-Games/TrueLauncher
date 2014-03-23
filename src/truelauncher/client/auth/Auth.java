@@ -24,18 +24,18 @@ import truelauncher.utils.LauncherUtils;
 
 public class Auth {
 
-	public static void sendAuth1(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password) {
+	public static void sendAuth1(final String hostname, final PlayerAuthData padata) {
 		new Thread() {
 			@Override
 			public void run() {
 				try {
 					// establish connection
-					Socket socket = new Socket(hostname, port);
+					Socket socket = new Socket(hostname, padata.getPort());
 					socket.setSoTimeout(30000);
 					socket.setTrafficClass(24);
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 					// write handshake packet
-					Type1.writeAuthPacket(dos, port, protocolversion, nick, token, password);
+					Type1.writeAuthPacket(dos, padata);
 					// close socket
 					socket.close();
 				} catch (Exception e) {
@@ -45,19 +45,18 @@ public class Auth {
 		}.start();
 	}
 
-	public static void sendAuth2(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password) {
+	public static void sendAuth2(final String hostname, final PlayerAuthData padata) {
 		new Thread() {
 			@Override
 			public void run() {
 				try {
 					// establish connection
-					Socket socket = new Socket(hostname, port);
+					Socket socket = new Socket(hostname, padata.getPort());
 					socket.setSoTimeout(30000);
 					socket.setTrafficClass(24);
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 					// write handshake packet
-					Type2.writeAuthPacket(dos, port, protocolversion, nick,
-							token, password);
+					Type2.writeAuthPacket(dos, padata);
 					// close socket
 					socket.close();
 				} catch (Exception e) {
