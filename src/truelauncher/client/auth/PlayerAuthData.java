@@ -19,8 +19,8 @@ package truelauncher.client.auth;
 
 public class PlayerAuthData {
 
-	private int port; 
-	private int protocolversion; 
+	private int port;
+	private int protocolversion;
 	private String nick;
 	private String token;
 	private String password;
