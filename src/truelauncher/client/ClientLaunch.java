@@ -28,30 +28,29 @@ import truelauncher.utils.LauncherUtils;
 
 public class ClientLaunch {
 
-	// Launch minecraft begin
-	public static void launchMC(String mcpath, String nick, String password, String mem, String jar, String mainlass, String cmdargs)
-	{
+	public static void launchMC(String mcpath, String nick, String password, String mem, String jar, String mainlass, String cmdargs) {
 		try {
 			// libs and java locations
 			String cps;
 			String java = System.getProperty("java.home");
-			if (System.getProperty("os.name").toLowerCase().contains("win")) {
+			String osname = System.getProperty("os.name").toLowerCase();
+			if (osname.contains("win") && !osname.contains("darwin")) {
 				cps = ";";
-				java+="/bin/javaw.exe";
+				java += "/bin/javaw.exe";
 			} else {
 				cps = ":";
-				java+="/bin/java";
+				java += "/bin/java";
 			}
 			String libs = "";
-			//resolve libs
+			// resolve libs
 			File libsfolder = new File(mcpath + File.separator + AllSettings.getClientsLibsFolder());
 			for (String lib : getLibs(libsfolder)) {
 				libs += lib + cps;
 			}
-			//replace nick
+			// replace nick
 			cmdargs = cmdargs.replace("{USERNAME}", nick);
 			List<String> cmdargsarray = Arrays.asList(cmdargs.split("\\s+"));
-			//now lets launch it
+			// now lets launch it
 			ProcessBuilder pb = new ProcessBuilder();
 			pb.directory(new File(mcpath).getCanonicalFile());
 			List<String> cc = new ArrayList<String>();
@@ -73,8 +72,7 @@ public class ClientLaunch {
 			pb.command(cc);
 			pb.redirectInput(Redirect.INHERIT);
 			pb.redirectErrorStream(true);
-			if (password.isEmpty())
-			{
+			if (password.isEmpty()) {
 				pb.redirectOutput(Redirect.INHERIT);
 				pb.start();
 			} else {
@@ -86,21 +84,14 @@ public class ClientLaunch {
 			LauncherUtils.logError(e);
 		}
 	}
-	// Launch minecraft end
 
-
-	private static List<String> getLibs(File libsfolder)
-	{
+	private static List<String> getLibs(File libsfolder) {
 		List<String> libs = new ArrayList<String>();
-		for (File file : libsfolder.listFiles())
-		{
-			if (file.isDirectory())
-			{
+		for (File file : libsfolder.listFiles()) {
+			if (file.isDirectory()) {
 				libs.addAll(getLibs(file));
-			} else
-			{
-				if (file.getName().endsWith(".jar"))
-				{
+			} else {
+				if (file.getName().endsWith(".jar")) {
 					libs.add(file.getAbsolutePath());
 				}
 			}
