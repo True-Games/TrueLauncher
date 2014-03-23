@@ -18,7 +18,6 @@
 package truelauncher.client;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.commons.codec.Charsets;
@@ -31,38 +30,30 @@ public class OutReader extends Thread {
 
 	private Process p;
 	private String password;
-	public OutReader(Process p, String password)
-	{
+
+	public OutReader(Process p, String password) {
 		this.password = password;
 		this.p = p;
 	}
 
 	@Override
-	public void run()
-	{
-		try {
-			InputStream is = p.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charsets.UTF_8));
+	public void run() {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream(), Charsets.UTF_8))) {
 			String line;
-			while ((line = reader.readLine ()) != null)
-			{
+			while ((line = reader.readLine()) != null) {
 				System.out.println(line);
-				if (line.contains("AuthConnector") && !password.isEmpty())
-				{
+				if (line.contains("AuthConnector") && !password.isEmpty()) {
 					doAuth(line);
 				}
 			}
-			reader.close();
-			is.close();
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
 	}
 
-
-	private void doAuth(String message)
-	{
-		//loginsystem server string format: AuthConnector|authtype|protocolversion|host|port|nick|token|
+	private void doAuth(String message) {
+		// loginsystem server string format:
+		// AuthConnector|authtype|protocolversion|host|port|nick|token|
 		String[] paramarray = message.split("[|]");
 		int authtype = Integer.valueOf(paramarray[1]);
 		String host = paramarray[3];
@@ -70,25 +61,17 @@ public class OutReader extends Thread {
 		int protocolversion = Integer.valueOf(paramarray[2]);
 		String nick = paramarray[5];
 		String token = paramarray[6];
-		if (isAddressAllowed(host))
-		{
-			if (authtype == 1)
-			{//1.6.4 and earlier
+		if (isAddressAllowed(host)) {
+			if (authtype == 1) {// 1.6.4 and earlier
 				Auth.sendAuth1(host, port, protocolversion, nick, token, password);
-			} else
-			if (authtype == 2)
-			{//1.7.2 and newer
+			} else if (authtype == 2) {// 1.7.2 and newer
 				Auth.sendAuth2(host, port, protocolversion, nick, token, password);
 			}
 		}
 	}
 
-
-
-	private static boolean isAddressAllowed(String address)
-	{
+	private static boolean isAddressAllowed(String address) {
 		return AllSettings.getAllowedAuthAddresses().contains(address);
 	}
-
 
 }
