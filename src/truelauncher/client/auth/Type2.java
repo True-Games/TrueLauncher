@@ -8,15 +8,15 @@ import org.apache.commons.codec.Charsets;
 
 public class Type2 {
 
-	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException
-	{
+	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException {
+		//
+		//fake 1.7.2 handshake packet format.
+		//host = authpacket(AuthConnector + nick + token + password)
+		//
+
 		//create frame buffer
 		ByteArrayOutputStream frame = new ByteArrayOutputStream();
 		DataOutputStream frameOut = new DataOutputStream(frame);
-		//
-		//fake 1.7.2 handshake packet changes format.
-		//host = authpacket(AuthConnector + nick + token + password)
-		//
 		String authpacket = "AuthConnector|"+nick+"|"+token+"|"+password;
 		//write handshake packet to frame
 		//write packet id
@@ -40,28 +40,22 @@ public class Type2 {
         frame.close();
 	}
 
-
-    private static void writeString(DataOutputStream dos, String string) throws IOException
-    {
+    private static void writeString(DataOutputStream dos, String string) throws IOException {
     	byte[] bytes = string.getBytes(Charsets.UTF_8);
         writeVarInt(dos, bytes.length);
         dos.write(bytes);
     }
 
-	private static void writeVarInt(DataOutputStream dos, int varint) throws IOException
-	{
+	private static void writeVarInt(DataOutputStream dos, int varint) throws IOException {
         int part;
-        while ( true )
-        {
+        while (true) {
             part = varint & 0x7F;
             varint >>>= 7;
-            if (varint!= 0)
-            {
+            if (varint!= 0) {
                 part |= 0x80;
             }
             dos.writeByte(part);
-            if (varint == 0)
-            {
+            if (varint == 0) {
                 break;
             }
         }

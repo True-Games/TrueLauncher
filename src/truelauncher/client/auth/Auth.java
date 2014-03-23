@@ -24,22 +24,19 @@ import truelauncher.utils.LauncherUtils;
 
 public class Auth {
 
-	public static void sendAuth1(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password)
-	{
-		new Thread()
-		{
+	public static void sendAuth1(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password) {
+		new Thread() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				try {
-					//establish connection
+					// establish connection
 					Socket socket = new Socket(hostname, port);
 					socket.setSoTimeout(30000);
 					socket.setTrafficClass(24);
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-					//write handshake packet
+					// write handshake packet
 					Type1.writeAuthPacket(dos, port, protocolversion, nick, token, password);
-					//close socket
+					// close socket
 					socket.close();
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
@@ -48,26 +45,20 @@ public class Auth {
 		}.start();
 	}
 
-	public static void sendAuth2(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password)
-	{
-		new Thread()
-		{
+	public static void sendAuth2(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password) {
+		new Thread() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				try {
-					//
-					//fake 1.7.2 handshake packet chages format.
-					//host = authpacket("AuthConnector"+ nick + token + password)
-					//
-					//establish connection
+					// establish connection
 					Socket socket = new Socket(hostname, port);
 					socket.setSoTimeout(30000);
 					socket.setTrafficClass(24);
 					DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-					//write handshake packet
-					Type2.writeAuthPacket(dos, port, protocolversion, nick, token, password);
-					//close socket
+					// write handshake packet
+					Type2.writeAuthPacket(dos, port, protocolversion, nick,
+							token, password);
+					// close socket
 					socket.close();
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
@@ -75,6 +66,5 @@ public class Auth {
 			}
 		}.start();
 	}
-
 
 }
