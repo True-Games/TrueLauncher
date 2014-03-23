@@ -28,7 +28,7 @@ import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
 
 public class OutReader extends Thread {
-	
+
 	private Process p;
 	private String password;
 	public OutReader(Process p, String password)
@@ -37,16 +37,17 @@ public class OutReader extends Thread {
 		this.p = p;
 	}
 
+	@Override
 	public void run()
 	{
 		try {
 			InputStream is = p.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charsets.UTF_8));
 			String line;
-			while ((line = reader.readLine ()) != null) 
+			while ((line = reader.readLine ()) != null)
 			{
 				System.out.println(line);
-				if (line.contains("AuthConnector") && !password.isEmpty()) 
+				if (line.contains("AuthConnector") && !password.isEmpty())
 				{
 					doAuth(line);
 				}
@@ -57,7 +58,7 @@ public class OutReader extends Thread {
 			LauncherUtils.logError(e);
 		}
 	}
-	
+
 
 	private void doAuth(String message)
 	{
@@ -81,9 +82,9 @@ public class OutReader extends Thread {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	private static boolean isAddressAllowed(String address)
 	{
 		return AllSettings.getAllowedAuthAddresses().contains(address);

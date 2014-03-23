@@ -25,6 +25,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 import truelauncher.config.AllSettings;
 import truelauncher.gcomponents.TButton;
@@ -33,7 +34,7 @@ import truelauncher.images.Images;
 
 @SuppressWarnings("serial")
 public class LauncherUpdateDialog  extends JDialog {
-	
+
 	private String labelimage = "labelbar.png";
 
 	int w = 250; int h = 90;
@@ -42,7 +43,7 @@ public class LauncherUpdateDialog  extends JDialog {
 	public TLabel lstatus;
 	public TButton later;
 	public JPanel panel;
-	
+
 	private LauncherUpdateDialog thisclass = this;
 
 	public LauncherUpdateDialog() {
@@ -50,7 +51,7 @@ public class LauncherUpdateDialog  extends JDialog {
         this.setUndecorated(true);
 		this.setLayout(null);
     }
-	
+
 	public void open(GUI parent)
 	{
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -60,8 +61,8 @@ public class LauncherUpdateDialog  extends JDialog {
 		initUI();
 		setVisible(true);
 	}
-	
-	
+
+
 	private void initUI()
 	{
 		panel = new JPanel();
@@ -69,19 +70,19 @@ public class LauncherUpdateDialog  extends JDialog {
 		panel.setLayout(null);
 		panel.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.GRAY));
 		this.add(panel);
-		
+
      	lstatus = new TLabel();
      	lstatus.setBounds(2,2,w-4,24);
      	lstatus.setBackgroundImage(Images.class.getResourceAsStream(labelimage));
      	lstatus.setText("Доступно обновление лаунчера");
-     	lstatus.setHorizontalAlignment(TLabel.CENTER);
+     	lstatus.setHorizontalAlignment(SwingConstants.CENTER);
      	panel.add(lstatus);
-     	
+
   	  	lpbar = new JProgressBar();
   	  	lpbar.setBounds(2,26,w-4, 14);
      	panel.add(lpbar);
-  	  	
-  	  	
+
+
     	ldownload = new TButton();
     	ldownload.setText("Обновить");
     	ldownload.setBounds(2, 40, w-4, 25);
@@ -96,8 +97,8 @@ public class LauncherUpdateDialog  extends JDialog {
         });
     	panel.add(ldownload);
 
-    	
-    	
+
+
     	later = new TButton();
     	later.setText("Позже");
     	later.setBounds(2,65,w-4,23);

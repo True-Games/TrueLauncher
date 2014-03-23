@@ -25,7 +25,7 @@ public class ClientData {
 	private String cmdargs = "--username {USERNAME} --accessToken token";
 	private String downloadlink = "fake.fake/minecraft.zip";
 	private int version = 1;
-	
+
 	protected String getLaunchFolder()
 	{
 		return launchfolder;
@@ -45,15 +45,15 @@ public class ClientData {
 	{
 		return cmdargs;
 	}
-	
+
 	protected String getDownloadLink()
 	{
 		return downloadlink;
 	}
-	
+
 	protected int getVersion()
 	{
 		return version;
 	}
-	
+
 }

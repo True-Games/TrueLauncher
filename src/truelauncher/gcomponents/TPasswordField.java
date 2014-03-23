@@ -10,10 +10,10 @@ import javax.swing.JPasswordField;
 
 @SuppressWarnings("serial")
 public class TPasswordField extends JPasswordField {
-	
+
 	private boolean renderImage = false;
 	private Image bgimage;
-	
+
 	public void setBackgroundImage(InputStream is,int w,int h)
 	{
 		try {
@@ -24,7 +24,7 @@ public class TPasswordField extends JPasswordField {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		if (renderImage)

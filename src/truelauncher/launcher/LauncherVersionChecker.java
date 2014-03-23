@@ -25,7 +25,8 @@ import truelauncher.utils.LauncherUtils;
 
 
 public class LauncherVersionChecker extends Thread {
-	
+
+	@Override
 	public void run()
 	{
 		if (UserLauncherSettings.updatelauncher) {

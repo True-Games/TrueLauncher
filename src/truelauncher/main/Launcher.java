@@ -35,15 +35,15 @@ import truelauncher.utils.LauncherUtils;
 
 public class Launcher {
 
-	
+
 	public static void main(String[] args) {
-		
+
 	    try {
 	    	UIManager.setLookAndFeel(
         	UIManager.getSystemLookAndFeelClassName());
-	    } 
+	    }
 	    catch (Exception e) {LauncherUtils.logError(e);}
-		
+
         SwingUtilities.invokeLater(new Runnable() {
             @SuppressWarnings("serial")
 			@Override
@@ -54,11 +54,12 @@ public class Launcher {
             		frame.setTitle(GUISettings.lname);
             		frame.setSize(GUISettings.w, GUISettings.h);
             		frame.setLocationRelativeTo(null);
-            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             		frame.setUndecorated(true);
             		frame.setIconImage(ImageIO.read(Images.class.getResourceAsStream(GUISettings.icon)));
         		    frame.setGlassPane(new JComponent() {
-        		        public void paintComponent(Graphics g) {
+        		        @Override
+						public void paintComponent(Graphics g) {
         		            g.setColor(new Color(0, 0, 0, 150));
         		            g.fillRect(0, 0, GUISettings.w, GUISettings.h);
         		            super.paintComponent(g);
@@ -74,7 +75,7 @@ public class Launcher {
     }
 
 }
-	
+
 
 
 

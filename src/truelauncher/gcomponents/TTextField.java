@@ -30,7 +30,7 @@ public class TTextField extends JTextField {
 
 	private boolean renderImage = false;
 	private Image bgimage;
-	
+
 	public void setBackgroundImage(InputStream is,int w,int h)
 	{
 		try {
@@ -41,7 +41,7 @@ public class TTextField extends JTextField {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		if (renderImage)
@@ -50,5 +50,5 @@ public class TTextField extends JTextField {
 		}
 		super.paintComponent(g);
 	}
-	
+
 }

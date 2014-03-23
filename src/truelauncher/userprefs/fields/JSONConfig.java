@@ -6,5 +6,5 @@ public class JSONConfig {
 	public String password = "";
 	public String launchclient = "none";
 	public String downloadclient = "none";
-	
+
 }

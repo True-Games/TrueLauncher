@@ -19,21 +19,22 @@ package truelauncher.gcomponents;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class TComboBox extends JComboBox<String>  {
-	
+
 	public TComboBox() {
 		DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
-		dlcr.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+		dlcr.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setRenderer(dlcr);
 	}
-	
+
 	/*
-	
+
 	private boolean renderImage = false;
 	private Image bgimage;
-	
+
 	public void setBackgroundImage(InputStream is)
 	{
 		try {
@@ -44,7 +45,7 @@ public class TComboBox extends JComboBox<String>  {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		if (renderImage)
@@ -53,6 +54,6 @@ public class TComboBox extends JComboBox<String>  {
 		}
 		super.paintComponent(g);
 	}
-	
+
 	*/
 }

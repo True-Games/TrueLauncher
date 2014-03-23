@@ -16,6 +16,6 @@ public class GUISettings {
 	public static String close = "close.png";
 	public static String hide = "hide.png";
 	public static String options = "settings.png";
-	
-	
+
+
 }

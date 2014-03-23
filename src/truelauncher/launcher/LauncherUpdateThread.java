@@ -85,6 +85,7 @@ public class LauncherUpdateThread extends Thread {
 		out.close();
 	}
 
+	@Override
 	public void run() {
 		try {
 			String launcherfilename = new File(System.getProperty("sun.java.command")).getName();

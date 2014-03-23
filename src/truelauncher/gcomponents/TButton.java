@@ -36,12 +36,12 @@ public class TButton extends JButton {
 	{
 
 	}
-	
+
 	private boolean renderImage = false;
 	private Image bgimage;
 	private Image bgimage_pressed;
 	private Image bgimage_focus;
-	
+
 	/**
 	 * WARNING: if you want to use custom image you should also add files for focus and pressed state.
 	 * See close and hide buttons in the images folder for example.
@@ -67,8 +67,9 @@ public class TButton extends JButton {
 			e.printStackTrace();
 		}
 	}
-	
 
+
+	@Override
 	public void paintComponent(Graphics graphics) {
 		if (renderImage)
 		{
@@ -84,13 +85,13 @@ public class TButton extends JButton {
 				if(buttonModel.isPressed())
 				{
 					g.drawImage(bgimage_pressed, 0, 0,this.getWidth(),this.getHeight(), null);
-				} 
+				}
 				else
 				{
 					g.drawImage(bgimage_focus, 0, 0,this.getWidth(),this.getHeight(), null);
 				}
 			}
-			else 
+			else
 			{
 				g.drawImage(bgimage, 0, 0,this.getWidth(),this.getHeight(), null);
 			}

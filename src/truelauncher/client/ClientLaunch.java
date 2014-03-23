@@ -88,7 +88,7 @@ public class ClientLaunch {
 	}
 	// Launch minecraft end
 
-	
+
 	private static List<String> getLibs(File libsfolder)
 	{
 		List<String> libs = new ArrayList<String>();
@@ -107,5 +107,5 @@ public class ClientLaunch {
 		}
 		return libs;
 	}
-	
+
 }

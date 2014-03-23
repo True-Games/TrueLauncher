@@ -88,10 +88,10 @@ public class UserFieldsChoice {
 			LauncherUtils.logError(e);
 		}
 	}
-	
+
 	public static String nick = "NoNickName";
 	public static String password = "";
 	public static String launchclient = "none";
 	public static String downloadclient = "none";
-	
+
 }

@@ -57,7 +57,7 @@ public class ClientUpdateThread extends Thread {
 			conn.setRequestProperty("Cache-Control", "no-cache");
 			conn.connect();
 		}
-		
+
 		InputStream inputstream = conn.getInputStream();
 
 		FileOutputStream writer = new FileOutputStream(clientto);
@@ -91,8 +91,8 @@ public class ClientUpdateThread extends Thread {
 			String downloadurl = AllSettings.getClientDownloadLinkByName(client);
 			String tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getClientsTempFolderPath() + File.separator + new File(new URL(downloadurl).getFile()).getName();
 			String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client);
-			
-			
+
+
 			// remove old zip file
 			downloadbutton.setText("Прибираемся");
 			new File(tempfile).delete();
@@ -111,15 +111,15 @@ public class ClientUpdateThread extends Thread {
 			downloadbutton.setText("Распаковываем клиент");
 			Zip zip = new Zip(progressbar);
 			zip.unpack(tempfile, destination);
-			
-			// clean garbage 
+
+			// clean garbage
 			downloadbutton.setText("Прибираемся");
 			new File(tempfile).delete();
 
 			// show finish message
 			downloadbutton.setText("Клиент установлен");
 			selectionbox.setEnabled(true);
-			
+
 			//recheck client
 			GUI.checkClient(client);
 
@@ -133,11 +133,13 @@ public class ClientUpdateThread extends Thread {
 	}
 
 	public void deleteDirectory(File file) {
-		if (!file.exists())
+		if (!file.exists()) {
 			return;
+		}
 		if (file.isDirectory()) {
-			for (File f : file.listFiles())
+			for (File f : file.listFiles()) {
 				deleteDirectory(f);
+			}
 			file.delete();
 		} else {
 			file.delete();

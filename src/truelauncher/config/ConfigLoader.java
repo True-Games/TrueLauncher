@@ -25,23 +25,23 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import truelauncher.utils.LauncherUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import truelauncher.utils.LauncherUtils;
 
 public class ConfigLoader {
 
 	private static int failedcounter = 0;
 	protected static void loadConfig(File configfile) throws Exception
 	{
-		if (failedcounter == 3) 
+		if (failedcounter == 3)
 		{
 			//we failed to load config 3 times in a row, giving up
 			System.exit(0);
 			throw new Exception("failed to load config 3 times in a row");
 		}
-		
+
 
 		if (configfile.exists())
 		{
@@ -85,7 +85,7 @@ public class ConfigLoader {
 			loadConfig(configfile);
 		}
 	}
-	
+
 	private static void loadSettings(JSONConfig jsonconfig)
 	{
 		//load settings
@@ -95,8 +95,8 @@ public class ConfigLoader {
 		AllSettings.clientsdata = jsonconfig.getClientDataMap();
 		AllSettings.allowedaddresses = jsonconfig.getAllowedAdresses();
 	}
-	
-	
+
+
 	private static void copyConfigFromJar(File configfile)
 	{
 		try {
@@ -116,5 +116,5 @@ public class ConfigLoader {
 			LauncherUtils.logError(e);
 		}
 	}
-	
+
 }

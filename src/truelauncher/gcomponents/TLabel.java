@@ -30,7 +30,7 @@ public class TLabel extends JLabel {
 
 	private boolean renderImage = false;
 	private Image bgimage;
-	
+
 	public void setBackgroundImage(InputStream is)
 	{
 		try {
@@ -41,7 +41,7 @@ public class TLabel extends JLabel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		if (renderImage)

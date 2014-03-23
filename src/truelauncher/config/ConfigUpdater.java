@@ -37,6 +37,7 @@ public class ConfigUpdater {
 		{
 			//update config
 			Thread update = new Thread(){
+				@Override
 				public void run()
 				{
 					try {
@@ -54,7 +55,7 @@ public class ConfigUpdater {
 			update.start();
 		}
 	}
-	
+
 	private static boolean isUpdateNeeded()
 	{
 		try {
@@ -69,7 +70,7 @@ public class ConfigUpdater {
 		}
 		return false;
 	}
-	
+
 	private static void updateConfig(final File configfile) throws IOException
 	{
 		URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder()+configfile.getName());
@@ -93,5 +94,5 @@ public class ConfigUpdater {
 		writer.close();
 		inputstream.close();
 	}
-	
+
 }

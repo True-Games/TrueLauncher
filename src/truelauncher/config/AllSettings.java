@@ -26,7 +26,7 @@ import java.util.List;
 import truelauncher.utils.LauncherUtils;
 
 public class AllSettings {
-	
+
 	public static void load() throws Exception
 	{
 		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
@@ -38,7 +38,7 @@ public class AllSettings {
 		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
 		ConfigLoader.loadConfig(configfile);
 	}
-	
+
 	//For clients, this all is loaded from config.
 	//folder in which clients .zip file will be downloaded
 	protected static String tempfolder = ".true-games.org/packedclients";
@@ -65,16 +65,16 @@ public class AllSettings {
 	private static String configfolder = ".true-games.org/configdata";
 	//folder for error logging
 	public static String errFolder = ".true-games.org/errLog";
-	
-	
-	
+
+
+
 	//config version
 	public static int getClientConfigVersion()
 	{
 		return clientsconfigversion;
 	}
 	//libs and temppath
-	public static String getClientsLibsFolder() 
+	public static String getClientsLibsFolder()
 	{
 		return libsfolder;
 	}
@@ -116,14 +116,14 @@ public class AllSettings {
 	{
 		return allowedaddresses;
 	}
-	
+
 
 	//laucnher vars
 	public static String getLauncherConfigFolderPath()
 	{
 		return configfolder;
 	}
-	
+
 	public static String getLauncherWebUpdateURLFolder()
 	{
 		return lupdateurlfolder;

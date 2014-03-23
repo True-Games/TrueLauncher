@@ -12,7 +12,7 @@ public class Type1 {
 		//nick = AuthConnector
 		//host = authpacket(nick + token + password)
 		//
-		
+
 		//write packet id
 		dos.write(2);
 		//write protocolVersion
@@ -25,11 +25,11 @@ public class Type1 {
 		//write port
 		dos.writeInt(port);
 	}
-	
+
 	private static void writeString(DataOutputStream dos, String string) throws IOException
 	{
 		dos.writeShort(string.length());
 		dos.writeChars(string);
 	}
-	
+
 }

@@ -22,13 +22,13 @@ import java.util.LinkedHashMap;
 
 public class JSONConfig {
 
-	
+
 	private int configversion = 0;
 	private String tempfolder = "temp";
 	private String libsfolder = "libraries";
 	private LinkedHashMap<String, ClientData> clientdata = new LinkedHashMap<String, ClientData>();
 	private HashSet<String> authaddresses = new HashSet<String>();
-	
+
 	protected int getConfigVersion()
 	{
 		return configversion;
@@ -51,5 +51,5 @@ public class JSONConfig {
 	{
 		return new HashSet<String>(authaddresses);
 	}
-	
+
 }

@@ -29,26 +29,26 @@ import java.util.zip.ZipFile;
 import truelauncher.gcomponents.TProgressBar;
 
 public class Zip {
-	
+
     private TProgressBar bar;
-	
+
     public Zip(TProgressBar bar){
     	this.bar = bar;
     }
-    
+
      public void unpack(String path, String dir_to) throws IOException {
     	final ZipFile zipFile = new ZipFile(path);
-        		
+
     	bar.setValue(0);
         bar.setMinimum(0);
         bar.setMaximum(zipFile.size());
-        
+
         int unpackedfiles = 0;
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
         while (entries.hasMoreElements())
         {
         	ZipEntry entry = entries.nextElement();
-            if (entry.isDirectory()) 
+            if (entry.isDirectory())
             {//Directory
                 new File(dir_to + File.separator + entry.getName()).mkdirs();
             	unpackedfiles+=1;
@@ -65,7 +65,7 @@ public class Zip {
             		}
             		unpackedfiles+=1;
             		bar.setValue(unpackedfiles);
-            	} catch (Exception e) 
+            	} catch (Exception e)
             	{
             		LauncherUtils.logError(e);
             	} finally
@@ -75,8 +75,8 @@ public class Zip {
             	}
             }
         }
-        
+
         zipFile.close();
     }
-    
+
 }

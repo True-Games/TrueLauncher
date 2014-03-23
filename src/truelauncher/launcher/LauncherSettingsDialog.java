@@ -17,13 +17,13 @@ import truelauncher.userprefs.settings.UserLauncherSettings;
 public class LauncherSettingsDialog extends JDialog {
 
 	int w = 400; int h = 100;
-	
+
 	public LauncherSettingsDialog() {
         super();
         this.setUndecorated(true);
 		this.setLayout(null);
     }
-	
+
 	public void open(GUI parent)
 	{
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -33,7 +33,7 @@ public class LauncherSettingsDialog extends JDialog {
 		initUI();
 		setVisible(true);
 	}
-	
+
 	private void initUI()
 	{
 		JPanel panel = new JPanel();
@@ -41,7 +41,7 @@ public class LauncherSettingsDialog extends JDialog {
 		panel.setLayout(null);
 		panel.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.GRAY));
 		this.add(panel);
-		
+
 		JPanel lupanel = new JPanel();
 		lupanel.setLayout(null);
 		lupanel.setOpaque(false);
@@ -57,7 +57,7 @@ public class LauncherSettingsDialog extends JDialog {
 		lulabel.setText("Проверять обновления лаунчера");
 		lupanel.add(lulabel);
 		panel.add(lupanel);
-		
+
 		JPanel cupanel = new JPanel();
 		cupanel.setLayout(null);
 		cupanel.setOpaque(false);
@@ -73,7 +73,7 @@ public class LauncherSettingsDialog extends JDialog {
 		culabel.setText("Проверять обновления клиентов");
 		cupanel.add(culabel);
 		panel.add(cupanel);
-		
+
 		JPanel lepanel = new JPanel();
 		lepanel.setLayout(null);
 		lepanel.setOpaque(false);
@@ -89,7 +89,7 @@ public class LauncherSettingsDialog extends JDialog {
 		lelabel.setText("Вести лог ошибок");
 		lepanel.add(lelabel);
 		panel.add(lepanel);
-		
+
 		TButton save = new TButton();
 		save.setOpaque(false);
 		save.setBounds(2, 70, 198, 29);
@@ -116,5 +116,5 @@ public class LauncherSettingsDialog extends JDialog {
 		});
     	panel.add(close);
 	}
-	
+
 }

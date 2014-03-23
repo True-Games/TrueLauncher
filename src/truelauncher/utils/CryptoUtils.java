@@ -19,7 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 public class CryptoUtils {
-	
+
 	private static byte[] ivBytes = new byte[]{25,63,23,13,15,65,25,28};
 	public static String decryptString(String string) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, ClassNotFoundException, IOException, InvalidAlgorithmParameterException
 	{
@@ -29,7 +29,7 @@ public class CryptoUtils {
    	 	Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
    	 	cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
    	 	String decryptedString = new String(cipher.doFinal(Base64.decodeBase64(string)));
-   	 	return decryptedString; 
+   	 	return decryptedString;
     }
     public static String encryptString(String string) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException, ClassNotFoundException, InvalidAlgorithmParameterException
     {

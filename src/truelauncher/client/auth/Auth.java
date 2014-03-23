@@ -23,11 +23,12 @@ import java.net.Socket;
 import truelauncher.utils.LauncherUtils;
 
 public class Auth {
-	
+
 	public static void sendAuth1(final String hostname, final int port, final int protocolversion, final String nick, final String token, final String password)
 	{
 		new Thread()
 		{
+			@Override
 			public void run()
 			{
 				try {
@@ -39,7 +40,7 @@ public class Auth {
 					//write handshake packet
 					Type1.writeAuthPacket(dos, port, protocolversion, nick, token, password);
 					//close socket
-					socket.close();	
+					socket.close();
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
 				}
@@ -51,6 +52,7 @@ public class Auth {
 	{
 		new Thread()
 		{
+			@Override
 			public void run()
 			{
 				try {
@@ -74,5 +76,5 @@ public class Auth {
 		}.start();
 	}
 
-	
+
 }

@@ -6,11 +6,11 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class UserLauncherSettings {
 
@@ -47,7 +47,7 @@ public class UserLauncherSettings {
 			LauncherUtils.logError(e);
 		}
 	}
-	
+
 	public static boolean updatelauncher = true;
 	public static boolean updateclient = true;
 	public static boolean doerrlog = true;

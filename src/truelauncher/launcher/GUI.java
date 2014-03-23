@@ -18,6 +18,8 @@
 package truelauncher.launcher;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -33,10 +35,10 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import truelauncher.client.ClientLaunch;
 import truelauncher.client.ClientUpdateThread;
@@ -113,12 +115,14 @@ public class GUI extends JPanel {
 		drag.setOpaque(false);
 		drag.setBackground(new Color(0, 0, 0, 0));
 		drag.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				posX = e.getX();
 				posY = e.getY();
 			}
 		});
 		drag.addMouseMotionListener(new MouseAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent evt) {
 				frame.setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
 			}
@@ -133,7 +137,7 @@ public class GUI extends JPanel {
 		sb.setBounds(20, 20, 25, 25);
 		sb.setOpaque(false);
 		sb.setBackground(new Color(0, 0, 0, 0));
-		
+
 		TButton settings = new TButton();
 		settings.setBounds(0, 0, 25, 25);
 		settings.setOpaque(false);
@@ -146,10 +150,10 @@ public class GUI extends JPanel {
 			}
 		});
 		sb.add(settings);
-		
+
 		this.add(sb);
 	}
-	
+
 	// close and minimize buttonis block
 	private void initCloseMinimizeButton() {
 		JPanel cmb = new JPanel();
@@ -166,7 +170,7 @@ public class GUI extends JPanel {
 		minimize.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.setExtendedState(frame.getExtendedState() | JFrame.ICONIFIED);
+				frame.setExtendedState(frame.getExtendedState() | Frame.ICONIFIED);
 			}
 		});
 		cmb.add(minimize);
@@ -203,7 +207,7 @@ public class GUI extends JPanel {
 		expbarset.setBounds(0, 0, widgw, 25);
 		expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
 		expbarset.setText("Основные настройки");
-		expbarset.setHorizontalAlignment(TButton.CENTER);
+		expbarset.setHorizontalAlignment(SwingConstants.CENTER);
 		tifields.add(expbarset);
 
 		// Плашка ника
@@ -213,14 +217,14 @@ public class GUI extends JPanel {
 		labelnick.setBounds(0, 25, lnw, lnh);
 		labelnick.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.labelimage));
 		labelnick.setText("Ник");
-		labelnick.setHorizontalAlignment(TButton.CENTER);
+		labelnick.setHorizontalAlignment(SwingConstants.CENTER);
 		tifields.add(labelnick);
 		// Поле ника
 		int inw = 140;
 		nickfield = new TTextField();
 		nickfield.setBounds(lnw, 25, inw, lnh);
 		nickfield.setText("NoNickName");
-		nickfield.setHorizontalAlignment(TButton.CENTER);
+		nickfield.setHorizontalAlignment(SwingConstants.CENTER);
 		tifields.add(nickfield);
 
 		// Плашка пароля
@@ -229,7 +233,7 @@ public class GUI extends JPanel {
 		TLabel labelpass = new TLabel();
 		labelpass.setBounds(0, 45, lrw, lrh);
 		labelpass.setText("Пароль");
-		labelpass.setHorizontalAlignment(TButton.CENTER);
+		labelpass.setHorizontalAlignment(SwingConstants.CENTER);
 		labelpass.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.labelimage));
 		tifields.add(labelpass);
 		// Поле пароля
@@ -237,7 +241,7 @@ public class GUI extends JPanel {
 		passfield = new TPasswordField();
 		passfield.setBounds(lrw, 45, irw, lrh);
 		passfield.setText("");
-		passfield.setHorizontalAlignment(TButton.CENTER);
+		passfield.setHorizontalAlignment(SwingConstants.CENTER);
 		tifields.add(passfield);
 
 		// Кнопка сохранить
@@ -273,13 +277,13 @@ public class GUI extends JPanel {
 		TLabel expbarset = new TLabel();
 		expbarset.setBounds(0, 0, widgw, 25);
 		expbarset.setText("Выбор клиента");
-		expbarset.setHorizontalAlignment(TButton.CENTER);
+		expbarset.setHorizontalAlignment(SwingConstants.CENTER);
 		expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
 		sb.add(expbarset);
 
 		listclients = new TComboBox();
 		listclients.setBounds(0, 25, widgw, 30);
-		listclients.setAlignmentY(JComboBox.CENTER_ALIGNMENT);
+		listclients.setAlignmentY(Component.CENTER_ALIGNMENT);
 		listclients.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -344,7 +348,7 @@ public class GUI extends JPanel {
 		expbarset.setBounds(0, 0, widgw, 25);
 		expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
 		expbarset.setText("Скачивание клиентов");
-		expbarset.setHorizontalAlignment(TLabel.CENTER);
+		expbarset.setHorizontalAlignment(SwingConstants.CENTER);
 		dc.add(expbarset);
 
 		listdownloads = new TComboBox();
@@ -370,7 +374,7 @@ public class GUI extends JPanel {
 		download = new TButton();
 		download.setBounds(0, 70, widgw, 25);
 		download.setText("Скачать клиент");
-		download.setHorizontalAlignment(TButton.CENTER);
+		download.setHorizontalAlignment(SwingConstants.CENTER);
 		download.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -393,13 +397,13 @@ public class GUI extends JPanel {
 		lu = new LauncherUpdateDialog();
 		new LauncherVersionChecker().start();
 	}
-	
+
 	// Init Launcher settings
 	private void initLauncherSettings() {
 		ls = new LauncherSettingsDialog();
 	}
 
-	
+
 	// Some methods
 	// Fill clients comboboxes
 	private void fillClients() {
@@ -413,7 +417,7 @@ public class GUI extends JPanel {
 		}
 		checkClientInternal(listclients.getSelectedItem().toString());
 	}
-	
+
 	//load client prefs
 	private void loadPrefs() {
 		nickfield.setText(UserFieldsChoice.nick);
@@ -441,7 +445,7 @@ public class GUI extends JPanel {
 		File versionfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client) + File.separator + "clientversion");
 		// first check the jar
 		if (cfile.exists()) {
-			if (UserLauncherSettings.updateclient) { 
+			if (UserLauncherSettings.updateclient) {
 				// now check the version
 				try {
 					Scanner scan = new Scanner(versionfile);
@@ -481,17 +485,17 @@ public class GUI extends JPanel {
 	}
 
 	// static access
-	
+
 	//check if gui is ready
 	public static boolean isGUIReady() {
 		return staticgui.guiinitfinished;
 	}
-	
+
 	// check client jar an version
 	public static void checkClient(String client) {
 		staticgui.checkClientInternal(client);
 	}
-	
+
 	// open launcher update window
 	public static void openUpdateWindow() {
 		while (!GUI.isGUIReady()) {
@@ -506,7 +510,7 @@ public class GUI extends JPanel {
 		staticgui.lu.dispose();
 		staticgui.frame.getGlassPane().setVisible(false);
 	}
-	
+
 	// open settings window
 	public static void openSettingsWindow() {
 		while (!GUI.isGUIReady()) {
@@ -515,7 +519,7 @@ public class GUI extends JPanel {
 		staticgui.frame.getGlassPane().setVisible(true);
 		staticgui.ls.open(staticgui);
 	}
-	
+
 	// close settings window
 	public static void closeSettingsWindow() {
 		staticgui.ls.dispose();

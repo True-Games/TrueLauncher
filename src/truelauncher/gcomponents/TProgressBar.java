@@ -25,7 +25,7 @@ public class TProgressBar extends JProgressBar {
 	/*
 	private boolean renderImage = false;
 	private Image bgimage;
-	
+
 	public void setBackgroundImage(InputStream is)
 	{
 		try {
@@ -36,7 +36,7 @@ public class TProgressBar extends JProgressBar {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		if (renderImage)

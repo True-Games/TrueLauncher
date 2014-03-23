@@ -9,7 +9,7 @@ import org.apache.commons.codec.Charsets;
 public class Type2 {
 
 	protected static void writeAuthPacket(DataOutputStream dos, final int port, final int protocolversion, final String nick, final String token, final String password) throws IOException
-	{		
+	{
 		//create frame buffer
 		ByteArrayOutputStream frame = new ByteArrayOutputStream();
 		DataOutputStream frameOut = new DataOutputStream(frame);
@@ -39,8 +39,8 @@ public class Type2 {
         frameOut.close();
         frame.close();
 	}
-	
-	
+
+
     private static void writeString(DataOutputStream dos, String string) throws IOException
     {
     	byte[] bytes = string.getBytes(Charsets.UTF_8);
@@ -66,5 +66,5 @@ public class Type2 {
             }
         }
 	}
-	
+
 }
