@@ -31,21 +31,18 @@ public class ClientLaunch {
 	public static void launchMC(String mcpath, String nick, String password, String mem, String jar, String mainlass, String cmdargs) {
 		try {
 			// libs and java locations
-			String cps;
 			String java = System.getProperty("java.home");
 			String osname = System.getProperty("os.name").toLowerCase();
 			if (osname.contains("win") && !osname.contains("darwin")) {
-				cps = ";";
 				java += "/bin/javaw.exe";
 			} else {
-				cps = ":";
 				java += "/bin/java";
 			}
 			String libs = "";
 			// resolve libs
 			File libsfolder = new File(mcpath + File.separator + AllSettings.getClientsLibsFolder());
 			for (String lib : getLibs(libsfolder)) {
-				libs += lib + cps;
+				libs += lib + File.pathSeparator;
 			}
 			// replace nick
 			cmdargs = cmdargs.replace("{USERNAME}", nick);
