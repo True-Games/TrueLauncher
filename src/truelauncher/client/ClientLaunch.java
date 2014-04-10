@@ -46,6 +46,10 @@ public class ClientLaunch {
 			}
 			// replace nick
 			cmdargs = cmdargs.replace("{USERNAME}", nick);
+			// replace uuid
+			if (cmdargs.contains("{UUID}")) {
+				cmdargs.replace("{UUID}", NameToUUIDResolver.resolveUUID(nick));
+			}
 			List<String> cmdargsarray = Arrays.asList(cmdargs.split("\\s+"));
 			// now lets launch it
 			ProcessBuilder pb = new ProcessBuilder();
