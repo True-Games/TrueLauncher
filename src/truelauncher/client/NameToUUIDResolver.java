@@ -17,9 +17,9 @@
 
 package truelauncher.client;
 
-import truelauncher.client.mojang.profiles.HttpProfileRepository;
-import truelauncher.client.mojang.profiles.Profile;
-import truelauncher.client.mojang.profiles.ProfileCriteria;
+import com.mojang.profiles.HttpProfileRepository;
+import com.mojang.profiles.Profile;
+import com.mojang.profiles.ProfileCriteria;
 
 public class NameToUUIDResolver {
 

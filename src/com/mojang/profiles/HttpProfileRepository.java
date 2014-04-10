@@ -1,4 +1,4 @@
-package truelauncher.client.mojang.profiles;
+package com.mojang.profiles;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import truelauncher.client.mojang.http.BasicHttpClient;
-import truelauncher.client.mojang.http.HttpBody;
-import truelauncher.client.mojang.http.HttpHeader;
-
 import com.google.gson.Gson;
+import com.mojang.http.BasicHttpClient;
+import com.mojang.http.HttpBody;
+import com.mojang.http.HttpHeader;
 
 public class HttpProfileRepository {
 

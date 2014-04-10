@@ -1,4 +1,4 @@
-package truelauncher.client.mojang.http;
+package com.mojang.http;
 
 public class HttpHeader {
 	private String name;

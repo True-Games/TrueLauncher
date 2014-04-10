@@ -1,4 +1,4 @@
-package truelauncher.client.mojang.http;
+package com.mojang.http;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

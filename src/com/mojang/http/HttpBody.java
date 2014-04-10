@@ -1,4 +1,4 @@
-package truelauncher.client.mojang.http;
+package com.mojang.http;
 
 public class HttpBody {
 

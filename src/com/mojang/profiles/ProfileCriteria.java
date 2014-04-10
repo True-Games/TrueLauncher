@@ -1,4 +1,4 @@
-package truelauncher.client.mojang.profiles;
+package com.mojang.profiles;
 
 public class ProfileCriteria {
 
