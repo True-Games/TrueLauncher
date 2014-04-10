@@ -30,7 +30,6 @@ public class NameToUUIDResolver {
 			HttpProfileRepository repo = new HttpProfileRepository();
 			Profile[] profiles = repo.findProfilesByCriteria(new ProfileCriteria(nick, AGENT));
 			if (profiles.length == 1) {
-				System.out.println(profiles[0].getId());
 				return profiles[0].getId();
 			}
 		} catch (Exception e) {
