@@ -17,9 +17,25 @@
 
 package truelauncher.client;
 
+import truelauncher.client.mojang.profiles.HttpProfileRepository;
+import truelauncher.client.mojang.profiles.Profile;
+import truelauncher.client.mojang.profiles.ProfileCriteria;
+
 public class NameToUUIDResolver {
 
+	private static final String AGENT = "minecraft";
+
 	public static String resolveUUID(String nick) {
+		try {
+			HttpProfileRepository repo = new HttpProfileRepository();
+			Profile[] profiles = repo.findProfilesByCriteria(new ProfileCriteria(nick, AGENT));
+			if (profiles.length == 1) {
+				System.out.println(profiles[0].getId());
+				return profiles[0].getId();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "uuid";
 	}
 
