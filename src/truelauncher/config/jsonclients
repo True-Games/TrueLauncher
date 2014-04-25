@@ -1,38 +1,22 @@
 {
-  "configversion": 3,
+  "configversion": 8,
   "tempfolder": ".true-games.org/packedclients",
   "libsfolder": "libraries",
   "clientdata": {
-    "Classic 1.7.7": {
-      "launchfolder": ".true-games.org/runclients/classic177",
+    "Classic 1.7.9": {
+      "launchfolder": ".true-games.org/runclients/classic179",
       "jarfile": "minecraft.jar",
       "mainclass": "net.minecraft.client.main.Main",
       "cmdargs": "--username {USERNAME} --accessToken token --uuid {UUID} --assetIndex 1.7.4 --userProperties {} --userType mojang",
-      "downloadlink": "http://download.true-games.org/minecraft/clients/mc177.zip",
+      "downloadlink": "http://download.true-games.org/minecraft/clients/mc179.zip",
       "version": 1
     },
-    "Classic 1.7.4": {
-      "launchfolder": ".true-games.org/runclients/classic174",
+    "Classic 1.7.5": {
+      "launchfolder": ".true-games.org/runclients/classic175",
       "jarfile": "minecraft.jar",
       "mainclass": "net.minecraft.client.main.Main",
       "cmdargs": "--username {USERNAME} --accessToken token --assetIndex 1.7.4 --userProperties {} --userType mojang",
-      "downloadlink": "http://download.true-games.org/minecraft/clients/mc174.zip",
-      "version": 1
-    },
-    "Classic 1.7.2": {
-      "launchfolder": ".true-games.org/runclients/classic172",
-      "jarfile": "minecraft.jar",
-      "mainclass": "net.minecraft.client.main.Main",
-      "cmdargs": "--username {USERNAME} --accessToken token",
-      "downloadlink": "http://download.true-games.org/minecraft/clients/mc172.zip",
-      "version": 1
-    },
-    "Classic 1.6.4": {
-      "launchfolder": ".true-games.org/runclients/classic164",
-      "jarfile": "minecraft.jar",
-      "mainclass": "net.minecraft.client.main.Main",
-      "cmdargs": "--username {USERNAME} --session session",
-      "downloadlink": "http://download.true-games.org/minecraft/clients/mc164.zip",
+      "downloadlink": "http://download.true-games.org/minecraft/clients/mc175.zip",
       "version": 1
     },
     "Hitech 1.6.4": {
@@ -41,7 +25,7 @@
       "mainclass": "net.minecraft.launchwrapper.Launch",
       "cmdargs": "--tweakClass com.mumfrey.liteloader.launch.LiteLoaderTweaker --tweakClass cpw.mods.fml.common.launcher.FMLTweaker --username {USERNAME} --session session",
       "downloadlink": "http://download.true-games.org/minecraft/clients/madhitech164.zip",
-      "version": 1
+      "version": 2
     }        
   },
   "authaddresses": [

@@ -17,9 +17,8 @@
 
 package truelauncher.client;
 
-import com.mojang.profiles.HttpProfileRepository;
-import com.mojang.profiles.Profile;
-import com.mojang.profiles.ProfileCriteria;
+import com.mojang.api.profiles.HttpProfileRepository;
+import com.mojang.api.profiles.Profile;
 
 public class NameToUUIDResolver {
 
@@ -27,8 +26,8 @@ public class NameToUUIDResolver {
 
 	public static String resolveUUID(String nick) {
 		try {
-			HttpProfileRepository repo = new HttpProfileRepository();
-			Profile[] profiles = repo.findProfilesByCriteria(new ProfileCriteria(nick, AGENT));
+			HttpProfileRepository repo = new HttpProfileRepository(AGENT);
+			Profile[] profiles = repo.findProfilesByNames(nick);
 			if (profiles.length == 1) {
 				return profiles[0].getId();
 			}
