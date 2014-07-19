@@ -20,13 +20,11 @@ package truelauncher.gcomponents;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.File;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
-
-import truelauncher.images.Images;
 
 @SuppressWarnings("serial")
 public class TButton extends JButton {
@@ -47,7 +45,7 @@ public class TButton extends JButton {
 	 *
 	 * @param filepath - path to the image in normal state
 	 */
-	public void setBackgroundImage(String filepath) {
+	public void setBackgroundImage(InputStream is_n, InputStream is_pr, InputStream is_f) {
 		try {
 			renderImage = true;
 			this.setOpaque(false);
@@ -56,11 +54,11 @@ public class TButton extends JButton {
 			this.setContentAreaFilled(false);
 			this.setFocusable(false);
 			this.setBorder(null);
-			bgimage = ImageIO.read(Images.class.getResourceAsStream(filepath));
+			bgimage = ImageIO.read(is_n);
 			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			bgimage_pressed = ImageIO.read(Images.class.getResourceAsStream("pr_" + new File(filepath).getName()));
+			bgimage_pressed = ImageIO.read(is_pr);
 			bgimage_pressed = bgimage_pressed.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			bgimage_focus = ImageIO.read(Images.class.getResourceAsStream("f_"+ new File(filepath).getName()));
+			bgimage_focus = ImageIO.read(is_f);
 			bgimage_focus = bgimage_focus.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 		} catch (Exception e) {
 			e.printStackTrace();

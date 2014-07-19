@@ -141,7 +141,11 @@ public class GUI extends JPanel {
 		settings.setBounds(0, 0, 25, 25);
 		settings.setOpaque(false);
 		settings.setBackground(new Color(0, 0, 0, 0));
-		settings.setBackgroundImage(GUISettings.options);
+		settings.setBackgroundImage(
+			Images.class.getResourceAsStream(GUISettings.options),
+			Images.class.getResourceAsStream("pr_"+GUISettings.options),
+			Images.class.getResourceAsStream("f_"+GUISettings.options)
+		);
 		settings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -165,7 +169,11 @@ public class GUI extends JPanel {
 		minimize.setBounds(0, 0, 25, 25);
 		minimize.setOpaque(false);
 		minimize.setBackground(new Color(0, 0, 0, 0));
-		minimize.setBackgroundImage(GUISettings.hide);
+		minimize.setBackgroundImage(
+			Images.class.getResourceAsStream(GUISettings.hide),
+			Images.class.getResourceAsStream("pr_"+GUISettings.hide),
+			Images.class.getResourceAsStream("f_"+GUISettings.hide)
+		);
 		minimize.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -178,7 +186,11 @@ public class GUI extends JPanel {
 		close.setBounds(35, 0, 25, 25);
 		close.setOpaque(false);
 		close.setBackground(new Color(0, 0, 0, 0));
-		close.setBackgroundImage(GUISettings.close);
+		close.setBackgroundImage(			
+			Images.class.getResourceAsStream(GUISettings.close),
+			Images.class.getResourceAsStream("pr_"+GUISettings.close),
+			Images.class.getResourceAsStream("f_"+GUISettings.close)
+		);
 		close.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
