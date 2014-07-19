@@ -60,11 +60,11 @@ public class AllSettings {
 	// {folder}/version - launcher version
 	// {folder}/jsonclients - client config file
 	// {folder}/clientsversion - clients config file version
-	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
+	private static final String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
 	// folder in which configurations will be stored
-	private static String configfolder = ".true-games.org/configdata";
+	private static final String configfolder = ".true-games.org/configdata";
 	// folder for error logging
-	public static String errFolder = ".true-games.org/errLog";
+	public static final String errFolder = ".true-games.org/errLog";
 
 	// config version
 	public static int getClientConfigVersion() {

@@ -55,7 +55,7 @@ public class ConfigUpdater {
 	private static boolean isUpdateNeeded() {
 		try {
 			URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder() + "clientsversion");
-			int latest = Integer.valueOf(LauncherUtils.readURLStreamToString(url.openStream()));
+			int latest = Integer.parseInt(LauncherUtils.readURLStreamToString(url.openStream()));
 			if (AllSettings.getClientConfigVersion() < latest) {
 				return true;
 			}

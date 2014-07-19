@@ -32,9 +32,8 @@ public class LauncherVersionChecker extends Thread {
 			try {
 				Thread.sleep(1000);
 				int newversion = Integer.MAX_VALUE;
-				newversion = Integer.valueOf(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"version").openStream()));
-				if (AllSettings.getLauncherVerison() < newversion)
-				{
+				newversion = Integer.parseInt(LauncherUtils.readURLStreamToString(new URL(AllSettings.getLauncherWebUpdateURLFolder()+"version").openStream()));
+				if (AllSettings.getLauncherVerison() < newversion) {
 					GUI.openUpdateWindow();
 				}
 			} catch (Exception e) {

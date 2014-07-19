@@ -56,10 +56,10 @@ public class OutReader extends Thread {
 		// loginsystem server string format:
 		// AuthConnector|authtype|protocolversion|host|port|nick|token|
 		String[] paramarray = message.split("[|]");
-		int authtype = Integer.valueOf(paramarray[1]);
+		int authtype = Integer.parseInt(paramarray[1]);
 		String host = paramarray[3];
-		int port = Integer.valueOf(paramarray[4]);
-		int protocolversion = Integer.valueOf(paramarray[2]);
+		int port = Integer.parseInt(paramarray[4]);
+		int protocolversion = Integer.parseInt(paramarray[2]);
 		String nick = paramarray[5];
 		String token = paramarray[6];
 		if (isAddressAllowed(host)) {
