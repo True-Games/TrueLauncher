@@ -26,14 +26,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import truelauncher.gcomponents.TButton;
+import truelauncher.gcomponents.TTextField;
 import truelauncher.userprefs.settings.UserLauncherSettings;
 
 @SuppressWarnings("serial")
 public class LauncherSettingsDialog extends JDialog {
 
-	int w = 400; int h = 100;
+	int w = 400; int h = 120;
 
 	public LauncherSettingsDialog() {
 		super();
@@ -60,7 +62,7 @@ public class LauncherSettingsDialog extends JDialog {
 		JPanel lupanel = new JPanel();
 		lupanel.setLayout(null);
 		lupanel.setOpaque(false);
-		lupanel.setBounds(5, 5, 380, 20);
+		lupanel.setBounds(5, 5, 200, 20);
 		final JCheckBox lucbox = new JCheckBox();
 		lucbox.setOpaque(false);
 		lucbox.setBounds(0, 0, 20, 20);
@@ -68,7 +70,7 @@ public class LauncherSettingsDialog extends JDialog {
 		lupanel.add(lucbox);
 		JLabel lulabel = new JLabel();
 		lulabel.setOpaque(false);
-		lulabel.setBounds(25, 0, 350, 20);
+		lulabel.setBounds(25, 0, 175, 20);
 		lulabel.setText("Проверять обновления лаунчера");
 		lupanel.add(lulabel);
 		panel.add(lupanel);
@@ -76,7 +78,7 @@ public class LauncherSettingsDialog extends JDialog {
 		JPanel cupanel = new JPanel();
 		cupanel.setLayout(null);
 		cupanel.setOpaque(false);
-		cupanel.setBounds(5, 25, 380, 20);
+		cupanel.setBounds(5, 25, 200, 20);
 		final JCheckBox cucbox = new JCheckBox();
 		cucbox.setOpaque(false);
 		cucbox.setBounds(0, 0, 20, 20);
@@ -84,7 +86,7 @@ public class LauncherSettingsDialog extends JDialog {
 		cupanel.add(cucbox);
 		JLabel culabel = new JLabel();
 		culabel.setOpaque(false);
-		culabel.setBounds(25, 0, 350, 20);
+		culabel.setBounds(25, 0, 175, 20);
 		culabel.setText("Проверять обновления клиентов");
 		cupanel.add(culabel);
 		panel.add(cupanel);
@@ -92,7 +94,7 @@ public class LauncherSettingsDialog extends JDialog {
 		JPanel lepanel = new JPanel();
 		lepanel.setLayout(null);
 		lepanel.setOpaque(false);
-		lepanel.setBounds(5, 45, 380, 20);
+		lepanel.setBounds(5, 45, 200, 20);
 		final JCheckBox lecbox = new JCheckBox();
 		lecbox.setOpaque(false);
 		lecbox.setBounds(0, 0, 20, 20);
@@ -100,14 +102,29 @@ public class LauncherSettingsDialog extends JDialog {
 		lepanel.add(lecbox);
 		JLabel lelabel = new JLabel();
 		lelabel.setOpaque(false);
-		lelabel.setBounds(25, 0, 350, 20);
+		lelabel.setBounds(25, 0, 175, 20);
 		lelabel.setText("Вести лог ошибок");
 		lepanel.add(lelabel);
 		panel.add(lepanel);
 
+		JPanel mempanel = new JPanel();
+		mempanel.setLayout(null);
+		mempanel.setOpaque(false);
+		mempanel.setBounds(5, 65, 190, 20);
+		JLabel memlabel = new JLabel();
+		memlabel.setOpaque(false);
+		memlabel.setBounds(5, 0, 70, 20);
+		memlabel.setText("Память (MB)");
+		mempanel.add(memlabel);
+		TTextField memfield = new TTextField();
+		memfield.setBounds(80, 0, 70, 20);
+		memfield.setHorizontalAlignment(SwingConstants.CENTER);
+		mempanel.add(memfield);
+		panel.add(mempanel);
+
 		TButton save = new TButton();
 		save.setOpaque(false);
-		save.setBounds(2, 70, 198, 29);
+		save.setBounds(2, 90, 198, 29);
 		save.setText("Сохранить");
 		save.addActionListener(new ActionListener() {
 			@Override
@@ -121,7 +138,7 @@ public class LauncherSettingsDialog extends JDialog {
 		panel.add(save);
 		TButton close = new TButton();
 		close.setOpaque(false);
-		close.setBounds(200, 70, 198, 28);
+		close.setBounds(200, 90, 198, 28);
 		close.setText("Закрыть");
 		close.addActionListener(new ActionListener() {
 			@Override
