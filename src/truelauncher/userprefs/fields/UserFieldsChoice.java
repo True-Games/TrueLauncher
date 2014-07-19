@@ -35,8 +35,7 @@ public class UserFieldsChoice {
 
 	private static File file = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "userfieldschoice");
 	private static JSONConfig jsonconfig = new JSONConfig();
-	public static void loadConfig()
-	{
+	public static void loadConfig() {
 		if (file.exists())
 		{
 			try {
@@ -75,8 +74,7 @@ public class UserFieldsChoice {
 		}
 
 	}
-	public static void saveBlock1Config()
-	{
+	public static void saveBlock1Config() {
 		try {
 			jsonconfig.nick = nick;
 			if (!password.isEmpty()) {
@@ -91,8 +89,7 @@ public class UserFieldsChoice {
 			LauncherUtils.logError(e);
 		}
 	}
-	public static void saveBlock23Config()
-	{
+	public static void saveBlock23Config() {
 		try {
 			jsonconfig.launchclient = launchclient;
 			jsonconfig.downloadclient = downloadclient;

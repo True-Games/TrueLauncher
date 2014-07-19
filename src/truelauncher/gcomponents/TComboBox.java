@@ -22,7 +22,7 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
-public class TComboBox extends JComboBox<String>  {
+public class TComboBox extends JComboBox<String> {
 
 	public TComboBox() {
 		DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
@@ -30,30 +30,4 @@ public class TComboBox extends JComboBox<String>  {
 		this.setRenderer(dlcr);
 	}
 
-	/*
-
-	private boolean renderImage = false;
-	private Image bgimage;
-
-	public void setBackgroundImage(InputStream is)
-	{
-		try {
-			bgimage = ImageIO.read(is);
-			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			renderImage = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		if (renderImage)
-		{
-			g.drawImage(bgimage, 0, 0, null);
-		}
-		super.paintComponent(g);
-	}
-
-	*/
 }

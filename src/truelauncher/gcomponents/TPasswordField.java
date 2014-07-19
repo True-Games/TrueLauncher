@@ -14,8 +14,7 @@ public class TPasswordField extends JPasswordField {
 	private boolean renderImage = false;
 	private Image bgimage;
 
-	public void setBackgroundImage(InputStream is,int w,int h)
-	{
+	public void setBackgroundImage(InputStream is, int w, int h) {
 		try {
 			bgimage = ImageIO.read(is);
 			bgimage = bgimage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
@@ -27,8 +26,7 @@ public class TPasswordField extends JPasswordField {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		if (renderImage)
-		{
+		if (renderImage) {
 			g.drawImage(bgimage, 0, 0, null);
 		}
 		super.paintComponent(g);

@@ -31,11 +31,11 @@ public class TLabel extends JLabel {
 	private boolean renderImage = false;
 	private Image bgimage;
 
-	public void setBackgroundImage(InputStream is)
-	{
+	public void setBackgroundImage(InputStream is) {
 		try {
 			bgimage = ImageIO.read(is);
-			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+			bgimage = bgimage.getScaledInstance(this.getWidth(),
+					this.getHeight(), Image.SCALE_SMOOTH);
 			renderImage = true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -44,12 +44,10 @@ public class TLabel extends JLabel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		if (renderImage)
-		{
+		if (renderImage) {
 			g.drawImage(bgimage, 0, 0, null);
 		}
 		super.paintComponent(g);
 	}
-
 
 }

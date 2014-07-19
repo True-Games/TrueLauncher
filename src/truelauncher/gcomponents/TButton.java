@@ -20,7 +20,6 @@ package truelauncher.gcomponents;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -32,8 +31,7 @@ import truelauncher.images.Images;
 @SuppressWarnings("serial")
 public class TButton extends JButton {
 
-	public TButton()
-	{
+	public TButton() {
 
 	}
 
@@ -43,12 +41,13 @@ public class TButton extends JButton {
 	private Image bgimage_focus;
 
 	/**
-	 * WARNING: if you want to use custom image you should also add files for focus and pressed state.
-	 * See close and hide buttons in the images folder for example.
+	 * WARNING: if you want to use custom image you should also add files for
+	 * focus and pressed state. See close and hide buttons in the images folder
+	 * for example.
+	 *
 	 * @param filepath - path to the image in normal state
 	 */
-	public void setBackgroundImage(String filepath)
-	{
+	public void setBackgroundImage(String filepath) {
 		try {
 			renderImage = true;
 			this.setOpaque(false);
@@ -59,45 +58,34 @@ public class TButton extends JButton {
 			this.setBorder(null);
 			bgimage = ImageIO.read(Images.class.getResourceAsStream(filepath));
 			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			bgimage_pressed = ImageIO.read(Images.class.getResourceAsStream("pr_"+new File(filepath).getName()));
+			bgimage_pressed = ImageIO.read(Images.class.getResourceAsStream("pr_" + new File(filepath).getName()));
 			bgimage_pressed = bgimage_pressed.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-			bgimage_focus = ImageIO.read(Images.class.getResourceAsStream("f_"+new File(filepath).getName()));
+			bgimage_focus = ImageIO.read(Images.class.getResourceAsStream("f_"+ new File(filepath).getName()));
 			bgimage_focus = bgimage_focus.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-
 	@Override
 	public void paintComponent(Graphics graphics) {
-		if (renderImage)
-		{
+		if (renderImage) {
 			ButtonModel buttonModel = getModel();
 			Graphics2D g = (Graphics2D) graphics;
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			if(!isEnabled())
-			{
-				g.drawImage(bgimage, 0, 0,this.getWidth(),this.getHeight(), null);
-			}
-			else if(buttonModel.isRollover())
-			{
-				if(buttonModel.isPressed())
-				{
-					g.drawImage(bgimage_pressed, 0, 0,this.getWidth(),this.getHeight(), null);
+			if (!isEnabled()) {
+				g.drawImage(bgimage, 0, 0, this.getWidth(), this.getHeight(), null);
+			} else if (buttonModel.isRollover()) {
+				if (buttonModel.isPressed()) {
+					g.drawImage(bgimage_pressed, 0, 0, this.getWidth(), this.getHeight(), null);
+				} else {
+					g.drawImage(bgimage_focus, 0, 0, this.getWidth(), this.getHeight(), null);
 				}
-				else
-				{
-					g.drawImage(bgimage_focus, 0, 0,this.getWidth(),this.getHeight(), null);
-				}
-			}
-			else
-			{
-				g.drawImage(bgimage, 0, 0,this.getWidth(),this.getHeight(), null);
+			} else {
+				g.drawImage(bgimage, 0, 0, this.getWidth(), this.getHeight(), null);
 			}
 			g.finalize();
 		}
 		super.paintComponent(graphics);
-
 	}
+
 }

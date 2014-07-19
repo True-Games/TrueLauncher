@@ -65,7 +65,6 @@ public class LauncherUpdateThread extends Thread {
 			final int pbam = downloadedAmount;
 
 			lu.lpbar.setValue(pbam);
-
 		}
 
 		writer.close();
@@ -100,4 +99,5 @@ public class LauncherUpdateThread extends Thread {
 			LauncherUtils.logError(e);
 		}
 	}
+
 }

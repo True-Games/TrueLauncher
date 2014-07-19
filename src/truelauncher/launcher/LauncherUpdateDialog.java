@@ -1,19 +1,19 @@
 /**
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 3
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*
-*/
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ */
 
 package truelauncher.launcher;
 
@@ -47,13 +47,12 @@ public class LauncherUpdateDialog  extends JDialog {
 	private LauncherUpdateDialog thisclass = this;
 
 	public LauncherUpdateDialog() {
-        super();
-        this.setUndecorated(true);
+		super();
+		this.setUndecorated(true);
 		this.setLayout(null);
-    }
+	}
 
-	public void open(GUI parent)
-	{
+	public void open(GUI parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setSize(w,h);
@@ -63,52 +62,51 @@ public class LauncherUpdateDialog  extends JDialog {
 	}
 
 
-	private void initUI()
-	{
+	private void initUI() {
 		panel = new JPanel();
 		panel.setBounds(0, 0, this.w, this.h);
 		panel.setLayout(null);
 		panel.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.GRAY));
 		this.add(panel);
 
-     	lstatus = new TLabel();
-     	lstatus.setBounds(2,2,w-4,24);
-     	lstatus.setBackgroundImage(Images.class.getResourceAsStream(labelimage));
-     	lstatus.setText("Доступно обновление лаунчера");
-     	lstatus.setHorizontalAlignment(SwingConstants.CENTER);
-     	panel.add(lstatus);
+		lstatus = new TLabel();
+		lstatus.setBounds(2,2,w-4,24);
+		lstatus.setBackgroundImage(Images.class.getResourceAsStream(labelimage));
+		lstatus.setText("Доступно обновление лаунчера");
+		lstatus.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lstatus);
 
-  	  	lpbar = new JProgressBar();
-  	  	lpbar.setBounds(2,26,w-4, 14);
-     	panel.add(lpbar);
-
-
-    	ldownload = new TButton();
-    	ldownload.setText("Обновить");
-    	ldownload.setBounds(2, 40, w-4, 25);
-    	ldownload.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	lstatus.setText("Скачиваем обновление");
-            	ldownload.setEnabled(false);
-            	later.setEnabled(false);
-           		new LauncherUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"Launcher.jar").start();
-            }
-        });
-    	panel.add(ldownload);
+		lpbar = new JProgressBar();
+		lpbar.setBounds(2,26,w-4, 14);
+		panel.add(lpbar);
 
 
+		ldownload = new TButton();
+		ldownload.setText("Обновить");
+		ldownload.setBounds(2, 40, w-4, 25);
+		ldownload.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lstatus.setText("Скачиваем обновление");
+				ldownload.setEnabled(false);
+				later.setEnabled(false);
+				new LauncherUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"Launcher.jar").start();
+			}
+		});
+		panel.add(ldownload);
 
-    	later = new TButton();
-    	later.setText("Позже");
-    	later.setBounds(2,65,w-4,23);
-    	later.addActionListener(new ActionListener() {
- 	               @Override
- 	               public void actionPerformed(ActionEvent e) {
- 	            	   GUI.closeUpdateWindow();
- 	               }
-    	});
-    	panel.add(later);
+
+
+		later = new TButton();
+		later.setText("Позже");
+		later.setBounds(2,65,w-4,23);
+		later.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GUI.closeUpdateWindow();
+			}
+		});
+		panel.add(later);
 
 	}
 

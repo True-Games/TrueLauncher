@@ -26,33 +26,27 @@ public class ClientData {
 	private String downloadlink = "fake.fake/minecraft.zip";
 	private int version = 1;
 
-	protected String getLaunchFolder()
-	{
+	protected String getLaunchFolder() {
 		return launchfolder;
 	}
 
-	protected String getJarFile()
-	{
+	protected String getJarFile() {
 		return jarfile;
 	}
 
-	protected String getMainClass()
-	{
+	protected String getMainClass() {
 		return mainclass;
 	}
 
-	protected String getCmdArgs()
-	{
+	protected String getCmdArgs() {
 		return cmdargs;
 	}
 
-	protected String getDownloadLink()
-	{
+	protected String getDownloadLink() {
 		return downloadlink;
 	}
 
-	protected int getVersion()
-	{
+	protected int getVersion() {
 		return version;
 	}
 

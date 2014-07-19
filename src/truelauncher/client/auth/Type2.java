@@ -50,32 +50,32 @@ public class Type2 {
 		//write length
 		writeVarInt(dos, frame.size());
 		//write packet
-        frame.writeTo(dos);
-        frame.reset();
-        //close frames
-        frameOut.close();
-        frame.close();
+		frame.writeTo(dos);
+		frame.reset();
+		//close frames
+		frameOut.close();
+		frame.close();
 	}
 
-    private static void writeString(DataOutputStream dos, String string) throws IOException {
-    	byte[] bytes = string.getBytes(Charsets.UTF_8);
-        writeVarInt(dos, bytes.length);
-        dos.write(bytes);
-    }
+	private static void writeString(DataOutputStream dos, String string) throws IOException {
+		byte[] bytes = string.getBytes(Charsets.UTF_8);
+		writeVarInt(dos, bytes.length);
+		dos.write(bytes);
+	}
 
 	private static void writeVarInt(DataOutputStream dos, int varint) throws IOException {
-        int part;
-        while (true) {
-            part = varint & 0x7F;
-            varint >>>= 7;
-            if (varint!= 0) {
-                part |= 0x80;
-            }
-            dos.writeByte(part);
-            if (varint == 0) {
-                break;
-            }
-        }
+		int part;
+		while (true) {
+			part = varint & 0x7F;
+			varint >>>= 7;
+			if (varint!= 0) {
+				part |= 0x80;
+			}
+			dos.writeByte(part);
+			if (varint == 0) {
+				break;
+			}
+		}
 	}
 
 }

@@ -36,13 +36,12 @@ public class LauncherSettingsDialog extends JDialog {
 	int w = 400; int h = 100;
 
 	public LauncherSettingsDialog() {
-        super();
-        this.setUndecorated(true);
+		super();
+		this.setUndecorated(true);
 		this.setLayout(null);
-    }
+	}
 
-	public void open(GUI parent)
-	{
+	public void open(GUI parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setResizable(false);
 		setSize(w, h);
@@ -51,8 +50,7 @@ public class LauncherSettingsDialog extends JDialog {
 		setVisible(true);
 	}
 
-	private void initUI()
-	{
+	private void initUI() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, w, h);
 		panel.setLayout(null);
@@ -131,7 +129,7 @@ public class LauncherSettingsDialog extends JDialog {
 				GUI.closeSettingsWindow();
 			}
 		});
-    	panel.add(close);
+		panel.add(close);
 	}
 
 }

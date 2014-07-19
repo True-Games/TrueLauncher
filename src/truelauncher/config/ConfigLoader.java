@@ -33,62 +33,54 @@ import com.google.gson.GsonBuilder;
 public class ConfigLoader {
 
 	private static int failedcounter = 0;
-	protected static void loadConfig(File configfile) throws Exception
-	{
-		if (failedcounter == 3)
-		{
-			//we failed to load config 3 times in a row, giving up
+
+	protected static void loadConfig(File configfile) throws Exception {
+		if (failedcounter == 3) {
+			// we failed to load config 3 times in a row, giving up
 			System.exit(0);
 			throw new Exception("failed to load config 3 times in a row");
 		}
 
-
-		if (configfile.exists())
-		{
-			//load gson builder
+		if (configfile.exists()) {
+			// load gson builder
 			Gson gson = new GsonBuilder().create();
 			Reader gsonreader = new InputStreamReader(new FileInputStream(configfile));
-			//try to parse config
+			// try to parse config
 			try {
-				JSONConfig jsonconfig = gson.fromJson(gsonreader, JSONConfig.class);
-				//check if we have at least 1 client in config()
-				if (jsonconfig.getClientDataMap().size() > 0)
-				{
+				JSONConfig jsonconfig = gson.fromJson(gsonreader,JSONConfig.class);
+				// check if we have at least 1 client in config()
+				if (jsonconfig.getClientDataMap().size() > 0) {
 					loadSettings(jsonconfig);
-				} else
-				{
-					//no clients in config, WTF?
-					//increment fail counter
+				} else {
+					// no clients in config, WTF?
+					// increment fail counter
 					failedcounter++;
-					//copy config from jar
+					// copy config from jar
 					copyConfigFromJar(configfile);
-					//now load it
+					// now load it
 					loadConfig(configfile);
 				}
 			} catch (Exception e) {
 				LauncherUtils.logError(e);
-				//increment fail counter
+				// increment fail counter
 				failedcounter++;
-				//copy config from jar
+				// copy config from jar
 				copyConfigFromJar(configfile);
-				//now load it
+				// now load it
 				loadConfig(configfile);
 			}
-		}
-		else
-		{
-			//increment fail counter
+		} else {
+			// increment fail counter
 			failedcounter++;
-			//copy config from jar
+			// copy config from jar
 			copyConfigFromJar(configfile);
-			//now load it
+			// now load it
 			loadConfig(configfile);
 		}
 	}
 
-	private static void loadSettings(JSONConfig jsonconfig)
-	{
-		//load settings
+	private static void loadSettings(JSONConfig jsonconfig) {
+		// load settings
 		AllSettings.clientsconfigversion = jsonconfig.getConfigVersion();
 		AllSettings.tempfolder = jsonconfig.getTempFolder();
 		AllSettings.libsfolder = jsonconfig.getLibsFolder();
@@ -96,9 +88,7 @@ public class ConfigLoader {
 		AllSettings.allowedaddresses = jsonconfig.getAllowedAdresses();
 	}
 
-
-	private static void copyConfigFromJar(File configfile)
-	{
+	private static void copyConfigFromJar(File configfile) {
 		try {
 			configfile.getParentFile().mkdirs();
 			BufferedInputStream in = new BufferedInputStream(ConfigLoader.class.getResourceAsStream(configfile.getName()));
@@ -107,12 +97,11 @@ public class ConfigLoader {
 			int bytesRead = in.read(buffer);
 			while (bytesRead != -1) {
 				out.write(buffer, 0, bytesRead);
-			    bytesRead = in.read(buffer);
+				bytesRead = in.read(buffer);
 			}
 			in.close();
 			out.close();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
 	}

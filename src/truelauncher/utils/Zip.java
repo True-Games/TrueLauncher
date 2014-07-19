@@ -30,53 +30,48 @@ import truelauncher.gcomponents.TProgressBar;
 
 public class Zip {
 
-    private TProgressBar bar;
+	private TProgressBar bar;
 
-    public Zip(TProgressBar bar){
-    	this.bar = bar;
-    }
+	public Zip(TProgressBar bar){
+		this.bar = bar;
+	}
 
-     public void unpack(String path, String dir_to) throws IOException {
-    	final ZipFile zipFile = new ZipFile(path);
+	public void unpack(String path, String dir_to) throws IOException {
+		final ZipFile zipFile = new ZipFile(path);
 
-    	bar.setValue(0);
-        bar.setMinimum(0);
-        bar.setMaximum(zipFile.size());
+		bar.setValue(0);
+		bar.setMinimum(0);
+		bar.setMaximum(zipFile.size());
 
-        int unpackedfiles = 0;
-        Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        while (entries.hasMoreElements())
-        {
-        	ZipEntry entry = entries.nextElement();
-            if (entry.isDirectory())
-            {//Directory
-                new File(dir_to + File.separator + entry.getName()).mkdirs();
-            	unpackedfiles+=1;
-            	bar.setValue(unpackedfiles);
-            } else
-            {//File
-                InputStream in = zipFile.getInputStream(entry);
-                OutputStream out = new FileOutputStream(dir_to + File.separator + entry.getName());
-                byte[] buffer = new byte[4096];
-            	try {
-            		int len;
-            		while ((len = in.read(buffer)) >= 0) {
-            			out.write(buffer, 0, len);
-            		}
-            		unpackedfiles+=1;
-            		bar.setValue(unpackedfiles);
-            	} catch (Exception e)
-            	{
-            		LauncherUtils.logError(e);
-            	} finally
-            	{
-                    in.close();
-                    out.close();
-            	}
-            }
-        }
+		int unpackedfiles = 0;
+		Enumeration<? extends ZipEntry> entries = zipFile.entries();
+		while (entries.hasMoreElements()) {
+			ZipEntry entry = entries.nextElement();
+			if (entry.isDirectory()) {//Directory
+				new File(dir_to + File.separator + entry.getName()).mkdirs();
+				unpackedfiles+=1;
+				bar.setValue(unpackedfiles);
+			} else {//File
+				InputStream in = zipFile.getInputStream(entry);
+				OutputStream out = new FileOutputStream(dir_to + File.separator + entry.getName());
+				byte[] buffer = new byte[4096];
+				try {
+					int len;
+					while ((len = in.read(buffer)) >= 0) {
+						out.write(buffer, 0, len);
+					}
+					unpackedfiles+=1;
+					bar.setValue(unpackedfiles);
+				} catch (Exception e) {
+					LauncherUtils.logError(e);
+				} finally {
+					in.close();
+					out.close();
+				}
+			}
+		}
 
-        zipFile.close();
-    }
+		zipFile.close();
+	}
 
 }

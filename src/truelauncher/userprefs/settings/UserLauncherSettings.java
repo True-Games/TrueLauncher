@@ -32,8 +32,7 @@ import com.google.gson.GsonBuilder;
 public class UserLauncherSettings {
 
 	private static File file = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "userlaunchersettings");
-	public static void loadConfig()
-	{
+	public static void loadConfig() {
 		if (file.exists())
 		{
 			try {
@@ -48,8 +47,7 @@ public class UserLauncherSettings {
 			}
 		}
 	}
-	public static void saveConfig()
-	{
+	public static void saveConfig() {
 		try {
 			JSONConfig jsonconfig = new JSONConfig();
 			jsonconfig.checkclientsupdates = updateclient;
@@ -68,4 +66,5 @@ public class UserLauncherSettings {
 	public static boolean updatelauncher = true;
 	public static boolean updateclient = true;
 	public static boolean doerrlog = true;
+
 }

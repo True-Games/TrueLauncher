@@ -31,18 +31,14 @@ import truelauncher.utils.LauncherUtils;
 
 public class ConfigUpdater {
 
-	protected static void startConfigUpdater(final File configfile)
-	{
-		if (UserLauncherSettings.updateclient)
-		{
-			//update config
-			Thread update = new Thread(){
+	protected static void startConfigUpdater(final File configfile) {
+		if (UserLauncherSettings.updateclient) {
+			// update config
+			Thread update = new Thread() {
 				@Override
-				public void run()
-				{
+				public void run() {
 					try {
-						if (isUpdateNeeded())
-						{
+						if (isUpdateNeeded()) {
 							updateConfig(configfile);
 							AllSettings.reload();
 							GUI.refreshClients();
@@ -56,24 +52,21 @@ public class ConfigUpdater {
 		}
 	}
 
-	private static boolean isUpdateNeeded()
-	{
+	private static boolean isUpdateNeeded() {
 		try {
-			URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder()+"clientsversion");
+			URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder() + "clientsversion");
 			int latest = Integer.valueOf(LauncherUtils.readURLStreamToString(url.openStream()));
-			if (AllSettings.getClientConfigVersion() < latest)
-			{
+			if (AllSettings.getClientConfigVersion() < latest) {
 				return true;
 			}
-		}  catch (Exception e) {
+		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
 		return false;
 	}
 
-	private static void updateConfig(final File configfile) throws IOException
-	{
-		URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder()+configfile.getName());
+	private static void updateConfig(final File configfile) throws IOException {
+		URL url = new URL(AllSettings.getLauncherWebUpdateURLFolder() + configfile.getName());
 		URLConnection conn = url.openConnection();
 
 		if ((conn instanceof HttpURLConnection)) {
