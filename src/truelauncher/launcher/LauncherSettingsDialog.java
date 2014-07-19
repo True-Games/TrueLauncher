@@ -31,6 +31,7 @@ import javax.swing.SwingConstants;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TTextField;
 import truelauncher.userprefs.settings.UserLauncherSettings;
+import truelauncher.utils.LauncherUtils;
 
 @SuppressWarnings("serial")
 public class LauncherSettingsDialog extends JDialog {
@@ -116,8 +117,11 @@ public class LauncherSettingsDialog extends JDialog {
 		memlabel.setBounds(5, 0, 70, 20);
 		memlabel.setText("Память (MB)");
 		mempanel.add(memlabel);
-		TTextField memfield = new TTextField();
+		final TTextField memfield = new TTextField();
 		memfield.setBounds(80, 0, 70, 20);
+		if (UserLauncherSettings.memory > 0) {
+			memfield.setText(String.valueOf(UserLauncherSettings.memory));
+		}
 		memfield.setHorizontalAlignment(SwingConstants.CENTER);
 		mempanel.add(memfield);
 		panel.add(mempanel);
@@ -132,6 +136,21 @@ public class LauncherSettingsDialog extends JDialog {
 				UserLauncherSettings.updatelauncher = lucbox.isSelected();
 				UserLauncherSettings.updateclient = cucbox.isSelected();
 				UserLauncherSettings.doerrlog = lecbox.isSelected();
+				try {
+					int ram = Integer.parseInt(memfield.getText());
+					boolean amd64 = System.getProperty("sun.arch.data.model").contains("64");
+					if (ram < 256) {
+						ram = 256;
+					} else {
+						if (!amd64 && ram > 1024) {
+							ram = 1024;
+						}
+					}
+					UserLauncherSettings.memory = ram;
+					memfield.setText(String.valueOf(ram));
+				} catch (Exception err) {
+					LauncherUtils.logError(err);
+				}
 				UserLauncherSettings.saveConfig();
 			}
 		});

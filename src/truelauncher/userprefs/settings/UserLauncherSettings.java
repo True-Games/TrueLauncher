@@ -33,8 +33,7 @@ public class UserLauncherSettings {
 
 	private static File file = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "userlaunchersettings");
 	public static void loadConfig() {
-		if (file.exists())
-		{
+		if (file.exists()) {
 			try {
 				Gson gson = new GsonBuilder().create();
 				Reader gsonreader = new InputStreamReader(new FileInputStream(file));
@@ -42,6 +41,7 @@ public class UserLauncherSettings {
 				updatelauncher = jsonconfig.checklauncherupdates;
 				updateclient = jsonconfig.checkclientsupdates;
 				doerrlog = jsonconfig.writeerrorlog;
+				memory = jsonconfig.memory;
 			} catch (Exception e) {
 				LauncherUtils.logError(e);
 			}
@@ -53,6 +53,7 @@ public class UserLauncherSettings {
 			jsonconfig.checkclientsupdates = updateclient;
 			jsonconfig.checklauncherupdates = updatelauncher;
 			jsonconfig.writeerrorlog = doerrlog;
+			jsonconfig.memory = memory;
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			FileWriter writer = new FileWriter(file);
 			writer.write(gson.toJson(jsonconfig));
@@ -66,5 +67,6 @@ public class UserLauncherSettings {
 	public static boolean updatelauncher = true;
 	public static boolean updateclient = true;
 	public static boolean doerrlog = true;
+	public static int memory = 0;
 
 }

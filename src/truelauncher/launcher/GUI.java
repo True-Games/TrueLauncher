@@ -186,7 +186,7 @@ public class GUI extends JPanel {
 		close.setBounds(35, 0, 25, 25);
 		close.setOpaque(false);
 		close.setBackground(new Color(0, 0, 0, 0));
-		close.setBackgroundImage(			
+		close.setBackgroundImage(
 			Images.class.getResourceAsStream(GUISettings.close),
 			Images.class.getResourceAsStream("pr_"+GUISettings.close),
 			Images.class.getResourceAsStream("f_"+GUISettings.close)
@@ -323,8 +323,22 @@ public class GUI extends JPanel {
 				String nick = nickfield.getText();
 				// RAM
 				int ram = 512;
-				if (System.getProperty("sun.arch.data.model").contains("64")) {
+				boolean amd64 = System.getProperty("sun.arch.data.model").contains("64");
+				if (amd64) {
 					ram = 1024;
+				}
+				if (UserLauncherSettings.memory > 0) {
+					if (UserLauncherSettings.memory < 256) {
+						ram = 256;
+					} else {
+						if (!amd64) {
+							if (UserLauncherSettings.memory > 1024) {
+								ram = 1024;
+							}
+						} else {
+							ram = UserLauncherSettings.memory;
+						}
+					}
 				}
 				String mem = Integer.valueOf(ram) + "M";
 				// password

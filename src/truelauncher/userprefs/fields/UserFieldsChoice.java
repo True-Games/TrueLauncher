@@ -36,8 +36,7 @@ public class UserFieldsChoice {
 	private static File file = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "userfieldschoice");
 	private static JSONConfig jsonconfig = new JSONConfig();
 	public static void loadConfig() {
-		if (file.exists())
-		{
+		if (file.exists()) {
 			try {
 				Gson gson = new GsonBuilder().create();
 				Reader gsonreader = new InputStreamReader(new FileInputStream(file));
@@ -72,7 +71,6 @@ public class UserFieldsChoice {
 		} catch (Exception e) {
 			LauncherUtils.logError(e);
 		}
-
 	}
 	public static void saveBlock1Config() {
 		try {
