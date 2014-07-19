@@ -48,18 +48,7 @@ public class ConfigLoader {
 			// try to parse config
 			try {
 				JSONConfig jsonconfig = gson.fromJson(gsonreader,JSONConfig.class);
-				// check if we have at least 1 client in config()
-				if (jsonconfig.getClientDataMap().size() > 0) {
-					loadSettings(jsonconfig);
-				} else {
-					// no clients in config, WTF?
-					// increment fail counter
-					failedcounter++;
-					// copy config from jar
-					copyConfigFromJar(configfile);
-					// now load it
-					loadConfig(configfile);
-				}
+				loadSettings(jsonconfig);
 			} catch (Exception e) {
 				LauncherUtils.logError(e);
 				// increment fail counter

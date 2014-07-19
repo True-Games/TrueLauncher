@@ -25,6 +25,7 @@ public class ClientData {
 	private String cmdargs = "--username {USERNAME} --accessToken token";
 	private String downloadlink = "fake.fake/minecraft.zip";
 	private int version = 1;
+	private boolean outdated = false;
 
 	protected String getLaunchFolder() {
 		return launchfolder;
@@ -48,6 +49,10 @@ public class ClientData {
 
 	protected int getVersion() {
 		return version;
+	}
+
+	protected boolean isOutdated() {
+		return outdated;
 	}
 
 }

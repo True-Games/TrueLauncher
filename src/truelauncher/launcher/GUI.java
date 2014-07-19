@@ -300,6 +300,7 @@ public class GUI extends JPanel {
 		launch = new TButton();
 		launch.setBounds(0, 55, widgw, 40);
 		launch.setText("Запустить Minercraft");
+		launch.setEnabled(false);
 		launch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -374,6 +375,7 @@ public class GUI extends JPanel {
 		download = new TButton();
 		download.setBounds(0, 70, widgw, 25);
 		download.setText("Скачать клиент");
+		download.setEnabled(false);
 		download.setHorizontalAlignment(SwingConstants.CENTER);
 		download.addActionListener(new ActionListener() {
 			@Override
@@ -415,7 +417,9 @@ public class GUI extends JPanel {
 		for (String servname : servdownloadlist) {
 			listdownloads.addItem(servname);
 		}
-		checkClientInternal(listclients.getSelectedItem().toString());
+		if (listclients.getItemCount() > 0) {
+			checkClientInternal(listclients.getSelectedItem().toString());
+		}
 	}
 
 	//load client prefs
@@ -436,7 +440,9 @@ public class GUI extends JPanel {
 				break;
 			}
 		}
-		checkClientInternal(listclients.getSelectedItem().toString());
+		if (listclients.getItemCount() > 0) {
+			checkClientInternal(listclients.getSelectedItem().toString());
+		}
 	}
 
 	// check client jar and version

@@ -28,109 +28,104 @@ import truelauncher.utils.LauncherUtils;
 public class AllSettings {
 
 	public static void load() throws Exception {
-		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
+		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "jsonclients");
 		ConfigLoader.loadConfig(configfile);
 		ConfigUpdater.startConfigUpdater(configfile);
 	}
 
 	public static void reload() throws Exception {
-		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath()+File.separator+"jsonclients");
+		File configfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getLauncherConfigFolderPath() + File.separator + "jsonclients");
 		ConfigLoader.loadConfig(configfile);
 	}
 
-	//For clients, this all is loaded from config.
-	//folder in which clients .zip file will be downloaded
+	// For clients, this all is loaded from config.
+	// folder in which clients .zip file will be downloaded
 	protected static String tempfolder = ".true-games.org/packedclients";
-	//path to the folder where all libs are stored (all libs should end with .jar) (this is relative to client launchfolder)
+	// path to the folder where all libs are stored (all libs should end with
+	// .jar) (this is relative to client launchfolder)
 	protected static String libsfolder = "libraries";
-	//1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 - cmdargs
+	// 1 - name, 2 - launchfolder, 3 - minecraft jar file, 4 - mainclass , 5 -
+	// cmdargs
 	protected static LinkedHashMap<String, ClientData> clientsdata = new LinkedHashMap<String, ClientData>();
-	//allowed addresses for launcher to auth with
+	// allowed addresses for launcher to auth with
 	protected static HashSet<String> allowedaddresses = new HashSet<String>();
-	//config version
+	// config version
 	protected static int clientsconfigversion = 0;
 
-	//for launcher updater
-	//launcher version
+	// for launcher updater
+	// launcher version
 	private static int lversion = 28;
-	//launcher folder update URL
-	//folder structure
-	//{folder}/Laucnher.jar - launcher location
-	//{folder}/version - launcher version
-	//{folder}/jsonclients - client config file
-	//{folder}/clientsversion - clients config file version
+	// launcher folder update URL
+	// folder structure
+	// {folder}/Laucnher.jar - launcher location
+	// {folder}/version - launcher version
+	// {folder}/jsonclients - client config file
+	// {folder}/clientsversion - clients config file version
 	private static String lupdateurlfolder = "http://download.true-games.org/minecraft/launcher/";
-	//folder in which configurations will be stored
+	// folder in which configurations will be stored
 	private static String configfolder = ".true-games.org/configdata";
-	//folder for error logging
+	// folder for error logging
 	public static String errFolder = ".true-games.org/errLog";
 
-
-
-	//config version
-	public static int getClientConfigVersion()
-	{
+	// config version
+	public static int getClientConfigVersion() {
 		return clientsconfigversion;
 	}
-	//libs and temppath
-	public static String getClientsLibsFolder()
-	{
+
+	// libs and temppath
+	public static String getClientsLibsFolder() {
 		return libsfolder;
 	}
-	public static String getClientsTempFolderPath()
-	{
+
+	public static String getClientsTempFolderPath() {
 		return tempfolder;
 	}
-	//launch and download
-	public static List<String> getClientsList()
-	{
-		return  new ArrayList<String>(clientsdata.keySet());
+
+	// launch and download
+	public static List<String> getClientsList() {
+		return new ArrayList<String>(clientsdata.keySet());
 	}
-	public static String getClientFolderByName(String name)
-	{
+
+	public static String getClientFolderByName(String name) {
 		return clientsdata.get(name).getLaunchFolder();
 	}
-	public static String getClientJarByName(String name)
-	{
+
+	public static String getClientJarByName(String name) {
 		return getClientFolderByName(name) + File.separator + clientsdata.get(name).getJarFile();
 	}
-	public static String getClientMainClassByName(String name)
-	{
+
+	public static String getClientMainClassByName(String name) {
 		return clientsdata.get(name).getMainClass();
 	}
-	public static String getClientCmdArgsByName(String name)
-	{
+
+	public static String getClientCmdArgsByName(String name) {
 		return clientsdata.get(name).getCmdArgs();
 	}
-	public static String getClientDownloadLinkByName(String name)
-	{
+
+	public static String getClientDownloadLinkByName(String name) {
 		return clientsdata.get(name).getDownloadLink();
 	}
-	public static int getClientVersionByName(String name)
-	{
+
+	public static int getClientVersionByName(String name) {
 		return clientsdata.get(name).getVersion();
 	}
-	//auth
-	public static HashSet<String> getAllowedAuthAddresses()
-	{
+
+	// auth
+	public static HashSet<String> getAllowedAuthAddresses() {
 		return allowedaddresses;
 	}
 
-
-	//laucnher vars
-	public static String getLauncherConfigFolderPath()
-	{
+	// laucnher vars
+	public static String getLauncherConfigFolderPath() {
 		return configfolder;
 	}
 
-	public static String getLauncherWebUpdateURLFolder()
-	{
+	public static String getLauncherWebUpdateURLFolder() {
 		return lupdateurlfolder;
 	}
-	public static int getLauncherVerison()
-	{
+
+	public static int getLauncherVerison() {
 		return lversion;
 	}
-
 
 }
