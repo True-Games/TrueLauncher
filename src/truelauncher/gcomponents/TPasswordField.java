@@ -14,10 +14,10 @@ public class TPasswordField extends JPasswordField {
 	private boolean renderImage = false;
 	private Image bgimage;
 
-	public void setBackgroundImage(InputStream is, int w, int h) {
+	public void setBackgroundImage(InputStream is) {
 		try {
 			bgimage = ImageIO.read(is);
-			bgimage = bgimage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 			renderImage = true;
 		} catch (IOException e) {
 			e.printStackTrace();

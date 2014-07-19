@@ -34,8 +34,7 @@ public class TLabel extends JLabel {
 	public void setBackgroundImage(InputStream is) {
 		try {
 			bgimage = ImageIO.read(is);
-			bgimage = bgimage.getScaledInstance(this.getWidth(),
-					this.getHeight(), Image.SCALE_SMOOTH);
+			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
 			renderImage = true;
 		} catch (IOException e) {
 			e.printStackTrace();
