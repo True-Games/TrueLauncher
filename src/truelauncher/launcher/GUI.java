@@ -30,7 +30,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -409,13 +408,19 @@ public class GUI extends JPanel {
 	// Some methods
 	// Fill clients comboboxes
 	private void fillClients() {
-		List<String> servclientslist = AllSettings.getClientsList();
-		for (String servname : servclientslist) {
+		for (String servname : AllSettings.getClientsList()) {
+			if (AllSettings.getClientRemovedStatusByName(servname)) {
+				File cfile = new File(LauncherUtils.getDir() + File.separator + AllSettings.getClientJarByName(servname));
+				if (!cfile.exists()) {
+					continue;
+				}
+			}
 			listclients.addItem(servname);
 		}
-		List<String> servdownloadlist = AllSettings.getClientsList();
-		for (String servname : servdownloadlist) {
-			listdownloads.addItem(servname);
+		for (String servname : AllSettings.getClientsList()) {
+			if (!AllSettings.getClientRemovedStatusByName(servname)) {
+				listdownloads.addItem(servname);
+			}
 		}
 		if (listclients.getItemCount() > 0) {
 			checkClientInternal(listclients.getSelectedItem().toString());

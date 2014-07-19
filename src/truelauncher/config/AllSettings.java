@@ -18,10 +18,9 @@
 package truelauncher.config;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Set;
 
 import truelauncher.utils.LauncherUtils;
 
@@ -82,8 +81,8 @@ public class AllSettings {
 	}
 
 	// launch and download
-	public static List<String> getClientsList() {
-		return new ArrayList<String>(clientsdata.keySet());
+	public static Set<String> getClientsList() {
+		return clientsdata.keySet();
 	}
 
 	public static String getClientFolderByName(String name) {
@@ -108,6 +107,10 @@ public class AllSettings {
 
 	public static int getClientVersionByName(String name) {
 		return clientsdata.get(name).getVersion();
+	}
+
+	public static boolean getClientRemovedStatusByName(String name) {
+		return clientsdata.get(name).isRemoved();
 	}
 
 	// auth
