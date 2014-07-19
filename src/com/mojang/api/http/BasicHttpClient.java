@@ -9,10 +9,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.List;
 
-/*
-    TODO: refactor so unit tests can be written :)
- */
-public class BasicHttpClient implements HttpClient {
+public class BasicHttpClient {
 
     private static BasicHttpClient instance;
 
@@ -26,12 +23,10 @@ public class BasicHttpClient implements HttpClient {
         return instance;
     }
 
-    @Override
     public String post(URL url, HttpBody body, List<HttpHeader> headers) throws IOException {
         return post(url, null, body, headers);
     }
 
-    @Override
     public String post(URL url, Proxy proxy, HttpBody body, List<HttpHeader> headers) throws IOException {
         if (proxy == null) proxy = Proxy.NO_PROXY;
         HttpURLConnection connection = (HttpURLConnection) url.openConnection(proxy);

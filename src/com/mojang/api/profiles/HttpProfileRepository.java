@@ -3,7 +3,6 @@ package com.mojang.api.profiles;
 import com.google.gson.Gson;
 import com.mojang.api.http.BasicHttpClient;
 import com.mojang.api.http.HttpBody;
-import com.mojang.api.http.HttpClient;
 import com.mojang.api.http.HttpHeader;
 
 import java.io.IOException;
@@ -20,13 +19,13 @@ public class HttpProfileRepository implements ProfileRepository {
 
     private static Gson gson = new Gson();
     private final String agent;
-    private HttpClient client;
+    private BasicHttpClient client;
 
     public HttpProfileRepository(String agent) {
         this(agent, BasicHttpClient.getInstance());
     }
 
-    public HttpProfileRepository(String agent, HttpClient client) {
+    public HttpProfileRepository(String agent, BasicHttpClient client) {
         this.agent = agent;
         this.client = client;
     }
@@ -56,7 +55,6 @@ public class HttpProfileRepository implements ProfileRepository {
                 i++;
             } while (start < namesCount);
         } catch (Exception e) {
-            // TODO: logging and allowing consumer to react?
         }
 
         return profiles.toArray(new Profile[profiles.size()]);
