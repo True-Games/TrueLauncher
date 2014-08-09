@@ -22,7 +22,7 @@ public class Event {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof Event)) {
+		if ((obj == null) || !(obj instanceof Event)) {
 			return super.equals(obj);
 		}
 		return getClass().getName().equals(((Event) obj).getClass().getName());

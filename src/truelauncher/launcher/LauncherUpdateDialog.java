@@ -48,8 +48,8 @@ public class LauncherUpdateDialog  extends JDialog {
 
 	public LauncherUpdateDialog() {
 		super();
-		this.setUndecorated(true);
-		this.setLayout(null);
+		setUndecorated(true);
+		setLayout(null);
 	}
 
 	public void open(GUI parent) {
@@ -64,7 +64,7 @@ public class LauncherUpdateDialog  extends JDialog {
 
 	private void initUI() {
 		panel = new JPanel();
-		panel.setBounds(0, 0, this.w, this.h);
+		panel.setBounds(0, 0, w, h);
 		panel.setLayout(null);
 		panel.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.GRAY));
 		this.add(panel);

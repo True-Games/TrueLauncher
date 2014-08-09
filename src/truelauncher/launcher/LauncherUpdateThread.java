@@ -34,7 +34,7 @@ public class LauncherUpdateThread extends Thread {
 	private String urlfrom;
 
 	LauncherUpdateThread(LauncherUpdateDialog lu, String urlfrom) {
-		this.launcherUpdateDialog = lu;
+		launcherUpdateDialog = lu;
 		this.urlfrom = urlfrom;
 	}
 

@@ -27,7 +27,7 @@ public class TComboBox extends JComboBox<String> {
 	public TComboBox() {
 		DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
 		dlcr.setHorizontalAlignment(SwingConstants.CENTER);
-		this.setRenderer(dlcr);
+		setRenderer(dlcr);
 	}
 
 }

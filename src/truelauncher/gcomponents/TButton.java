@@ -48,18 +48,18 @@ public class TButton extends JButton {
 	public void setBackgroundImage(InputStream is_n, InputStream is_pr, InputStream is_f) {
 		try {
 			renderImage = true;
-			this.setOpaque(false);
-			this.setBorderPainted(false);
-			this.setFocusPainted(false);
-			this.setContentAreaFilled(false);
-			this.setFocusable(false);
-			this.setBorder(null);
+			setOpaque(false);
+			setBorderPainted(false);
+			setFocusPainted(false);
+			setContentAreaFilled(false);
+			setFocusable(false);
+			setBorder(null);
 			bgimage = ImageIO.read(is_n);
-			bgimage = bgimage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+			bgimage = bgimage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 			bgimage_pressed = ImageIO.read(is_pr);
-			bgimage_pressed = bgimage_pressed.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+			bgimage_pressed = bgimage_pressed.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 			bgimage_focus = ImageIO.read(is_f);
-			bgimage_focus = bgimage_focus.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+			bgimage_focus = bgimage_focus.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,15 +71,15 @@ public class TButton extends JButton {
 			ButtonModel buttonModel = getModel();
 			Graphics2D g = (Graphics2D) graphics;
 			if (!isEnabled()) {
-				g.drawImage(bgimage, 0, 0, this.getWidth(), this.getHeight(), null);
+				g.drawImage(bgimage, 0, 0, getWidth(), getHeight(), null);
 			} else if (buttonModel.isRollover()) {
 				if (buttonModel.isPressed()) {
-					g.drawImage(bgimage_pressed, 0, 0, this.getWidth(), this.getHeight(), null);
+					g.drawImage(bgimage_pressed, 0, 0, getWidth(), getHeight(), null);
 				} else {
-					g.drawImage(bgimage_focus, 0, 0, this.getWidth(), this.getHeight(), null);
+					g.drawImage(bgimage_focus, 0, 0, getWidth(), getHeight(), null);
 				}
 			} else {
-				g.drawImage(bgimage, 0, 0, this.getWidth(), this.getHeight(), null);
+				g.drawImage(bgimage, 0, 0, getWidth(), getHeight(), null);
 			}
 			g.finalize();
 		}

@@ -40,8 +40,8 @@ public class LauncherSettingsDialog extends JDialog {
 
 	public LauncherSettingsDialog() {
 		super();
-		this.setUndecorated(true);
-		this.setLayout(null);
+		setUndecorated(true);
+		setLayout(null);
 	}
 
 	public void open(GUI parent) {
@@ -142,7 +142,7 @@ public class LauncherSettingsDialog extends JDialog {
 					if (ram < 256) {
 						ram = 256;
 					} else {
-						if (!amd64 && ram > 1024) {
+						if (!amd64 && (ram > 1024)) {
 							ram = 1024;
 						}
 					}

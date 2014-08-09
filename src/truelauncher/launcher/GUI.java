@@ -309,7 +309,7 @@ public class GUI extends JPanel {
 		launchClientListCombobox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (guiinitfinished && launchClientListCombobox.getItemCount() > 0) {
+				if (guiinitfinished && (launchClientListCombobox.getItemCount() > 0)) {
 					checkClientInternal(launchClientListCombobox.getSelectedItem().toString());
 					UserFieldsChoice.launchclient = launchClientListCombobox.getSelectedItem().toString();
 					UserFieldsChoice.saveBlock23Config();
@@ -393,7 +393,7 @@ public class GUI extends JPanel {
 		downloadClientListCombobox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (guiinitfinished && downloadClientListCombobox.getItemCount() > 0) {
+				if (guiinitfinished && (downloadClientListCombobox.getItemCount() > 0)) {
 					downloadClientButton.setText("Скачать клиент");
 					downloadClientProgressbar.setValue(0);
 					downloadClientButton.setEnabled(true);

@@ -66,7 +66,7 @@ public class LauncherUtils {
 
 		while (true) {
 			int c = read.read();
-			if (c != -1 && c != 10) {
+			if ((c != -1) && (c != 10)) {
 				buf.append((char) c);
 			} else {
 				break;
