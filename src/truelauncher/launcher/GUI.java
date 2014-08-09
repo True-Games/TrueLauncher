@@ -65,15 +65,15 @@ public class GUI extends JPanel {
 
 	private static GUI staticgui;
 
-	private TTextField nickfield;
-	private TPasswordField passfield;
-	private TComboBox listclients;
-	private TButton launch;
-	private TProgressBar pbar;
-	private TButton download;
-	private TComboBox listdownloads;
-	private LauncherUpdateDialog lu;
-	private LauncherSettingsDialog ls;
+	private TTextField nicknameField;
+	private TPasswordField passwordField;
+	private TComboBox launchClientListCombobox;
+	private TButton launchClientButton;
+	private TProgressBar downloadClientProgressbar;
+	private TButton downloadClientButton;
+	private TComboBox downloadClientListCombobox;
+	private LauncherUpdateDialog launcherUpdateDialog;
+	private LauncherSettingsDialog launcherSettingsDialog;
 	private JFrame frame;
 
 	private boolean guiinitfinished = false;
@@ -241,11 +241,11 @@ public class GUI extends JPanel {
 		tifields.add(labelnick);
 		// Поле ника
 		int inw = 140;
-		nickfield = new TTextField();
-		nickfield.setBounds(lnw, 25, inw, lnh);
-		nickfield.setText("NoNickName");
-		nickfield.setHorizontalAlignment(SwingConstants.CENTER);
-		tifields.add(nickfield);
+		nicknameField = new TTextField();
+		nicknameField.setBounds(lnw, 25, inw, lnh);
+		nicknameField.setText("NoNickName");
+		nicknameField.setHorizontalAlignment(SwingConstants.CENTER);
+		tifields.add(nicknameField);
 
 		// Плашка пароля
 		int lrw = 80;
@@ -258,11 +258,11 @@ public class GUI extends JPanel {
 		tifields.add(labelpass);
 		// Поле пароля
 		int irw = 140;
-		passfield = new TPasswordField();
-		passfield.setBounds(lrw, 45, irw, lrh);
-		passfield.setText("");
-		passfield.setHorizontalAlignment(SwingConstants.CENTER);
-		tifields.add(passfield);
+		passwordField = new TPasswordField();
+		passwordField.setBounds(lrw, 45, irw, lrh);
+		passwordField.setText("");
+		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+		tifields.add(passwordField);
 
 		// Кнопка сохранить
 		TButton save = new TButton();
@@ -271,8 +271,8 @@ public class GUI extends JPanel {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserFieldsChoice.nick = staticgui.nickfield.getText();
-				UserFieldsChoice.password = new String(staticgui.passfield.getPassword());
+				UserFieldsChoice.nick = staticgui.nicknameField.getText();
+				UserFieldsChoice.password = new String(staticgui.passwordField.getPassword());
 				UserFieldsChoice.saveBlock1Config();
 			}
 		});
@@ -301,35 +301,35 @@ public class GUI extends JPanel {
 		expbarset.setBackgroundImage(Images.class.getResourceAsStream(GUISettings.explainimage));
 		sb.add(expbarset);
 
-		listclients = new TComboBox();
-		listclients.setBounds(0, 25, widgw, 30);
-		listclients.setAlignmentY(Component.CENTER_ALIGNMENT);
-		listclients.addItemListener(new ItemListener() {
+		launchClientListCombobox = new TComboBox();
+		launchClientListCombobox.setBounds(0, 25, widgw, 30);
+		launchClientListCombobox.setAlignmentY(Component.CENTER_ALIGNMENT);
+		launchClientListCombobox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (guiinitfinished && listclients.getItemCount() > 0) {
-					checkClientInternal(listclients.getSelectedItem().toString());
-					UserFieldsChoice.launchclient = listclients.getSelectedItem().toString();
+				if (guiinitfinished && launchClientListCombobox.getItemCount() > 0) {
+					checkClientInternal(launchClientListCombobox.getSelectedItem().toString());
+					UserFieldsChoice.launchclient = launchClientListCombobox.getSelectedItem().toString();
 					UserFieldsChoice.saveBlock23Config();
 				}
 			}
 		});
-		sb.add(listclients);
+		sb.add(launchClientListCombobox);
 
 		// кнопка запуска майна
-		launch = new TButton();
-		launch.setBounds(0, 55, widgw, 40);
-		launch.setText("Запустить Minercraft");
-		launch.setEnabled(false);
-		launch.addActionListener(new ActionListener() {
+		launchClientButton = new TButton();
+		launchClientButton.setBounds(0, 55, widgw, 40);
+		launchClientButton.setText("Запустить Minercraft");
+		launchClientButton.setEnabled(false);
+		launchClientButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// selection name
-				String clientname = listclients.getSelectedItem().toString();
+				String clientname = launchClientListCombobox.getSelectedItem().toString();
 				// laucnher folder
 				String mcpath = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(clientname);
 				// nickname
-				String nick = nickfield.getText();
+				String nick = nicknameField.getText();
 				// RAM
 				int ram = 512;
 				boolean amd64 = System.getProperty("sun.arch.data.model").contains("64");
@@ -351,7 +351,7 @@ public class GUI extends JPanel {
 				}
 				String mem = Integer.valueOf(ram) + "M";
 				// password
-				String password = new String(passfield.getPassword());
+				String password = new String(passwordField.getPassword());
 				// location of jar file
 				String jar = LauncherUtils.getDir() + File.separator + AllSettings.getClientJarByName(clientname);
 				// mainclass
@@ -362,7 +362,7 @@ public class GUI extends JPanel {
 				ClientLaunch.launchMC(mcpath, nick, password, mem, jar, mainclass, cmdargs);
 			}
 		});
-		sb.add(launch);
+		sb.add(launchClientButton);
 
 		this.add(sb);
 	}
@@ -386,57 +386,57 @@ public class GUI extends JPanel {
 		expbarset.setHorizontalAlignment(SwingConstants.CENTER);
 		dc.add(expbarset);
 
-		listdownloads = new TComboBox();
-		listdownloads.setBounds(0, 25, widgw, 30);
-		listdownloads.addItemListener(new ItemListener() {
+		downloadClientListCombobox = new TComboBox();
+		downloadClientListCombobox.setBounds(0, 25, widgw, 30);
+		downloadClientListCombobox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (guiinitfinished && listdownloads.getItemCount() > 0) {
-					download.setText("Скачать клиент");
-					pbar.setValue(0);
-					download.setEnabled(true);
-					UserFieldsChoice.downloadclient = listdownloads.getSelectedItem().toString();
+				if (guiinitfinished && downloadClientListCombobox.getItemCount() > 0) {
+					downloadClientButton.setText("Скачать клиент");
+					downloadClientProgressbar.setValue(0);
+					downloadClientButton.setEnabled(true);
+					UserFieldsChoice.downloadclient = downloadClientListCombobox.getSelectedItem().toString();
 					UserFieldsChoice.saveBlock23Config();
 				}
 			}
 		});
-		dc.add(listdownloads);
+		dc.add(downloadClientListCombobox);
 
-		pbar = new TProgressBar();
-		pbar.setBounds(0, 55, widgw, 16);
-		dc.add(pbar);
+		downloadClientProgressbar = new TProgressBar();
+		downloadClientProgressbar.setBounds(0, 55, widgw, 16);
+		dc.add(downloadClientProgressbar);
 
-		download = new TButton();
-		download.setBounds(0, 70, widgw, 25);
-		download.setText("Скачать клиент");
-		download.setEnabled(false);
-		download.setHorizontalAlignment(SwingConstants.CENTER);
-		download.addActionListener(new ActionListener() {
+		downloadClientButton = new TButton();
+		downloadClientButton.setBounds(0, 70, widgw, 25);
+		downloadClientButton.setText("Скачать клиент");
+		downloadClientButton.setEnabled(false);
+		downloadClientButton.setHorizontalAlignment(SwingConstants.CENTER);
+		downloadClientButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// lock gui
-				listdownloads.setEnabled(false);
-				download.setEnabled(false);
+				downloadClientListCombobox.setEnabled(false);
+				downloadClientButton.setEnabled(false);
 				// get client name
-				String client = listdownloads.getSelectedItem().toString();
+				String client = downloadClientListCombobox.getSelectedItem().toString();
 				// run client update
 				new ClientUpdateThread(client).start();
 			}
 		});
-		dc.add(download);
+		dc.add(downloadClientButton);
 
 		this.add(dc);
 	}
 
 	// Init laucnher updater
 	private void initLauncherUpdater() {
-		lu = new LauncherUpdateDialog();
+		launcherUpdateDialog = new LauncherUpdateDialog();
 		new LauncherVersionChecker().start();
 	}
 
 	// Init Launcher settings
 	private void initLauncherSettings() {
-		ls = new LauncherSettingsDialog();
+		launcherSettingsDialog = new LauncherSettingsDialog();
 	}
 
 
@@ -450,38 +450,38 @@ public class GUI extends JPanel {
 					continue;
 				}
 			}
-			listclients.addItem(servname);
+			launchClientListCombobox.addItem(servname);
 		}
 		for (String servname : AllSettings.getClientsList()) {
 			if (!AllSettings.getClientRemovedStatusByName(servname)) {
-				listdownloads.addItem(servname);
+				downloadClientListCombobox.addItem(servname);
 			}
 		}
-		if (listclients.getItemCount() > 0) {
-			checkClientInternal(listclients.getSelectedItem().toString());
+		if (launchClientListCombobox.getItemCount() > 0) {
+			checkClientInternal(launchClientListCombobox.getSelectedItem().toString());
 		}
 	}
 
 	//load client prefs
 	private void loadPrefs() {
-		nickfield.setText(UserFieldsChoice.nick);
-		passfield.setText(UserFieldsChoice.password);
-		for (int i = 0; i < listclients.getItemCount(); i++) {
-			String clientname = listclients.getItemAt(i);
+		nicknameField.setText(UserFieldsChoice.nick);
+		passwordField.setText(UserFieldsChoice.password);
+		for (int i = 0; i < launchClientListCombobox.getItemCount(); i++) {
+			String clientname = launchClientListCombobox.getItemAt(i);
 			if (clientname.equals(UserFieldsChoice.launchclient)) {
-				listclients.setSelectedIndex(i);
+				launchClientListCombobox.setSelectedIndex(i);
 				break;
 			}
 		}
-		for (int i = 0; i < listdownloads.getItemCount(); i++) {
-			String clientname = listdownloads.getItemAt(i);
+		for (int i = 0; i < downloadClientListCombobox.getItemCount(); i++) {
+			String clientname = downloadClientListCombobox.getItemAt(i);
 			if (clientname.equals(UserFieldsChoice.downloadclient)) {
-				listdownloads.setSelectedIndex(i);
+				downloadClientListCombobox.setSelectedIndex(i);
 				break;
 			}
 		}
-		if (listclients.getItemCount() > 0) {
-			checkClientInternal(listclients.getSelectedItem().toString());
+		if (launchClientListCombobox.getItemCount() > 0) {
+			checkClientInternal(launchClientListCombobox.getSelectedItem().toString());
 		}
 	}
 
@@ -498,24 +498,24 @@ public class GUI extends JPanel {
 					int currentversion = scan.nextInt();
 					scan.close();
 					if (currentversion < AllSettings.getClientVersionByName(client)) {
-						launch.setEnabled(false);
-						launch.setText("Требуется обновление");
+						launchClientButton.setEnabled(false);
+						launchClientButton.setText("Требуется обновление");
 					} else {
-						launch.setEnabled(true);
-						launch.setText("✔ Запустить Minecraft");
+						launchClientButton.setEnabled(true);
+						launchClientButton.setText("✔ Запустить Minecraft");
 					}
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
-					launch.setEnabled(true);
-					launch.setText("✘ Запустить Minecraft");
+					launchClientButton.setEnabled(true);
+					launchClientButton.setText("✘ Запустить Minecraft");
 				}
 			} else {
-				launch.setEnabled(true);
-				launch.setText("✔ Запустить Minecraft");
+				launchClientButton.setEnabled(true);
+				launchClientButton.setText("✔ Запустить Minecraft");
 			}
 		} else {
-			launch.setText("☠ Клиент не найден");
-			launch.setEnabled(false);
+			launchClientButton.setText("☠ Клиент не найден");
+			launchClientButton.setEnabled(false);
 		}
 	}
 
@@ -543,12 +543,12 @@ public class GUI extends JPanel {
 			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 		staticgui.frame.getGlassPane().setVisible(true);
-		staticgui.lu.open(staticgui);
+		staticgui.launcherUpdateDialog.open(staticgui);
 	}
 
 	// close launcher update window
 	public static void closeUpdateWindow() {
-		staticgui.lu.dispose();
+		staticgui.launcherUpdateDialog.dispose();
 		staticgui.frame.getGlassPane().setVisible(false);
 	}
 
@@ -558,12 +558,12 @@ public class GUI extends JPanel {
 			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 		staticgui.frame.getGlassPane().setVisible(true);
-		staticgui.ls.open(staticgui);
+		staticgui.launcherSettingsDialog.open(staticgui);
 	}
 
 	// close settings window
 	public static void closeSettingsWindow() {
-		staticgui.ls.dispose();
+		staticgui.launcherSettingsDialog.dispose();
 		staticgui.frame.getGlassPane().setVisible(false);
 	}
 
@@ -572,8 +572,8 @@ public class GUI extends JPanel {
 		while (!GUI.isGUIReady()) {
 			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		staticgui.listclients.removeAllItems();
-		staticgui.listdownloads.removeAllItems();
+		staticgui.launchClientListCombobox.removeAllItems();
+		staticgui.downloadClientListCombobox.removeAllItems();
 		staticgui.fillClients();
 	}
 
@@ -581,30 +581,30 @@ public class GUI extends JPanel {
 
 	@EventHandler
 	public void onClientDownloadStarted(ClientDownloadStartedEvent event) {
-		pbar.setMaximum((int) event.getClientFileSize());
+		downloadClientProgressbar.setMaximum((int) event.getClientFileSize());
 	}
 
 	@EventHandler
 	public void onClientDownloadRunning(ClientDownloadRunningEvent event) {
-		pbar.setValue((int) event.getDownloadedAmount());
+		downloadClientProgressbar.setValue((int) event.getDownloadedAmount());
 	}
 
 	@EventHandler
 	public void onClientDownloadStageChanged(ClientDownloadStageChangeEvent event) {
-		download.setText(event.getStage());
+		downloadClientButton.setText(event.getStage());
 	}
 
 	@EventHandler
 	public void onClientDownloadFinished(ClientDownloadFinishedEvent event) {
-		download.setText("Клиент установлен");
-		listdownloads.setEnabled(true);
+		downloadClientButton.setText("Клиент установлен");
+		downloadClientListCombobox.setEnabled(true);
 		checkClientInternal(event.getClient());
 	}
 
 	@EventHandler
 	public void onClientDownloadFailed(ClientDownloadFailedEvent event) {
-		download.setText("Ошибка");
-		listdownloads.setEnabled(true);
+		downloadClientButton.setText("Ошибка");
+		downloadClientListCombobox.setEnabled(true);
 	}
 
 }
