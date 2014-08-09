@@ -27,12 +27,12 @@ import truelauncher.client.auth.PlayerAuthData;
 import truelauncher.config.AllSettings;
 import truelauncher.utils.LauncherUtils;
 
-public class OutReader extends Thread {
+public class ClientOutputReader extends Thread {
 
 	private Process p;
 	private String password;
 
-	public OutReader(Process p, String password) {
+	public ClientOutputReader(Process p, String password) {
 		this.password = password;
 		this.p = p;
 	}
