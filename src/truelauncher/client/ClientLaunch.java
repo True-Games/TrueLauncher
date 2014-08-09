@@ -38,6 +38,9 @@ public class ClientLaunch {
 			} else {
 				java += "/bin/java";
 			}
+			if (!new File(java).exists()) {
+				java = "java";
+			}
 			String libs = "";
 			// resolve libs
 			File libsfolder = new File(mcpath + File.separator + AllSettings.getClientsLibsFolder());
