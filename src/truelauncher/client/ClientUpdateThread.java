@@ -192,7 +192,7 @@ public class ClientUpdateThread extends Thread {
 	}
 
 	public static class ClientDownloadRunningEvent extends Event {
-		
+
 		private long currentDownloadSize;
 
 		public ClientDownloadRunningEvent(long currentDownloadSize) {
@@ -206,7 +206,7 @@ public class ClientUpdateThread extends Thread {
 	}
 
 	public static class ClientDownloadStageChangeEvent extends Event {
-		
+
 		private String stage;
 
 		public ClientDownloadStageChangeEvent(String stage) {
@@ -220,7 +220,7 @@ public class ClientUpdateThread extends Thread {
 	}
 
 	public static class ClientDownloadFinishedEvent extends Event {
-		
+
 		private String client;
 
 		public ClientDownloadFinishedEvent(String client) {
@@ -263,6 +263,6 @@ public class ClientUpdateThread extends Thread {
 			return currentUnpackedCount;
 		}
 
-	} 
+	}
 
 }
