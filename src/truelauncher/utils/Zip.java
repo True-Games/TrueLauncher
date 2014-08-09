@@ -26,23 +26,15 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import truelauncher.gcomponents.TProgressBar;
-
 public class Zip {
 
-	private TProgressBar bar;
-
-	public Zip(TProgressBar bar){
-		this.bar = bar;
+	public Zip() {
 	}
 
 	public void unpack(String path, String dir_to) throws IOException {
 		final ZipFile zipFile = new ZipFile(path);
 
-		bar.setValue(0);
-		bar.setMinimum(0);
-		bar.setMaximum(zipFile.size());
-
+		@SuppressWarnings("unused")
 		int unpackedfiles = 0;
 		Enumeration<? extends ZipEntry> entries = zipFile.entries();
 		while (entries.hasMoreElements()) {
@@ -50,7 +42,6 @@ public class Zip {
 			if (entry.isDirectory()) {//Directory
 				new File(dir_to + File.separator + entry.getName()).mkdirs();
 				unpackedfiles+=1;
-				bar.setValue(unpackedfiles);
 			} else {//File
 				InputStream in = zipFile.getInputStream(entry);
 				OutputStream out = new FileOutputStream(dir_to + File.separator + entry.getName());
@@ -61,7 +52,6 @@ public class Zip {
 						out.write(buffer, 0, len);
 					}
 					unpackedfiles+=1;
-					bar.setValue(unpackedfiles);
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
 				} finally {

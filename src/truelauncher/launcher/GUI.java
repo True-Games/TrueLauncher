@@ -41,7 +41,14 @@ import javax.swing.SwingConstants;
 
 import truelauncher.client.ClientLaunch;
 import truelauncher.client.ClientUpdateThread;
+import truelauncher.client.ClientUpdateThread.ClientDownloadFailedEvent;
+import truelauncher.client.ClientUpdateThread.ClientDownloadFinishedEvent;
+import truelauncher.client.ClientUpdateThread.ClientDownloadRunningEvent;
+import truelauncher.client.ClientUpdateThread.ClientDownloadStageChangeEvent;
+import truelauncher.client.ClientUpdateThread.ClientDownloadStartedEvent;
 import truelauncher.config.AllSettings;
+import truelauncher.events.EventBus;
+import truelauncher.events.EventBus.EventHandler;
 import truelauncher.gcomponents.TButton;
 import truelauncher.gcomponents.TComboBox;
 import truelauncher.gcomponents.TLabel;
@@ -87,6 +94,8 @@ public class GUI extends JPanel {
 			fillClients();
 			// load client fields values
 			loadPrefs();
+			// register listener
+			EventBus.registerListener(this);
 			// gui init and settings load finished
 			guiinitfinished = true;
 		} catch (Exception e) {
@@ -411,7 +420,7 @@ public class GUI extends JPanel {
 				// get client name
 				String client = listdownloads.getSelectedItem().toString();
 				// run client update
-				new ClientUpdateThread(listdownloads, download, pbar, client).start();
+				new ClientUpdateThread(client).start();
 			}
 		});
 		dc.add(download);
@@ -528,11 +537,6 @@ public class GUI extends JPanel {
 		return staticgui.guiinitfinished;
 	}
 
-	// check client jar an version
-	public static void checkClient(String client) {
-		staticgui.checkClientInternal(client);
-	}
-
 	// open launcher update window
 	public static void openUpdateWindow() {
 		while (!GUI.isGUIReady()) {
@@ -571,6 +575,36 @@ public class GUI extends JPanel {
 		staticgui.listclients.removeAllItems();
 		staticgui.listdownloads.removeAllItems();
 		staticgui.fillClients();
+	}
+
+	// event listeners
+
+	@EventHandler
+	public void onClientDownloadStarted(ClientDownloadStartedEvent event) {
+		pbar.setMaximum((int) event.getClientFileSize());
+	}
+
+	@EventHandler
+	public void onClientDownloadRunning(ClientDownloadRunningEvent event) {
+		pbar.setValue((int) event.getDownloadedAmount());
+	}
+
+	@EventHandler
+	public void onClientDownloadStageChanged(ClientDownloadStageChangeEvent event) {
+		download.setText(event.getStage());
+	}
+
+	@EventHandler
+	public void onClientDownloadFinished(ClientDownloadFinishedEvent event) {
+		download.setText("Клиент установлен");
+		listdownloads.setEnabled(true);
+		checkClientInternal(event.getClient());
+	}
+
+	@EventHandler
+	public void onClientDownloadFailed(ClientDownloadFailedEvent event) {
+		download.setText("Ошибка");
+		listdownloads.setEnabled(true);
 	}
 
 }

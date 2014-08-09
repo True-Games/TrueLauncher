@@ -25,31 +25,21 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import truelauncher.config.AllSettings;
-import truelauncher.gcomponents.TButton;
-import truelauncher.gcomponents.TComboBox;
-import truelauncher.gcomponents.TProgressBar;
-import truelauncher.launcher.GUI;
+import truelauncher.events.Event;
+import truelauncher.events.EventBus;
 import truelauncher.utils.LauncherUtils;
 import truelauncher.utils.Zip;
-
 
 public class ClientUpdateThread extends Thread {
 	// Thread for downloading clients
 
-	private TComboBox selectionbox;
-	private TButton downloadbutton;
-	private TProgressBar progressbar;
 	private String client;
 
-	public ClientUpdateThread(TComboBox selectionbox, TButton downloadbutton, TProgressBar progressbar, String client) {
-		this.selectionbox = selectionbox;
-		this.downloadbutton = downloadbutton;
-		this.progressbar = progressbar;
+	public ClientUpdateThread(String client) {
 		this.client = client;
 	}
 
-	public void filedownloader(String urlfrom, String clientto)
-			throws Exception {
+	public void filedownloader(String urlfrom, String clientto) throws Exception {
 
 		URL url = new URL(urlfrom);
 		URLConnection conn = url.openConnection();
@@ -66,18 +56,17 @@ public class ClientUpdateThread extends Thread {
 		long downloadedAmount = 0;
 		final long totalAmount = conn.getContentLength();
 
-		progressbar.setMaximum((int) totalAmount);
-		progressbar.setMinimum(0);
+		ClientDownloadStartedEvent startedevent = new ClientDownloadStartedEvent(totalAmount);
+		EventBus.callEvent(startedevent);
 
 		int bufferSize = 0;
 		while ((bufferSize = inputstream.read(buffer)) > 0) {
 			writer.write(buffer, 0, bufferSize);
 			buffer = new byte[153600];
 			downloadedAmount += bufferSize;
-			final long pbda = downloadedAmount;
 
-			progressbar.setValue((int) pbda);
-
+			ClientDownloadRunningEvent runningevent = new ClientDownloadRunningEvent(downloadedAmount);
+			EventBus.callEvent(runningevent);
 		}
 
 		writer.close();
@@ -92,41 +81,43 @@ public class ClientUpdateThread extends Thread {
 			String tempfile = LauncherUtils.getDir() + File.separator + AllSettings.getClientsTempFolderPath() + File.separator + new File(new URL(downloadurl).getFile()).getName();
 			String destination = LauncherUtils.getDir() + File.separator + AllSettings.getClientFolderByName(client);
 
+			ClientDownloadStageChangeEvent changeevent;
 
 			// remove old zip file
-			downloadbutton.setText("Прибираемся");
+			changeevent = new ClientDownloadStageChangeEvent("Прибираемся");
+			EventBus.callEvent(changeevent);
 			new File(tempfile).delete();
 
 			// download packed zip
-			downloadbutton.setText("Скачиваем клиент");
+			changeevent = new ClientDownloadStageChangeEvent("Скачиваем клиент");
+			EventBus.callEvent(changeevent);
 			new File(tempfile).getParentFile().mkdirs();
 			filedownloader(downloadurl, tempfile);
 
 			// delete old client
-			downloadbutton.setText("Удаляем старый клиент");
+			changeevent = new ClientDownloadStageChangeEvent("Удаляем старый клиент");
+			EventBus.callEvent(changeevent);
 			deleteDirectory(new File(destination));
 			new File(destination).mkdirs();
 
-			// unpack new cient
-			downloadbutton.setText("Распаковываем клиент");
-			Zip zip = new Zip(progressbar);
+			// unpack new client
+			changeevent = new ClientDownloadStageChangeEvent("Распаковываем клиент");
+			EventBus.callEvent(changeevent);
+			Zip zip = new Zip();
 			zip.unpack(tempfile, destination);
 
 			// clean garbage
-			downloadbutton.setText("Прибираемся");
+			changeevent = new ClientDownloadStageChangeEvent("Прибираемся");
+			EventBus.callEvent(changeevent);
 			new File(tempfile).delete();
 
-			// show finish message
-			downloadbutton.setText("Клиент установлен");
-			selectionbox.setEnabled(true);
+			// finish donwload
+			ClientDownloadFinishedEvent finishevent = new ClientDownloadFinishedEvent(client);
+			EventBus.callEvent(finishevent);
 
-			//recheck client
-			GUI.checkClient(client);
 
 		} catch (final Exception ex) {
 
-			downloadbutton.setText("Ошибка");
-			selectionbox.setEnabled(true);
 			LauncherUtils.logError(ex);
 
 		}
@@ -144,6 +135,65 @@ public class ClientUpdateThread extends Thread {
 		} else {
 			file.delete();
 		}
+	}
+
+	public static class ClientDownloadStartedEvent extends Event {
+
+		private long clientfilesize;
+
+		public ClientDownloadStartedEvent(long clientfilesize) {
+			this.clientfilesize = clientfilesize;
+		}
+
+		public long getClientFileSize() {
+			return clientfilesize;
+		}
+
+	}
+
+	public static class ClientDownloadRunningEvent extends Event {
+		
+		private long currentDownloadSize;
+
+		public ClientDownloadRunningEvent(long currentDownloadSize) {
+			this.currentDownloadSize = currentDownloadSize;
+		}
+
+		public long getDownloadedAmount() {
+			return currentDownloadSize;
+		}
+
+	}
+
+	public static class ClientDownloadStageChangeEvent extends Event {
+		
+		private String stage;
+
+		public ClientDownloadStageChangeEvent(String stage) {
+			this.stage = stage;
+		}
+
+		public String getStage() {
+			return stage;
+		}
+
+	}
+
+	public static class ClientDownloadFinishedEvent extends Event {
+		
+		private String client;
+
+		public ClientDownloadFinishedEvent(String client) {
+			this.client = client;
+		}
+
+		public String getClient() {
+			return client;
+		}
+
+	}
+
+	public static class ClientDownloadFailedEvent extends Event {
 	}
 
 }
