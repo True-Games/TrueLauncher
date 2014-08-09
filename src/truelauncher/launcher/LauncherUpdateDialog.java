@@ -38,10 +38,10 @@ public class LauncherUpdateDialog  extends JDialog {
 	private String labelimage = "labelbar.png";
 
 	int w = 250; int h = 90;
-	public TButton ldownload;
-	public JProgressBar lpbar;
-	public TLabel lstatus;
-	public TButton later;
+	public TButton updateNowButton;
+	public JProgressBar updateProgressBar;
+	public TLabel updateStatusLabel;
+	public TButton updateLaterButton;
 	public JPanel panel;
 
 	private LauncherUpdateDialog thisclass = this;
@@ -69,44 +69,44 @@ public class LauncherUpdateDialog  extends JDialog {
 		panel.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.GRAY));
 		this.add(panel);
 
-		lstatus = new TLabel();
-		lstatus.setBounds(2,2,w-4,24);
-		lstatus.setBackgroundImage(Images.class.getResourceAsStream(labelimage));
-		lstatus.setText("Доступно обновление лаунчера");
-		lstatus.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lstatus);
+		updateStatusLabel = new TLabel();
+		updateStatusLabel.setBounds(2,2,w-4,24);
+		updateStatusLabel.setBackgroundImage(Images.class.getResourceAsStream(labelimage));
+		updateStatusLabel.setText("Доступно обновление лаунчера");
+		updateStatusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(updateStatusLabel);
 
-		lpbar = new JProgressBar();
-		lpbar.setBounds(2,26,w-4, 14);
-		panel.add(lpbar);
+		updateProgressBar = new JProgressBar();
+		updateProgressBar.setBounds(2,26,w-4, 14);
+		panel.add(updateProgressBar);
 
 
-		ldownload = new TButton();
-		ldownload.setText("Обновить");
-		ldownload.setBounds(2, 40, w-4, 25);
-		ldownload.addActionListener(new ActionListener() {
+		updateNowButton = new TButton();
+		updateNowButton.setText("Обновить");
+		updateNowButton.setBounds(2, 40, w-4, 25);
+		updateNowButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				lstatus.setText("Скачиваем обновление");
-				ldownload.setEnabled(false);
-				later.setEnabled(false);
+				updateStatusLabel.setText("Скачиваем обновление");
+				updateNowButton.setEnabled(false);
+				updateLaterButton.setEnabled(false);
 				new LauncherUpdateThread(thisclass, AllSettings.getLauncherWebUpdateURLFolder()+"Launcher.jar").start();
 			}
 		});
-		panel.add(ldownload);
+		panel.add(updateNowButton);
 
 
 
-		later = new TButton();
-		later.setText("Позже");
-		later.setBounds(2,65,w-4,23);
-		later.addActionListener(new ActionListener() {
+		updateLaterButton = new TButton();
+		updateLaterButton.setText("Позже");
+		updateLaterButton.setBounds(2,65,w-4,23);
+		updateLaterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GUI.closeUpdateWindow();
 			}
 		});
-		panel.add(later);
+		panel.add(updateLaterButton);
 
 	}
 

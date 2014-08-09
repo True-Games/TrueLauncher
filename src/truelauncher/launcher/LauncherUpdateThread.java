@@ -30,15 +30,15 @@ import truelauncher.utils.LauncherUtils;
 
 public class LauncherUpdateThread extends Thread {
 
-	private LauncherUpdateDialog lu;
+	private LauncherUpdateDialog launcherUpdateDialog;
 	private String urlfrom;
 
 	LauncherUpdateThread(LauncherUpdateDialog lu, String urlfrom) {
-		this.lu = lu;
+		this.launcherUpdateDialog = lu;
 		this.urlfrom = urlfrom;
 	}
 
-	public void ldownloader(String urlfrom, String lto) throws Exception {
+	public void download(String urlfrom, String lto) throws Exception {
 		URL url = new URL(urlfrom);
 		URLConnection conn = url.openConnection();
 
@@ -54,8 +54,8 @@ public class LauncherUpdateThread extends Thread {
 		int downloadedAmount = 0;
 		final int totalAmount = conn.getContentLength();
 
-		lu.lpbar.setMaximum(totalAmount);
-		lu.lpbar.setMinimum(0);
+		launcherUpdateDialog.updateProgressBar.setMaximum(totalAmount);
+		launcherUpdateDialog.updateProgressBar.setMinimum(0);
 
 		int bufferSize = 0;
 		while ((bufferSize = inputstream.read(buffer)) > 0) {
@@ -64,7 +64,7 @@ public class LauncherUpdateThread extends Thread {
 			downloadedAmount += bufferSize;
 			final int pbam = downloadedAmount;
 
-			lu.lpbar.setValue(pbam);
+			launcherUpdateDialog.updateProgressBar.setValue(pbam);
 		}
 
 		writer.close();
@@ -89,13 +89,13 @@ public class LauncherUpdateThread extends Thread {
 		try {
 			String launcherfilename = new File(System.getProperty("sun.java.command")).getName();
 			//download launcher
-			ldownloader(urlfrom, launcherfilename);
+			download(urlfrom, launcherfilename);
 			new File(launcherfilename).setExecutable(true);
 			//restart launcher
 			LauncherUtils.restartLauncher();
 		} catch (final Exception e) {
-			lu.lstatus.setText("Ошибка обновления");
-			lu.later.setEnabled(true);
+			launcherUpdateDialog.updateStatusLabel.setText("Ошибка обновления");
+			launcherUpdateDialog.updateLaterButton.setEnabled(true);
 			LauncherUtils.logError(e);
 		}
 	}
