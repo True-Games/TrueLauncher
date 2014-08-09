@@ -17,11 +17,11 @@
 
 package truelauncher.client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -52,10 +52,10 @@ public class ClientUpdateThread extends Thread {
 			conn.connect();
 		}
 
-		InputStream inputstream = conn.getInputStream();
+		BufferedInputStream inputstream = new BufferedInputStream(conn.getInputStream());
 
-		FileOutputStream writer = new FileOutputStream(clientto);
-		byte[] buffer = new byte[153600];
+		BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(clientto));
+		byte[] buffer = new byte[4096];
 
 		long downloadedAmount = 0;
 		final long totalAmount = conn.getContentLength();
@@ -66,18 +66,18 @@ public class ClientUpdateThread extends Thread {
 		int bufferSize = 0;
 		while ((bufferSize = inputstream.read(buffer)) > 0) {
 			writer.write(buffer, 0, bufferSize);
-			buffer = new byte[153600];
 			downloadedAmount += bufferSize;
 
 			ClientDownloadRunningEvent runningevent = new ClientDownloadRunningEvent(downloadedAmount);
 			EventBus.callEvent(runningevent);
 		}
 
+		writer.flush();
 		writer.close();
 		inputstream.close();
 	}
 
-	public void unpack(String path, String dir_to) throws IOException {
+	public void unpack(String path, String dirTo) throws IOException {
 
 		final ZipFile zipFile = new ZipFile(path);
 
@@ -89,16 +89,17 @@ public class ClientUpdateThread extends Thread {
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
 			if (entry.isDirectory()) {//Directory
-				new File(dir_to + File.separator + entry.getName()).mkdirs();
+				new File(dirTo + File.separator + entry.getName()).mkdirs();
 			} else {//File
-				InputStream in = zipFile.getInputStream(entry);
-				OutputStream out = new FileOutputStream(dir_to + File.separator + entry.getName());
+				BufferedInputStream in = new BufferedInputStream(zipFile.getInputStream(entry));
+				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dirTo + File.separator + entry.getName()));
 				byte[] buffer = new byte[4096];
 				try {
 					int len;
 					while ((len = in.read(buffer)) != -1) {
 						out.write(buffer, 0, len);
 					}
+					out.flush();
 				} catch (Exception e) {
 					LauncherUtils.logError(e);
 				} finally {
