@@ -35,8 +35,7 @@ public class EventBus {
 
 	private static Object lock = new Object();
 
-	private static HashMap<String, LinkedList<Method>> registeredListeners = new HashMap<String, LinkedList<Method>>();
-	private static HashMap<Method, Object> methodInstances = new HashMap<Method, Object>();
+	private static HashMap<String, LinkedList<MethodInfo>> registeredListeners = new HashMap<String, LinkedList<MethodInfo>>();
 
 	public static void registerListener(Object instance) {
 		synchronized (lock) {
@@ -52,24 +51,22 @@ public class EventBus {
 
 	private static void registerListener(Object instance, String name, Method method) {
 		if (!registeredListeners.containsKey(name)) {
-			registeredListeners.put(name, new LinkedList<Method>());
+			registeredListeners.put(name, new LinkedList<MethodInfo>());
 		}
-		registeredListeners.get(name).add(method);
-		methodInstances.put(method, instance);
+		registeredListeners.get(name).add(new MethodInfo(method, instance));
 	}
 
 	public static void unregisterListener(Object instance) {
 		synchronized (lock) {
 			HashSet<Method> methods = new HashSet<Method>(Arrays.asList(instance.getClass().getDeclaredMethods()));
-			Iterator<Entry<String, LinkedList<Method>>> lit = registeredListeners.entrySet().iterator();
+			Iterator<Entry<String, LinkedList<MethodInfo>>> lit = registeredListeners.entrySet().iterator();
 			while (lit.hasNext()) {
-				Entry<String, LinkedList<Method>> entry = lit.next();
-				Iterator<Method> valueit = entry.getValue().iterator();
+				Entry<String, LinkedList<MethodInfo>> entry = lit.next();
+				Iterator<MethodInfo> valueit = entry.getValue().iterator();
 				while (valueit.hasNext()) {
-					Method method = valueit.next();
-					if (methods.contains(method)) {
+					MethodInfo methodinfo = valueit.next();
+					if (methods.contains(methodinfo.getMethod())) {
 						valueit.remove();
-						methodInstances.remove(method);
 					}
 				}
 				if (entry.getValue().size() == 0) {
@@ -84,10 +81,10 @@ public class EventBus {
 			if (!registeredListeners.containsKey(event.getClass().getName())) {
 				return;
 			}
-			for (Method method : registeredListeners.get(event.getClass().getName())) {
+			for (MethodInfo methodinfo : registeredListeners.get(event.getClass().getName())) {
 				try {
-					method.setAccessible(true);
-					method.invoke(methodInstances.get(method), event);
+					methodinfo.getMethod().setAccessible(true);
+					methodinfo.getMethod().invoke(methodinfo.getObject(), event);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 				}
@@ -98,6 +95,26 @@ public class EventBus {
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface EventHandler{
+	}
+
+	private static class MethodInfo {
+
+		private Method method;
+		private Object instance;
+
+		public MethodInfo(Method method, Object instance) {
+			this.method = method;
+			this.instance = instance;
+		}
+
+		public Method getMethod() {
+			return method;
+		}
+
+		public Object getObject() {
+			return instance;
+		}
+
 	}
 
 }
