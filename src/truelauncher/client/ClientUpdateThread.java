@@ -19,16 +19,20 @@ package truelauncher.client;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import truelauncher.config.AllSettings;
 import truelauncher.events.Event;
 import truelauncher.events.EventBus;
 import truelauncher.utils.LauncherUtils;
-import truelauncher.utils.Zip;
 
 public class ClientUpdateThread extends Thread {
 	// Thread for downloading clients
@@ -39,7 +43,7 @@ public class ClientUpdateThread extends Thread {
 		this.client = client;
 	}
 
-	public void filedownloader(String urlfrom, String clientto) throws Exception {
+	public void download(String urlfrom, String clientto) throws Exception {
 
 		URL url = new URL(urlfrom);
 		URLConnection conn = url.openConnection();
@@ -73,6 +77,43 @@ public class ClientUpdateThread extends Thread {
 		inputstream.close();
 	}
 
+	public void unpack(String path, String dir_to) throws IOException {
+
+		final ZipFile zipFile = new ZipFile(path);
+
+		int unpackedfiles = 0;
+		ClientUnzipStartedEvent startedevent = new ClientUnzipStartedEvent(zipFile.size());
+		EventBus.callEvent(startedevent);
+
+		Enumeration<? extends ZipEntry> entries = zipFile.entries();
+		while (entries.hasMoreElements()) {
+			ZipEntry entry = entries.nextElement();
+			if (entry.isDirectory()) {//Directory
+				new File(dir_to + File.separator + entry.getName()).mkdirs();
+			} else {//File
+				InputStream in = zipFile.getInputStream(entry);
+				OutputStream out = new FileOutputStream(dir_to + File.separator + entry.getName());
+				byte[] buffer = new byte[4096];
+				try {
+					int len;
+					while ((len = in.read(buffer)) != -1) {
+						out.write(buffer, 0, len);
+					}
+				} catch (Exception e) {
+					LauncherUtils.logError(e);
+				} finally {
+					in.close();
+					out.close();
+				}
+			}
+			unpackedfiles+=1;
+			ClientUnzipRunningEvent runningevent = new ClientUnzipRunningEvent(unpackedfiles);
+			EventBus.callEvent(runningevent);
+		}
+
+		zipFile.close();
+	}
+
 	@Override
 	public void run() {
 		try {
@@ -92,7 +133,7 @@ public class ClientUpdateThread extends Thread {
 			changeevent = new ClientDownloadStageChangeEvent("Скачиваем клиент");
 			EventBus.callEvent(changeevent);
 			new File(tempfile).getParentFile().mkdirs();
-			filedownloader(downloadurl, tempfile);
+			download(downloadurl, tempfile);
 
 			// delete old client
 			changeevent = new ClientDownloadStageChangeEvent("Удаляем старый клиент");
@@ -103,8 +144,7 @@ public class ClientUpdateThread extends Thread {
 			// unpack new client
 			changeevent = new ClientDownloadStageChangeEvent("Распаковываем клиент");
 			EventBus.callEvent(changeevent);
-			Zip zip = new Zip();
-			zip.unpack(tempfile, destination);
+			unpack(tempfile, destination);
 
 			// clean garbage
 			changeevent = new ClientDownloadStageChangeEvent("Прибираемся");
@@ -195,5 +235,34 @@ public class ClientUpdateThread extends Thread {
 
 	public static class ClientDownloadFailedEvent extends Event {
 	}
+
+
+	public static class ClientUnzipStartedEvent extends Event {
+
+		private long filescount;
+
+		public ClientUnzipStartedEvent(long filescount) {
+			this.filescount = filescount;
+		}
+
+		public long getClientFilesCount() {
+			return filescount;
+		}
+
+	}
+
+	public static class ClientUnzipRunningEvent extends Event {
+
+		private long currentUnpackedCount;
+
+		public ClientUnzipRunningEvent(long currentUnpackedCount) {
+			this.currentUnpackedCount = currentUnpackedCount;
+		}
+
+		public long getUnpackedAmount() {
+			return currentUnpackedCount;
+		}
+
+	} 
 
 }

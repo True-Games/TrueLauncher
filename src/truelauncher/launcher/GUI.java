@@ -46,6 +46,8 @@ import truelauncher.client.ClientUpdateThread.ClientDownloadFinishedEvent;
 import truelauncher.client.ClientUpdateThread.ClientDownloadRunningEvent;
 import truelauncher.client.ClientUpdateThread.ClientDownloadStageChangeEvent;
 import truelauncher.client.ClientUpdateThread.ClientDownloadStartedEvent;
+import truelauncher.client.ClientUpdateThread.ClientUnzipRunningEvent;
+import truelauncher.client.ClientUpdateThread.ClientUnzipStartedEvent;
 import truelauncher.config.AllSettings;
 import truelauncher.events.EventBus;
 import truelauncher.events.EventBus.EventHandler;
@@ -581,7 +583,9 @@ public class GUI extends JPanel {
 
 	@EventHandler
 	public void onClientDownloadStarted(ClientDownloadStartedEvent event) {
+		downloadClientProgressbar.setMinimum(0);
 		downloadClientProgressbar.setMaximum((int) event.getClientFileSize());
+		downloadClientProgressbar.setValue(0);
 	}
 
 	@EventHandler
@@ -605,6 +609,18 @@ public class GUI extends JPanel {
 	public void onClientDownloadFailed(ClientDownloadFailedEvent event) {
 		downloadClientButton.setText("Ошибка");
 		downloadClientListCombobox.setEnabled(true);
+	}
+
+	@EventHandler
+	public void onClientUnzipStarted(ClientUnzipStartedEvent event) {
+		downloadClientProgressbar.setMinimum(0);
+		downloadClientProgressbar.setMaximum((int) event.getClientFilesCount());
+		downloadClientProgressbar.setValue(0);
+	}
+
+	@EventHandler
+	public void onClientUnzipRunning(ClientUnzipRunningEvent event) {
+		downloadClientProgressbar.setValue((int) event.getUnpackedAmount());
 	}
 
 }
