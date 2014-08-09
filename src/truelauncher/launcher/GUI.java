@@ -411,7 +411,6 @@ public class GUI extends JPanel {
 		downloadClientButton = new TButton();
 		downloadClientButton.setBounds(0, 70, widgw, 25);
 		downloadClientButton.setText("Скачать клиент");
-		downloadClientButton.setEnabled(false);
 		downloadClientButton.setHorizontalAlignment(SwingConstants.CENTER);
 		downloadClientButton.addActionListener(new ActionListener() {
 			@Override
