@@ -41,7 +41,7 @@ public class EventBus {
 		synchronized (lock) {
 			for (Method method : instance.getClass().getDeclaredMethods()) {
 				if (method.isAnnotationPresent(EventHandler.class)) {
-					if ((method.getParameters().length == 1) && Event.class.isAssignableFrom(method.getParameters()[0].getType())) {
+					if ((method.getParameterTypes().length == 1) && Event.class.isAssignableFrom(method.getParameterTypes()[0])) {
 						registerListener(instance, method.getParameters()[0].getType().getName(), method);
 					}
 				}
