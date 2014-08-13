@@ -42,7 +42,7 @@ public class EventBus {
 			for (Method method : instance.getClass().getDeclaredMethods()) {
 				if (method.isAnnotationPresent(EventHandler.class)) {
 					if ((method.getParameterTypes().length == 1) && Event.class.isAssignableFrom(method.getParameterTypes()[0])) {
-						registerListener(instance, method.getParameters()[0].getType().getName(), method);
+						registerListener(instance, method.getParameterTypes()[0].getName(), method);
 					}
 				}
 			}
